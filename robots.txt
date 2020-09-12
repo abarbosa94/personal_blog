@@ -1,1 +1,1 @@
-Sitemap: https://abarbosa94.github.io/personal_blog/sitemap.xml
+Sitemap: https://abarbosa94.github.io/sitemap.xml
