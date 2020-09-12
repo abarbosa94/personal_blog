@@ -3,7 +3,7 @@ layout: page
 title: About Me
 permalink: /about/
 ---
-<img src="./images/myself.png" width="300" height="300"/>
+<img src="https://abarbosa94.github.io/personal_blog/_pages/images/myself.png" width="300" height="300"/>
 
 
 Hi there! My name is André Barbosa and I'm currently a Master Student@[Institute of Mathemathics and Statistics](https://www.ime.usp.br/en/institute) as well as a Data Scientist@[QuintoAndar](https://www.quintoandar.com.br/), a real state company. My reserch interests inlude the following:
