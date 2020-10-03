@@ -331,8 +331,16 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 <h3 id="Attention?">Attention?<a class="anchor-link" href="#Attention?"> </a></h3><p>According to the <a href="https://arxiv.org/pdf/1706.03762.pdf">Attention is all you need paper</a>:</p>
 <blockquote><p>An attention function can be described as mapping a query and a set of key-value pairs to an output, where the query, keys, values, and output are all vectors.</p>
 </blockquote>
-<p>It turns out that the Multi-Head Attention has 3 Arrow Heads since each one of the following:- <em>Q</em> that stands for <strong>query</strong> vector with dimension $d_k$    - <em>K</em> that stands for <strong>key</strong> vector that also has dimension $d_k$</p>
+<p>It turns out that the Multi-Head Attention has 3 Arrow Heads since each one of the following:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <ul>
+<li><em>Q</em> that stands for <strong>query</strong> vector with dimension $d_k$ </li>
+<li><em>K</em> that stands for <strong>key</strong> vector that also has dimension $d_k$</li>
 <li><em>V</em> that stands for <strong>value</strong> vector that also has dimension $d_v$</li>
 </ul>
 <p>Where these three can be understood as projections over the input embeddings.</p>
