@@ -170,10 +170,9 @@ jobs:
         upgrade_pr_path.write_text(upgrade_pr)
       shell: python
 
-    - uses: webfactory/ssh-agent@v0.2.0
+    - uses: webfactory/ssh-agent@v0.4.1
       if: steps.check_version.outputs.vbump == 'true'
       with:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
           ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
                         
     - name: push changes to branch
