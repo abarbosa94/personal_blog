@@ -9,7 +9,7 @@ badges: true
 hide_binder_badge: false
 hide_colab_badge: false
 comments: true
-categories: [masters, nlp]
+categories: [masters, nlp, knowledge-distill]
 hide: false
 search_exclude: false
 nb_path: _notebooks/2020-09-19-Distilling-BERT.ipynb
@@ -349,7 +349,6 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 <p>For example, say we wanted to find a recipe to make lasagne. We have a recipe book and search for “lasagne” - this is the query. This query is checked against all possible keys in your dataset - in this case, this could be the titles of all the recipes in the book. We check how aligned the query is with each title to find the maximum matching score between the query and all the respective keys. If our output is the argmax function - we retrieve the single recipe with the highest score. Otherwise, if we use a soft argmax function, we would get a probability distribution and can retrieve in order from the most similar content to less and less relevant recipes matching the query.</p>
 <p>Basically, the query is the question. Given one query, we check this query against every key and retrieve all matching content.</p>
 </blockquote>
-<p>Then, we can say that <em>K</em>; <em>Q</em> and <em>V</em> are specific rotations around a given input vector <em>x</em> (the embedding one, for instance).</p>
 
 </div>
 </div>
@@ -357,6 +356,13 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>{% include warning.html content='I have decided not to cover attention concepts in this post, giving just a higher-level introduction. As you might have noticed, NYU Deep Learning Foundations Course provides a really nice introduction about the topic that I recommend going through if you want to learn more :)' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include note.html content='Attention can be basically understood as measure of correlation of words between a set of sentences. For those interested to learn a little bit more, I <em>highly</em> recommend <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">this</a> blog post' %}</p>
 
 </div>
 </div>
