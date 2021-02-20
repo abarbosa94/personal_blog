@@ -9,7 +9,7 @@ badges: true
 hide_binder_badge: false
 hide_colab_badge: false
 comments: true
-categories: [masters, nlp]
+categories: [masters, nlp, knowledge-distill]
 hide: true
 search_exclude: true
 nb_path: _notebooks/2020-09-19-Distilling-BERT-pt.ipynb
@@ -27,29 +27,30 @@ layout: notebook
         
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="A-quick-review">A quick review<a class="anchor-link" href="#A-quick-review"> </a></h1><p>I remember someday of 2016 while I was starting my career as a Data Scientist when I've stumped into <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">Chirs McCormick blog about Word2Vec</a>. Honestly, I think that <a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">Tomas Mikolov paper</a> was one of the most elegant and simple idea that I have ever found so far {% fn 1 %} :)</p>
-<p>{{ 'Fun Fact: Whereas nowadays <a href="https://www.linkedin.com/in/tomas-mikolov-59831188/?originalSubdomain=cz">Miklov LinkedIn profile</a> points out that he has worked for Microsoft, Google and Facebook; another of W2V authors, <a href="http://www.cs.toronto.edu/~ilya/">Ilya Sutskever</a> worked with some of the prestigious researchers in the recent AI area, such as <a href="https://www.cs.toronto.edu/~hinton/">Geoffrey Hinton</a> and <a href="https://www.andrewng.org/">Andrew Ng</a>. Moreover, he is one of the founders of <a href="https://openai.com/">Open AI</a>! ' | fndetail: 1 }}</p>
-<h2 id="What-are-Word-Embeddings">What are Word Embeddings<a class="anchor-link" href="#What-are-Word-Embeddings"> </a></h2><p>According to <a href="https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html">Pytorch documentation</a> an <strong>Embedding</strong> can be defined as the following:</p>
-<blockquote><p>A simple lookup table (...) of a fixed <em>dictionary</em> and <em>size</em>.</p>
+<p>{% include note.html content='Para uma versão em <strong>inglês</strong> confira <a href="https://abarbosa94.github.io/personal_blog/masters/nlp/knowledge-distill/2020/09/19/Distilling-BERT.html">aqui</a>' %}</p>
+<h1 id="Uma-r&#225;pida-revis&#227;o">Uma r&#225;pida revis&#227;o<a class="anchor-link" href="#Uma-r&#225;pida-revis&#227;o"> </a></h1><p>Eu lembro algum dia de 2016, quando eu estava no início da kinha carreira, eu encontrei por acaso o <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">blog do Chirs McCormick sobre Word2Vec</a>. Honestamente, acredito que o <a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">artigo escrito pelo Tomas Mikolov</a> foi uma das indéias mais interessantes que eu já encontrei nessa minha jornada como cientista de dados {% fn 1 %} :)</p>
+<p>{{ 'Fun Fact: O <a href="https://www.linkedin.com/in/tomas-mikolov-59831188/?originalSubdomain=cz">perfil do LinkedIn do Miklov</a> mostra que ele trabalhou na Microsoft, Google e Facebook; outro autor do W2V, <a href="http://www.cs.toronto.edu/~ilya/">Ilya Sutskever</a> teve oportunidades de trabalhar com os maiores pesquisadores da área moderna de IA, tais como <a href="https://www.cs.toronto.edu/~hinton/">Geoffrey Hinton</a> e <a href="https://www.andrewng.org/">Andrew Ng</a>. Além disso, ele é um dos fundadores da <a href="https://openai.com/">Open AI</a>! ' | fndetail: 1 }}</p>
+<h2 id="O-que-s&#227;o-Word-Embeddings">O que s&#227;o Word Embeddings<a class="anchor-link" href="#O-que-s&#227;o-Word-Embeddings"> </a></h2><p>Segundo a documentação do <a href="https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html">Pytorch</a>,  um <strong>Embedding</strong> pode ser definido da seguinte forma:</p>
+<blockquote><p>Uma tabela de lookup formada por um <em>dicionário</em> de tamanho fixo.</p>
 </blockquote>
-<p>Then, we can interpret embeddings as a simple way to convert <em>integers</em> into <em>vectors</em> of a given size. Then, for <strong>word embeddings</strong>, we can interpret simply as words that are encoded as integers, and then <em>these</em> integers serve as inputs for a vector space.'</p>
-<p>A have written some code with <a href="https://github.com/3b1b/manim">manim</a> to illustrate this process:</p>
+<p>Podemos interpretar os embeddings como uma forma de converter <em>índices</em> em <em>vetores</em> de um tamanho específico. Logo, <strong>word embeddings</strong>, podem ser entendidos como palavras que são convertidas para inteiros e <strong>esses</strong> números servem de índices para diferentes linhas de uma matriz que representa o espaço vetorial.'</p>
+<p>Eu escrevi um código usando <a href="https://github.com/3b1b/manim">manim</a> que ilustra isso:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="/personal_blog/images/copied_from_nb/images/media/videos/scene/720p30/EmbeddingExample.gif" alt="" title="In this example, the embedding dimension is NxM, where N is the vocab size (8) and M is 4."></p>
+<p><img src="/personal_blog/images/copied_from_nb/images/media/videos/scene/720p30/EmbeddingExample.gif" alt="" title="Nesse exemplo, a dimensão do embedding é NxM, em que N seria o tamanho do vocabulário (8) e M é 4."></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can then interpret each dimension as a single neuron of a hidden layer, and then <strong>these embedding numbers can be modified</strong> from a learning algorithm through a neural network. This is the main motivation behind Word Embeddings algorithms such as <a href="https://patents.google.com/patent/US9037464B1/en">Word2Vec</a> and <a href="https://fasttext.cc/">fastText</a> {% fn 2 %}</p>
-<p>Nowadays, there are some libraries that provide already trained vectors based on a fixed and previously trained vocabulary. For instance, considerer the following <a href="https://spacy.io/models">Spacy</a> code:</p>
-<p>{{ 'I am not going to cover word embeddings through this blog post. If you are not familiarized with them, I highly recommend <a href="http://jalammar.github.io/illustrated-word2vec/">this</a>; <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">this</a> and <a href="https://www.youtube.com/watch?v=ASn7ExxLZws">this</a> as potential resources :)' | fndetail: 2 }}</p>
+<p>Podemos interpretar cada dimensão como um único neurônio de uma camada oculta, e, então, <strong>o tamanho desses embeddings podem ter seus números alterados</strong> a partir de uma rede neural. Essa é, basicamente, a ideia por trás de algoritmos como <a href="https://patents.google.com/patent/US9037464B1/en">Word2Vec</a> e <a href="https://fasttext.cc/">fastText</a> {% fn 2 %}</p>
+<p>Já existem algumas bibliotecas que já fornecem alguns vetores pré-treinados. Por exemplo, considere o <a href="https://spacy.io/models">código Spacy</a> abaixo:</p>
+<p>{{ 'Eu não irei cobrir Word2Vec nesse blog post. Se você não tem familiaridade com isso, <a href="http://jalammar.github.io/illustrated-word2vec/">consulte aqui</a>; <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">aqui</a> e <a href="https://www.youtube.com/watch?v=ASn7ExxLZws">aqui</a>. Infelizmente, todos os links estão em inglês. Se você achar quiser que eu escreva um post sobre Word2Vec em português, me envie uma mensagem no meu <a href="https://www.linkedin.com/in/barbosaandre/">linkedin</a> :)' | fndetail: 2 }}</p>
 
 </div>
 </div>
@@ -64,13 +65,13 @@ layout: notebook
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
-
 <span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;en_core_web_md&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Coniderer the sentence &#39;The quick brown fox jumps over the lazy dog!!&#39;&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Considere a sentença &#39;The quick brown fox jumps over the lazy dog!!&#39;&quot;</span><span class="p">)</span>
 <span class="n">text</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;The quick brown fox jumps over the lazy dog!!&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">word</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&#39; vector representation has size of </span><span class="si">{</span><span class="n">word</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">. Its first five elements are: </span><span class="si">{</span><span class="n">word</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">word</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&#39; representação vetorial com tamanho </span><span class="si">{</span><span class="n">word</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">. Seus primeiros 5 elementos são: </span><span class="si">{</span><span class="n">word</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
 </pre></div>
 
@@ -85,18 +86,18 @@ layout: notebook
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Coniderer the sentence &#39;The quick brown fox jumps over the lazy dog!!&#39;
-&#39;The&#39; vector representation has size of 300. Its first five elements are: [ 0.27 -0.06 -0.19  0.02 -0.02]
-&#39;quick&#39; vector representation has size of 300. Its first five elements are: [-0.45  0.19 -0.25  0.47  0.16]
-&#39;brown&#39; vector representation has size of 300. Its first five elements are: [-0.37 -0.08  0.11  0.19  0.03]
-&#39;fox&#39; vector representation has size of 300. Its first five elements are: [-0.35 -0.08  0.18 -0.09 -0.45]
-&#39;jumps&#39; vector representation has size of 300. Its first five elements are: [-0.33  0.22 -0.35 -0.26  0.41]
-&#39;over&#39; vector representation has size of 300. Its first five elements are: [-0.3   0.01  0.04  0.1   0.12]
-&#39;the&#39; vector representation has size of 300. Its first five elements are: [ 0.27 -0.06 -0.19  0.02 -0.02]
-&#39;lazy&#39; vector representation has size of 300. Its first five elements are: [-0.35 -0.3  -0.18 -0.32 -0.39]
-&#39;dog&#39; vector representation has size of 300. Its first five elements are: [-0.4   0.37  0.02 -0.34  0.05]
-&#39;!&#39; vector representation has size of 300. Its first five elements are: [-0.27  0.34  0.22 -0.3  -0.06]
-&#39;!&#39; vector representation has size of 300. Its first five elements are: [-0.27  0.34  0.22 -0.3  -0.06]
+<pre>Considere a sentença &#39;The quick brown fox jumps over the lazy dog!!&#39;
+&#39;The&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [ 0.27 -0.06 -0.19  0.02 -0.02]
+&#39;quick&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.45  0.19 -0.25  0.47  0.16]
+&#39;brown&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.37 -0.08  0.11  0.19  0.03]
+&#39;fox&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.35 -0.08  0.18 -0.09 -0.45]
+&#39;jumps&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.33  0.22 -0.35 -0.26  0.41]
+&#39;over&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.3   0.01  0.04  0.1   0.12]
+&#39;the&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [ 0.27 -0.06 -0.19  0.02 -0.02]
+&#39;lazy&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.35 -0.3  -0.18 -0.32 -0.39]
+&#39;dog&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.4   0.37  0.02 -0.34  0.05]
+&#39;!&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.27  0.34  0.22 -0.3  -0.06]
+&#39;!&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.27  0.34  0.22 -0.3  -0.06]
 </pre>
 </div>
 </div>
@@ -109,7 +110,7 @@ layout: notebook
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Contains word representations that were trained on <a href="https://github.com/explosion/spacy-models/releases//tag/en_core_web_md-2.3.1">Common Crawl data using GloVe algorithm</a>. Unlike the example that I used initially, the word '!' was encoded as well. Another interesting fact is that since GloVe probably passed through a preprocessing step, both '<em>The</em>' and '<em>the</em>' got the same representation.</p>
+<p>Essas palavras são representações que foram treinadas com base nos dados do <a href="https://github.com/explosion/spacy-models/releases/tag/en_core_web_md-3.0.0">Common Crawl usando o algoritmo GloVe</a>. Diferente do exemplo usado no começo deste blog, a palavra '!' também teve uma representação vetorial. Outro fator interessante é que o GloVe provavelmente passou por uma etapa de pré processamento, uma vez que as palavras '<em>The</em>' and '<em>the</em>' tem a mesma representação vetorial.</p>
 
 </div>
 </div>
@@ -123,8 +124,8 @@ layout: notebook
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of word &#39;The&#39; vector: </span><span class="si">{</span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;The&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of word &#39;the&#39; vector: </span><span class="si">{</span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;the&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Os primeiros 5 valores da palavra &#39;The&#39;: </span><span class="si">{</span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;The&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Os primeiros 5 valores da palavra &#39;the&#39;: </span><span class="si">{</span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;the&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -138,8 +139,8 @@ layout: notebook
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>First 5 values of word &#39;The&#39; vector: [ 0.27 -0.06 -0.19  0.02 -0.02]
-First 5 values of word &#39;the&#39; vector: [ 0.27 -0.06 -0.19  0.02 -0.02]
+<pre>Os primeiros 5 valores da palavra &#39;The&#39;: [ 0.27 -0.06 -0.19  0.02 -0.02]
+Os primeiros 5 valores da palavra &#39;the&#39;: [ 0.27 -0.06 -0.19  0.02 -0.02]
 </pre>
 </div>
 </div>
@@ -152,10 +153,10 @@ First 5 values of word &#39;the&#39; vector: [ 0.27 -0.06 -0.19  0.02 -0.02]
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can combine different words to form the embedding of a phrase. According to <a href="https://spacy.io/usage/vectors-similarity#_title">spacy documentation</a>:</p>
-<blockquote><p>Models that come with built-in word vectors make them available as the Token.vector attribute. Doc.vector and Span.vector will default to an average of their token vectors.</p>
+<p>Para formar frases, podemos combinar embeddings de palavras de formas diferentes. Segundo a <a href="https://spacy.io/usage/vectors-similarity#_title">documentação do spacy</a>:</p>
+<blockquote><p>Modelos que possuem vetores de palavras estão disponíveis pelo atributo Token.vector. Doc.vector e Span.vector, por padrão são representados pela <strong>média</strong> da representação de seus vetores.</p>
 </blockquote>
-<p>Then, the phrase the we are using as example has the following single representation:</p>
+<p>Logo, a frase que estamos usando como exemplo tem a seguinte representação vetorial:</p>
 
 </div>
 </div>
@@ -170,7 +171,7 @@ First 5 values of word &#39;the&#39; vector: [ 0.27 -0.06 -0.19  0.02 -0.02]
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>First 5 values of &#39;The quick brown fox jumps over the lazy dog!!&#39;: [-0.23  0.08 -0.03 -0.07 -0.02]
+<pre>Os primeiros 5 valores de &#39;The quick brown fox jumps over the lazy dog!!&#39;: [-0.23  0.08 -0.03 -0.07 -0.02]
 </pre>
 </div>
 </div>

@@ -277,7 +277,7 @@ The output is a linear layer which would still be trained through a Cross Entrop
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h1><p>Congratulations! Adding up with the <a href="https://abarbosa94.github.io/personal_blog/masters/nlp/2020/09/19/Distilling-BERT.html">first part</a>, you have learned the end-to-end BERT Flow :)</p>
+<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h1><p>Congratulations! Adding up with the <a href="https://abarbosa94.github.io/personal_blog/masters/nlp/knowledge-distill/2020/09/19/Distilling-BERT.html">first part</a>, you have learned the end-to-end BERT Flow :)</p>
 
 </div>
 </div>
