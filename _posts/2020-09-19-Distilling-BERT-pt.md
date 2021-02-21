@@ -283,20 +283,20 @@ Os primeiros 5 valores do vetor da sentença Abasteci meu carro no posto do alto
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="BERT-Model">BERT Model<a class="anchor-link" href="#BERT-Model"> </a></h1>
+<h1 id="BERT">BERT<a class="anchor-link" href="#BERT"> </a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Attention-is-all-you-need">Attention is all you need<a class="anchor-link" href="#Attention-is-all-you-need"> </a></h2><p>The <a href="https://arxiv.org/abs/1706.03762">Attention is all you need</a> paper have introduced the Transformer architeture for us :) In sense, it can be summarized as the picture below:</p>
-<p><img src="/personal_blog/images/copied_from_nb/images/transformer.png" alt="" title="The transformer- model architeture, taken from: https://arxiv.org/abs/1706.03762"></p>
-<p>Strictly speaking, the motivation behind the paper is that <em>RNN</em>-like architetures are memory-expensive. The purpose behind Transformer models is that it you can achieve similar results using more computer efficient resources by applying <strong>just attention mechanisms</strong> (and exluding the CNN or RNN-like architetures) !{% fn 4 %} Despite the fact that the Transformer model was proposed to deal with translation problems, it turns out that we can also use variations of it to achieve awesome results in different tasks. This is the <strong>motivation behind BERT</strong>!</p>
-<p>{{ '<a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html">The NLP group from Harvard</a> has written a great blog post distilling the paper as well as implementing them in pytorch. If you have some interest in knowing details about the transformer architecture, I recommend looking at it! ' | fndetail: 4 }}</p>
-<h3 id="Attention?">Attention?<a class="anchor-link" href="#Attention?"> </a></h3><p>According to the <a href="https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-3/">Transformer and Attention lecture from NYU foundations of Deep Learning Course</a>:</p>
-<blockquote><p>Transformers are made up of attention modules, which are mappings between sets, rather than sequences, which means we do not impose an ordering to our inputs/outputs.</p>
+<h2 id="Attention-&#233;-tudo-o-que-voc&#234;-precisa">Attention &#233; tudo o que voc&#234; precisa<a class="anchor-link" href="#Attention-&#233;-tudo-o-que-voc&#234;-precisa"> </a></h2><p>O artigo <a href="https://arxiv.org/abs/1706.03762">Attention is all you need</a> introduziu a chamada arquitetura Transformer, que pode ser resumida pela imagem abaixo:</p>
+<p><img src="/personal_blog/images/copied_from_nb/images/transformer.png" alt="" title="A arquitetura Transformer. Fonte: https://arxiv.org/abs/1706.03762"></p>
+<p>A principal motivação por trás desse paper é que arquiteturas baseadas em <em>RNN</em> tem um custo computacional de memória caro. A proposta por trás dos Transformers, então, é que resultados similareas à uma <em>RNN</em> poderiam ser obtidos de uma forma muito mais eficiente aplicas, <strong>apenas</strong>, mecanismos de atenção (e evitando arquiteturas até então conhecidas, como <em>CNN</em> ou <em>RNN</em>) !{% fn 4 %} Apesar do fato de que a proposta original em torno dos Transformers é que eles resolveriam problemas de tradução, percebeu-se que apenas algumas variações em seu funcionamento seriam capazes de atingir resultados <strong>incríveis</strong> em outras áreas. Essa é, basicamente, a principal motivação por trás do modelo <strong>BERT</strong>!</p>
+<p>{{ '<a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html">O grupo de NLP de Harvard</a> escreveu um blog post muito bom que explica o passo a passo desse paper, além de apresentar uma implementação do mesmo em pytorch. Se você tiver interesse de entender essa arquiteutra com mais detalhes, eu recomendo dar uma lida! ' | fndetail: 4 }}</p>
+<h3 id="Aten&#231;&#227;o?">Aten&#231;&#227;o?<a class="anchor-link" href="#Aten&#231;&#227;o?"> </a></h3><p>Segundo a aula de <a href="https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-3/">Transformer e Atenção do curso de Fundamentos de Deep Learning da NYU</a>:</p>
+<blockquote><p>Transformers são compostos por módulos de atenção, os quais podem ser entendidos como um mapeamento entre conjuntos (não sequências). Em outras palavras, nós não precisamos nos preocupar entre a relação de <strong>ordenação</strong> entre os valores de entrada e saída.</p>
 </blockquote>
-<p>When we analyze the transformer architeture, we can see that both <em>Multi-Head Attention</em> and <em>Multi-Head Masked Attention</em> box have 3 Arrow Heads. Each one represents one of the following:</p>
+<p>Ao analisarmos os mecanismos de atenção da arquitetura transformer, tanto o <em>Multi-Head Attention</em> quanto <em>Multi-Head Masked Attention</em> possuem 3 <em>Arrow Heads</em>. Cada uma dessas cabeças tem a seguinte representação:</p>
 
 </div>
 </div>
@@ -304,24 +304,23 @@ Os primeiros 5 valores do vetor da sentença Abasteci meu carro no posto do alto
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li><em>Q</em> that stands for <strong>query</strong> vector with dimension $d_k$ </li>
-<li><em>K</em> that stands for <strong>key</strong> vector that also has dimension $d_k$</li>
-<li><em>V</em> that stands for <strong>value</strong> vector that also has dimension $d_v$</li>
+<li><em>Q</em> Significa o vetor da <strong>query</strong> , com uma dimensão $d_k$ </li>
+<li><em>K</em> Significa o vetor da <strong>chave</strong> (key), o qual também tem $d_k$</li>
+<li><p><em>V</em> Significa o vetor de <strong>value</strong>, com uma dimensão $d_v$</p>
+<p>O par <strong>KV</strong>, no caso, são os inputs da rede, enquanto o <em>Q</em> é a saída de uma camada específica.</p>
+</li>
 </ul>
-<p>Where these three can be understood as projections over the input embeddings.</p>
-<h3 id="Key-Value-Store">Key-Value Store<a class="anchor-link" href="#Key-Value-Store"> </a></h3><p>Again, from the <a href="https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-3/">Deep Learning Foundations Course from NYU</a>:</p>
-<blockquote><p>A key-value store is a paradigm designed for storing (saving), retrieving (querying), and managing associative arrays (dictionaries/hash tables)</p>
-<p>For example, say we wanted to find a recipe to make lasagne. We have a recipe book and search for “lasagne” - this is the query. This query is checked against all possible keys in your dataset - in this case, this could be the titles of all the recipes in the book. We check how aligned the query is with each title to find the maximum matching score between the query and all the respective keys. If our output is the argmax function - we retrieve the single recipe with the highest score. Otherwise, if we use a soft argmax function, we would get a probability distribution and can retrieve in order from the most similar content to less and less relevant recipes matching the query.</p>
-<p>Basically, the query is the question. Given one query, we check this query against every key and retrieve all matching content.</p>
+<h3 id="Armazenamento-Key-Value">Armazenamento Key-Value<a class="anchor-link" href="#Armazenamento-Key-Value"> </a></h3><p>Ainda de acordo com uma das aulas do curso<a href="https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-3/"> Fundamentos de Deep Learning da NYU</a>:</p>
+<blockquote><p>O armazenamento chave-valor (<em>key-value</em>) é um paradigma desenvolvido para armazenar (saving), recuperar (querying), e gerenciar arrays associativos (dictionaries/hash tables)</p>
+<p>Por exemplo, considere que queremos fazer uma receita de <em>lasanha</em>. Nós temos a receita em um livro e , para encontrala, procuramos pela palavra <em>lasanha</em>, que seria a nossa <strong>query</strong>. Essa query é comparada contra todas as outras <strong>chaves</strong> possíveis. Estas, por sua vez, poderiam representar os títulos de todas as receitas no livro. Então, podemos checar aplicar um matching score entre todas as <strong>chaves</strong> em relação à <strong>query</strong>. Caso a saída desse score seja o argmax, podemos retornar apenas a receita (<strong>value</strong>) com o valor máximo. Se for a softmax, podemos retornar uma distribuição de probabilidades e, então, descobrir as receitas mais similares com a query ou as menos similares.</p>
 </blockquote>
-<p>Then, we can say that <em>K</em>; <em>Q</em> and <em>V</em> are specific rotations around a given input vector <em>x</em> (the embedding one, for instance).</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include warning.html content='I have decided not to cover attention concepts in this post, giving just a higher-level introduction. As you might have noticed, NYU Deep Learning Foundations Course provides a really nice introduction about the topic that I recommend going through if you want to learn more :)' %}</p>
+<p>{% include warning.html content='Eu decidi não cobrir os conceitos de atenção em grandes detalhes. Para quem quiser saber mais, eu fortemente recomendo o curso da NYU de Fundamentos de Deep Learning que eu já citei acima.' %}{% include note.html content='De uma maneira genérica, um mecanismo de atenção pode ser entendido, basicamente, como uma medida de correção entre dois conjuntos de palavras. Para quem quer, realmente, estudar o assunto em profundidade, esse <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">blog</a> é excelente.' %}</p>
 
 </div>
 </div>
@@ -364,7 +363,8 @@ sub-layers</strong>. The first is a <strong>multi-head self-attention mechanism<
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="The-Multi-Head-Attention">The Multi-Head Attention<a class="anchor-link" href="#The-Multi-Head-Attention"> </a></h3><p>Basically, the multi head attention is a <em>type</em> of an attention mechanism. It is basically a <em>concatenation</em> of another type of attention, the <em>scaled dot</em>. Both mechanisms works together as represented in the following image:</p>
-<p><img src="/personal_blog/images/copied_from_nb/images/attention_specific.png" alt="" title="(left) Scaled Dot-Product Attention followed by the Multi-Head Attention which consists of several attention layers running in parallel. Source: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/"></p>
+<p><img src="/personal_blog/images/copied_from_nb/images/attention_specific.png" alt="" title="(left) Scaled Dot-Product Attention followed by the Multi-Head Attention which consists of several attention layers running in parallel. Source: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/">
+{% include note.html content='Scaled Dot-Product Attention is calculated by $softmax(\frac{QK^T}{\sqrt{n}})V$, where <em>K</em>, <em>V</em> and <em>Q</em> are the same as the ones described in a previous section whereas <em>n</em> represents the number of elements in the set. ' %}</p>
 <p>Here, <em>h</em>, or the number o attention heads (or layers) is equal to $12$ in the case of $\text{BERT}_\text{base}$ and $16$ in the case of  $\text{BERT}_\text{large}$</p>
 
 </div>

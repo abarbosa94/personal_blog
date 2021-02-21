@@ -308,7 +308,7 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 <li><em>K</em> that stands for <strong>key</strong> vector that also has dimension $d_k$</li>
 <li><em>V</em> that stands for <strong>value</strong> vector that also has dimension $d_v$</li>
 </ul>
-<p>Where these three can be understood as projections over the input embeddings.</p>
+<p><strong>KV</strong> pair can be understood as the encoded representation of the input whereas the <strong>Q</strong> is the output of a previous layer.</p>
 <h3 id="Key-Value-Store">Key-Value Store<a class="anchor-link" href="#Key-Value-Store"> </a></h3><p>Again, from the <a href="https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-3/">Deep Learning Foundations Course from NYU</a>:</p>
 <blockquote><p>A key-value store is a paradigm designed for storing (saving), retrieving (querying), and managing associative arrays (dictionaries/hash tables)</p>
 <p>For example, say we wanted to find a recipe to make lasagne. We have a recipe book and search for “lasagne” - this is the query. This query is checked against all possible keys in your dataset - in this case, this could be the titles of all the recipes in the book. We check how aligned the query is with each title to find the maximum matching score between the query and all the respective keys. If our output is the argmax function - we retrieve the single recipe with the highest score. Otherwise, if we use a soft argmax function, we would get a probability distribution and can retrieve in order from the most similar content to less and less relevant recipes matching the query.</p>
@@ -320,14 +320,7 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include warning.html content='I have decided not to cover attention concepts in this post, giving just a higher-level introduction. As you might have noticed, NYU Deep Learning Foundations Course provides a really nice introduction about the topic that I recommend going through if you want to learn more :)' %}</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include note.html content='Attention can be basically understood as measure of correlation of words between a set of sentences. For those interested to learn a little bit more, I <em>highly</em> recommend <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">this</a> blog post' %}</p>
+<p>{% include warning.html content='I have decided not to cover attention concepts in this post, giving just a higher-level introduction. As you might have noticed, NYU Deep Learning Foundations Course provides a really nice introduction about the topic that I recommend going through if you want to learn more :)' %}{% include note.html content='Attention can be basically understood as measure of correlation of words between a set of sentences. For those interested to learn a little bit more, I <em>highly</em> recommend <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">this</a> blog post' %}</p>
 
 </div>
 </div>
@@ -370,8 +363,9 @@ sub-layers</strong>. The first is a <strong>multi-head self-attention mechanism<
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="The-Multi-Head-Attention">The Multi-Head Attention<a class="anchor-link" href="#The-Multi-Head-Attention"> </a></h3><p>Basically, the multi head attention is a <em>type</em> of an attention mechanism. It is basically a <em>concatenation</em> of another type of attention, the <em>scaled dot</em>. Both mechanisms works together as represented in the following image:</p>
-<p><img src="/personal_blog/images/copied_from_nb/images/attention_specific.png" alt="" title="(left) Scaled Dot-Product Attention followed by the Multi-Head Attention which consists of several attention layers running in parallel. Source: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/"></p>
-<p>Here, <em>h</em>, or the number o attention heads (or layers) is equal to $12$ in the case of $\text{BERT}_\text{base}$ and $16$ in the case of  $\text{BERT}_\text{large}$</p>
+<p><img src="/personal_blog/images/copied_from_nb/images/attention_specific.png" alt="" title="(left) Scaled Dot-Product Attention followed by the Multi-Head Attention which consists of several attention layers running in parallel. Source: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/">
+{% include note.html content='Scaled Dot-Product Attention is calculated by $softmax(\frac{QK^T}{\sqrt{n}})V$, where <em>K</em>, <em>V</em> and <em>Q</em> are the same as the ones described in a previous section whereas <em>n</em> represents the number of elements in the set. ' %}
+Here, <em>h</em>, or the number o attention heads (or layers) is equal to $12$ in the case of $\text{BERT}_\text{base}$ and $16$ in the case of  $\text{BERT}_\text{large}$</p>
 
 </div>
 </div>
