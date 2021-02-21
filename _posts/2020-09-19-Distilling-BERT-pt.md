@@ -65,10 +65,10 @@ layout: notebook
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
-<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;en_core_web_md&quot;</span><span class="p">)</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;pt_core_news_sm&quot;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Considere a sentença &#39;The quick brown fox jumps over the lazy dog!!&#39;&quot;</span><span class="p">)</span>
-<span class="n">text</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;The quick brown fox jumps over the lazy dog!!&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Considere a sentença &#39;O rato roeu a roupa do rei de Roma!&#39;&quot;</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;O rato roeu a roupa do rei de Roma!&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">word</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&#39; representação vetorial com tamanho </span><span class="si">{</span><span class="n">word</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">. Seus primeiros 5 elementos são: </span><span class="si">{</span><span class="n">word</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -86,18 +86,17 @@ layout: notebook
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Considere a sentença &#39;The quick brown fox jumps over the lazy dog!!&#39;
-&#39;The&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [ 0.27 -0.06 -0.19  0.02 -0.02]
-&#39;quick&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.45  0.19 -0.25  0.47  0.16]
-&#39;brown&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.37 -0.08  0.11  0.19  0.03]
-&#39;fox&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.35 -0.08  0.18 -0.09 -0.45]
-&#39;jumps&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.33  0.22 -0.35 -0.26  0.41]
-&#39;over&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.3   0.01  0.04  0.1   0.12]
-&#39;the&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [ 0.27 -0.06 -0.19  0.02 -0.02]
-&#39;lazy&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.35 -0.3  -0.18 -0.32 -0.39]
-&#39;dog&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.4   0.37  0.02 -0.34  0.05]
-&#39;!&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.27  0.34  0.22 -0.3  -0.06]
-&#39;!&#39; representação vetorial com tamanho 300. Seus primeiros 5 elementos são: [-0.27  0.34  0.22 -0.3  -0.06]
+<pre>Considere a sentença &#39;O rato roeu a roupa do rei de Roma!&#39;
+&#39;O&#39; representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 1.2   0.18 -0.97 -5.64 -4.65]
+&#39;rato&#39; representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 3.17  5.36  0.14 -1.27  3.09]
+&#39;roeu&#39; representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 1.17 -2.8   2.39 -0.33  0.4 ]
+&#39;a&#39; representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [-0.99  4.67  1.21 -3.48 -2.62]
+&#39;roupa&#39; representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 3.6   3.54 -0.66 -1.9   1.99]
+&#39;do&#39; representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [-3.28 -2.15 -1.62  4.33  0.55]
+&#39;rei&#39; representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 2.43  2.99 -2.72  2.31  5.31]
+&#39;de&#39; representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [-4.49 -1.73  2.27  7.9   3.35]
+&#39;Roma&#39; representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 4.87  0.42  1.91 -1.68  6.37]
+&#39;!&#39; representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 0.61 -3.03 -1.37 -0.38 -2.72]
 </pre>
 </div>
 </div>
@@ -110,47 +109,11 @@ layout: notebook
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Essas palavras são representações que foram treinadas com base nos dados do <a href="https://github.com/explosion/spacy-models/releases/tag/en_core_web_md-3.0.0">Common Crawl usando o algoritmo GloVe</a>. Diferente do exemplo usado no começo deste blog, a palavra '!' também teve uma representação vetorial. Outro fator interessante é que o GloVe provavelmente passou por uma etapa de pré processamento, uma vez que as palavras '<em>The</em>' and '<em>the</em>' tem a mesma representação vetorial.</p>
+<p>Essas palavras são representações que foram treinadas com base nos dados do <a href="https://github.com/explosion/spacy-models/releases/tag/en_core_web_md-3.0.0">Common Crawl usando o algoritmo GloVe</a>. Diferente do exemplo usado no começo deste blog, a palavra '!' também teve uma representação vetorial.</p>
 
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<details class="description">
-      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p><div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Os primeiros 5 valores da palavra &#39;The&#39;: </span><span class="si">{</span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;The&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Os primeiros 5 valores da palavra &#39;the&#39;: </span><span class="si">{</span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;the&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-</p>
-    </details>
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Os primeiros 5 valores da palavra &#39;The&#39;: [ 0.27 -0.06 -0.19  0.02 -0.02]
-Os primeiros 5 valores da palavra &#39;the&#39;: [ 0.27 -0.06 -0.19  0.02 -0.02]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Para formar frases, podemos combinar embeddings de palavras de formas diferentes. Segundo a <a href="https://spacy.io/usage/vectors-similarity#_title">documentação do spacy</a>:</p>
@@ -184,8 +147,8 @@ Os primeiros 5 valores da palavra &#39;the&#39;: [ 0.27 -0.06 -0.19  0.02 -0.02]
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Limitations-of-Word-Embeddings">Limitations of Word Embeddings<a class="anchor-link" href="#Limitations-of-Word-Embeddings"> </a></h2><p>Even though Word Embeddings brings many benefits in the realm of computational linguistics, they have some limitations. There is a linguistic phenomenon called <em>polysemy</em>. According to <a href="https://en.wikipedia.org/wiki/Polysemy#:~:text=English%20has%20many%20polysemous%20words,a%20subset%20of%20the%20other.">wikipedia</a>:</p>
-<blockquote><p>A polyseme is a word or phrase with different, but related senses.(...) English has many polysemous words. For example, the verb "to get" can mean "procure" (I'll get the drinks), "become" (she got scared), "understand" (I get it) etc.</p>
+<h2 id="Limita&#231;&#245;es-dos-Word-Embeddings">Limita&#231;&#245;es dos Word Embeddings<a class="anchor-link" href="#Limita&#231;&#245;es-dos-Word-Embeddings"> </a></h2><p>Apesar de Word Embeddings trouxeram muitos benefícios na área de linguística computacional, eles possuem algumas limitações. Existe um fenômeno na linguística chamado <em>polissemia</em>. De acordo com o <a href="https://pt.wikipedia.org/wiki/Sem%C3%A2ntica">wikipedia</a>:</p>
+<blockquote><p>É a propriedade que uma mesma palavra tem de apresentar vários significados. Exemplos:Ele ocupa um alto posto na empresa. / Abasteci meu carro no posto da esquina. / Os convites eram de graça. / Os fiéis agradecem a graça recebida.</p>
 </blockquote>
 
 </div>
@@ -193,7 +156,7 @@ Os primeiros 5 valores da palavra &#39;the&#39;: [ 0.27 -0.06 -0.19  0.02 -0.02]
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>So considering the example above, despite the fact that the verb has <strong>different meaning</strong> depending on the contexts, <strong>it's word representation would always be the same</strong></p>
+<p>Considerando o exemplo acima, mesmo que as palavras tenham <strong>significados diferentes</strong> por conta do contexto, <strong>sua representação vetorial é a mesma</strong></p>
 
 </div>
 </div>
@@ -208,7 +171,7 @@ Os primeiros 5 valores da palavra &#39;the&#39;: [ 0.27 -0.06 -0.19  0.02 -0.02]
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>First 5 values of verb &#39;to get&#39; vector: [ 0.03  0.12 -0.32  0.13  0.12]
+<pre>Primeiros cinco valores da palavra &#39;posto&#39;: [ 2.23  0.89  1.63  1.8  -0.12]
 </pre>
 </div>
 </div>
@@ -221,7 +184,7 @@ Os primeiros 5 valores da palavra &#39;the&#39;: [ 0.27 -0.06 -0.19  0.02 -0.02]
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Then, if we pick two phrases: <code>She got scared</code> and <code>She understand it</code>, we will get the following vectors</p>
+<p>Se pegarmos duas frases: <code>Ele ocupa um alto posto na empresa</code> e <code>Abasteci meu carro no posto da esquina</code>, então nós teremos os seguintes vetores:</p>
 
 </div>
 </div>
@@ -233,11 +196,11 @@ Os primeiros 5 valores da palavra &#39;the&#39;: [ 0.27 -0.06 -0.19  0.02 -0.02]
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text1</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;He will get scared&quot;</span><span class="p">)</span>
-<span class="n">text2</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;She will get the drinks&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text1</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;Ele ocupa um alto posto na empresa&quot;</span><span class="p">)</span>
+<span class="n">text2</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;Abasteci meu carro no posto do alto do morro&quot;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of verb &#39;</span><span class="si">{</span><span class="n">text1</span><span class="si">}</span><span class="s2">&#39; vector: </span><span class="si">{</span><span class="n">text1</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of verb &#39;</span><span class="si">{</span><span class="n">text2</span><span class="si">}</span><span class="s2">&#39; vector: </span><span class="si">{</span><span class="n">text2</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Os primeiros 5 valores do vetor da sentença &#39;</span><span class="si">{</span><span class="n">text1</span><span class="si">}</span><span class="s2"> &#39;: </span><span class="si">{</span><span class="n">text1</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Os primeiros 5 valores do vetor da sentença </span><span class="si">{</span><span class="n">text2</span><span class="si">}</span><span class="s2"> &#39;: </span><span class="si">{</span><span class="n">text2</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -250,8 +213,8 @@ Os primeiros 5 valores da palavra &#39;the&#39;: [ 0.27 -0.06 -0.19  0.02 -0.02]
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>First 5 values of verb &#39;He will get scared&#39; vector: [-0.12  0.19 -0.21 -0.14  0.09]
-First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0.04 -0.08  0.03]
+<pre>Os primeiros 5 valores do vetor da sentença &#39;Ele ocupa um alto posto na empresa &#39;: [ 0.55  1.04  0.21 -0.36  0.51]
+Os primeiros 5 valores do vetor da sentença Abasteci meu carro no posto do alto do morro &#39;: [ 0.73  0.82 -0.78  2.11  0.61]
 </pre>
 </div>
 </div>
@@ -264,7 +227,7 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Then, if we take the cosine similarity by taking the average of the word vectors:</p>
+<p>Ao calcular a <strong>similaridade de cossenos</strong> entre a média destes vetores:</p>
 
 </div>
 </div>
@@ -281,7 +244,7 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
 
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;Similarity between:</span><span class="se">\n</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">text1</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">text2</span><span class="si">}</span><span class="s2">&#39;: &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;Similaridade:</span><span class="se">\n</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">text1</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">text2</span><span class="si">}</span><span class="s2">&#39;: &quot;</span>
     <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">text1</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">text2</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="p">)</span>
 </pre></div>
@@ -297,8 +260,8 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Simlarity between:
- &#39;He will get scared&#39; and &#39;She will get the drinks&#39;: 0.8653444051742554
+<pre>Similaridade:
+ &#39;Ele ocupa um alto posto na empresa&#39; and &#39;Abasteci meu carro no posto do alto do morro&#39;: 0.5666443705558777
 </pre>
 </div>
 </div>
@@ -311,8 +274,9 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This indicates that both vectors would be a lot similar. However, the reason for that is the usage of <em>similar</em> words, even considering that they were applied in different contexts! So there is the objective that BERT tries to solve.{% fn 3 %}</p>
-<p>{{ 'There are some BERT percursors such as <a href="https://allennlp.org/elmo">ELMo</a>; <a href="https://arxiv.org/abs/1801.06146">ULMFit</a> and <a href="https://openai.com/blog/language-unsupervised/">Open AI Transformer</a> that I am not going to cover here. Please reach out to <a href="http://jalammar.github.io/illustrated-bert/">Illustrated BERT blog</a> to know more' | fndetail: 3 }}</p>
+<p>Isso indica que ambos os vetores tem alguma similares. Contudo, a razão disso foi o uso de palavras parecidas, uma vez que o significado das sentenças é <strong>completamente</strong> diferente.</p>
+<p>Isso é algo que o BERT tenta resolver.{% fn 3 %}</p>
+<p>{{ 'Existem alguns percursores do BERT como o <a href="https://allennlp.org/elmo">ELMo</a>; <a href="https://arxiv.org/abs/1801.06146">ULMFit</a> e <a href="https://openai.com/blog/language-unsupervised/">Open AI Transformer</a> que eu não irei cobrir aqui. Por favor, caso você queira, confira esse post <a href="http://jalammar.github.io/illustrated-bert/">aqui</a> para saber mais' | fndetail: 3 }}</p>
 
 </div>
 </div>

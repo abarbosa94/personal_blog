@@ -110,47 +110,11 @@ layout: notebook
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Contains word representations that were trained on <a href="https://github.com/explosion/spacy-models/releases//tag/en_core_web_md-2.3.1">Common Crawl data using GloVe algorithm</a>. Unlike the example that I used initially, the word '!' was encoded as well. Another interesting fact is that since GloVe probably passed through a preprocessing step, both '<em>The</em>' and '<em>the</em>' got the same representation.</p>
+<p>Contains word representations that were trained on <a href="https://github.com/explosion/spacy-models/releases//tag/en_core_web_md-2.3.1">Common Crawl data using GloVe algorithm</a>. Unlike the example that I used initially, the word '!' was encoded as well.</p>
 
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<details class="description">
-      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p><div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of word &#39;The&#39; vector: </span><span class="si">{</span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;The&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of word &#39;the&#39; vector: </span><span class="si">{</span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;the&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-</p>
-    </details>
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>First 5 values of word &#39;The&#39; vector: [ 0.27 -0.06 -0.19  0.02 -0.02]
-First 5 values of word &#39;the&#39; vector: [ 0.27 -0.06 -0.19  0.02 -0.02]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can combine different words to form the embedding of a phrase. According to <a href="https://spacy.io/usage/vectors-similarity#_title">spacy documentation</a>:</p>
@@ -236,8 +200,8 @@ First 5 values of word &#39;the&#39; vector: [ 0.27 -0.06 -0.19  0.02 -0.02]
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">text1</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;He will get scared&quot;</span><span class="p">)</span>
 <span class="n">text2</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;She will get the drinks&quot;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of verb &#39;</span><span class="si">{</span><span class="n">text1</span><span class="si">}</span><span class="s2">&#39; vector: </span><span class="si">{</span><span class="n">text1</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of verb &#39;</span><span class="si">{</span><span class="n">text2</span><span class="si">}</span><span class="s2">&#39; vector: </span><span class="si">{</span><span class="n">text2</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of sentence &#39;</span><span class="si">{</span><span class="n">text1</span><span class="si">}</span><span class="s2">&#39; vector: </span><span class="si">{</span><span class="n">text1</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of sentence &#39;</span><span class="si">{</span><span class="n">text2</span><span class="si">}</span><span class="s2">&#39; vector: </span><span class="si">{</span><span class="n">text2</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
