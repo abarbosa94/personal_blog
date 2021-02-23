@@ -327,27 +327,26 @@ Os primeiros 5 valores do vetor da sentença Abasteci meu carro no posto do alto
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Positional-Encoding">Positional Encoding<a class="anchor-link" href="#Positional-Encoding"> </a></h3><p>This was taken from <a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html#prelims">The annotated transformer blog</a> where you can find a cool pytorch implementation. It turns out that actually this is a quote from Attention is all you need <a href="https://arxiv.org/pdf/1706.03762.pdf">paper</a>:</p>
-<blockquote><p>Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inject some information about the relative or absolute position of the tokens in the sequence. To this end, we add “positional encodings” to the input embeddings at the bottoms of the encoder and decoder stacks. The positional encodings have the same dimension 
-$d_{model}$ as the embeddings, so that the two can be summed</p>
+<h3 id="Encoding-Posicional">Encoding Posicional<a class="anchor-link" href="#Encoding-Posicional"> </a></h3><p><a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html#prelims">Eu retirei essa sessão por parte do blog annotated transformer</a>, onde é possível encontrar uma implementação em pytorch. Na verdade, o quote abaixo é retirado diretamente do paper <a href="https://arxiv.org/pdf/1706.03762.pdf">Attention is all you need</a>:</p>
+<blockquote><p>Uma vez que nosso modelo não contém recorrência ou convolução, para fazer com que o modelo aprenda alguma noção de sequência, nós precisamos injetar alguma informação sobre a posição absoluta ou relativa sobre as palavras (tokens) de uma certa sequência. Esses "encoding posicionais" são somados aos embeddings de entrada tanto na pilha de encoder, quanto na pilha de decoder. Por conta disso, o "encoding posicional" tem a mesma dimensão $d_{model}$ que os embeddings (para que, então, eles possam ser somados).</p>
 </blockquote>
-<p><img src="/personal_blog/images/copied_from_nb/images/positional_encoding.png" alt="" title="One example of a positional encoding that generates sine wave based on length. Notice that each dimension generates a sine wave with different frequency. Source:http://nlp.seas.harvard.edu/2018/04/03/attention.html"></p>
+<p><img src="/personal_blog/images/copied_from_nb/images/positional_encoding.png" alt="" title="Um exemplo de um embedding posicional que gera ondas senóides com base no tamanho. Note que cada dimensão gera uma senóide com uma frequência diferente. Fonte:http://nlp.seas.harvard.edu/2018/04/03/attention.html"></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-BERT-model">The BERT model<a class="anchor-link" href="#The-BERT-model"> </a></h2><p>BERT model itself is an <em>encoder model</em> only from the transformer model. Considering the models trained from the <a href="https://arxiv.org/pdf/1810.04805.pdf">paper</a>, the <strong>base</strong> model consists of 12 <em>encoder-stacked</em> layers and the <strong>large</strong> model consists of 24 <em>encoder-stacked</em> layers.</p>
+<h2 id="O-modelo-BERT">O modelo BERT<a class="anchor-link" href="#O-modelo-BERT"> </a></h2><p>O modelo BERT é, na prática, um modelo <em>encoder</em>, derivado da arquitetura transformer. Considerando os modelos treinados do <a href="https://arxiv.org/pdf/1810.04805.pdf">paper</a>, o modelo <strong>base</strong> consiste de 12 camadas <em>encoder</em> empilhados, enquanto o modelo <strong>large</strong> é composto de 24 camadas <em>encoder</em> empilhadas.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>According to the <a href="https://arxiv.org/pdf/1706.03762.pdf">Attention is all you need paper</a>:</p>
-<blockquote><p>The encoder is composed of a stack of $N = 6$ identical layers. Each layer has <strong>two
-sub-layers</strong>. The first is a <strong>multi-head self-attention mechanism</strong>, and the second is a simple, <strong>position wise fully connected feed-forward network</strong>. We employ a <a href="https://arxiv.org/abs/1512.03385">residual connection</a> around <strong>each</strong> of the two sub-layers, followed by <a href="https://arxiv.org/abs/1607.06450">layer normalization</a>.</p>
+<p>De acordo com o paper <a href="https://arxiv.org/pdf/1706.03762.pdf">Attention is all you need paper</a>:</p>
+<blockquote><p>O encoder é composto por uma pilha de $N = 6$ camadas. Cada camada é formada por <strong>dois 
+sub-camada</strong>. A primeira sub-camada é um mecanismo <strong>multi-head self-attention</strong>, enquanto a segunda é uma rede <strong>fully connected feed-forward position wise </strong>. Nós aplicamos uma <a href="https://arxiv.org/abs/1512.03385">residual connection</a> ao redor de cada uma das duas sub-camadas, seguido de uma <a href="https://arxiv.org/abs/1607.06450">camada de normalização</a>.</p>
 </blockquote>
 
 </div>
@@ -362,17 +361,17 @@ sub-layers</strong>. The first is a <strong>multi-head self-attention mechanism<
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-Multi-Head-Attention">The Multi-Head Attention<a class="anchor-link" href="#The-Multi-Head-Attention"> </a></h3><p>Basically, the multi head attention is a <em>type</em> of an attention mechanism. It is basically a <em>concatenation</em> of another type of attention, the <em>scaled dot</em>. Both mechanisms works together as represented in the following image:</p>
-<p><img src="/personal_blog/images/copied_from_nb/images/attention_specific.png" alt="" title="(left) Scaled Dot-Product Attention followed by the Multi-Head Attention which consists of several attention layers running in parallel. Source: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/">
-{% include note.html content='Scaled Dot-Product Attention is calculated by $softmax(\frac{QK^T}{\sqrt{n}})V$, where <em>K</em>, <em>V</em> and <em>Q</em> are the same as the ones described in a previous section whereas <em>n</em> represents the number of elements in the set. ' %}</p>
-<p>Here, <em>h</em>, or the number o attention heads (or layers) is equal to $12$ in the case of $\text{BERT}_\text{base}$ and $16$ in the case of  $\text{BERT}_\text{large}$</p>
+<h3 id="The-Multi-Head-Attention">The Multi-Head Attention<a class="anchor-link" href="#The-Multi-Head-Attention"> </a></h3><p>Basicamente, o mecanismo de atençção multi head é um <em>tipo</em> de mecanismo de atenção. Ele formado pela <em>concatenação</em> de outro mecanosmo, o <em>produto interno</em> (scaled dot). A representação de ambos mecanismos se dá pela imagem abaixo:</p>
+<p><img src="/personal_blog/images/copied_from_nb/images/attention_specific.png" alt="" title="(escerda) Atenção Scaled Dot-Product seguida da atenção Multi-Head, que consistem em uma sére de camadas de atenção rodando em paralelo. Fonte: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/">
+{% include note.html content='A forma de calcular a atenção Scaled Dot-Product é dada por $softmax(\frac{QK^T}{\sqrt{n}})V$, em que <em>K</em>, <em>V</em> and <em>Q</em> são os mesmos que os descritos na sessão antetior, enquanto <em>n</em> representa o número de elementos dentro do conjunto. ' %}</p>
+<p><em>h</em>, ou o número de camadas de atenção é igual a $12$ no caso do $\text{BERT}_\text{base}$, e $16$ no caso do $\text{BERT}_\text{large}$</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Residual-Conections">Residual Conections<a class="anchor-link" href="#Residual-Conections"> </a></h3><p>Each sublayer of the encoder stack contains a residual connection (the left curved arrow) added to the sublayer output before layer normalization. The <a href="https://arxiv.org/pdf/1512.03385.pdf">idea of Residual Conections</a> came from Computer Vision domain, and actually, it is a relatively simple technique that can be summarized by the following image:</p>
+<h3 id="Conex&#245;es-Residuais">Conex&#245;es Residuais<a class="anchor-link" href="#Conex&#245;es-Residuais"> </a></h3><p>Cada subcamada da pilha de encoder contém uma conexão resiudal (a flecha curvada à esquerda) adicionada à saída da subcamada anterior à camada de normalização. A <a href="https://arxiv.org/pdf/1512.03385.pdf">idea de Conexões Residuais</a> vem do campo de visão computacional e, na verdade, é uma técnica que pode ser resumida pela seguinte imagem:</p>
 <p><img src="/personal_blog/images/copied_from_nb/images/residual_connection.png" alt="" title="Residual Connection example. Source (https://arxiv.org/pdf/1512.03385.pdf)"></p>
 
 </div>
@@ -380,31 +379,29 @@ sub-layers</strong>. The first is a <strong>multi-head self-attention mechanism<
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Considering the image above and the case of Encoder stack, each $\mathcal{F}(x)$ means either the <em>Multi-Head Attention</em> or <em>Feed Forward</em>. Therefore, quoting the paper:</p>
-<blockquote><p>That is, the <strong>output of each sub-layer is LayerNorm(x + Sublayer(x))</strong>, where Sublayer(x) is the function implemented by the sub-layer itself. To <em>facilitate these residual connections</em>, all sub-layers in the model, as well as the embedding
-layers, produce outputs of dimension $d_{model} = 512$ {% fn 5 %}.</p>
+<p>Considerando a arquitetura de pilha Encoder, cada $\mathcal{F}(x)$ significa ou a atenção <em>Multi-Head</em> ou a camada <em>Feed Forward</em>. Logo, citando o paper:</p>
+<blockquote><p>Ou seja, a <strong>saída de cada sub camada é LayerNorm(x + Sublayer(x))</strong>, onde cada Sublayer(x) é a função implementada pela subcamada em si. Para <em>facilitar essas conexões individuais</em>, todas as sub-camadas do modelo, assim como as camadas de embedding, produzem saídas de dimenção $d_{model} = 512$ {% fn 5 %}.</p>
 </blockquote>
-<p>{{ 'In the case of <a href="https://arxiv.org/pdf/1810.04805.pdf">BERT model</a>, please have in mind that $N$ is either $12$ (BERT<sub>base</sub>) or $24$ ((BERT<sub>large</sub>) and <em>d<sub>model</sub></em> is 768 for BERT base and 1024 for BERT large' | fndetail: 5 }}</p>
+<p>{{ 'No caso do <a href="https://arxiv.org/pdf/1810.04805.pdf">BERT</a>, tenha em mente que $N$ pode ser $12$ (BERT<sub>base</sub>) ou $24$ ((BERT<sub>large</sub>) e <em>d<sub>model</sub></em> é 768 para o BERT base e 1024 para o BERT large' | fndetail: 5 }}</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Then, what, in fact, is being encoded?</p>
+<p>Mas o que, de fato, está sendo encodado?</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Embedding-Representation">Embedding Representation<a class="anchor-link" href="#Embedding-Representation"> </a></h2><p>The authors would like to make BERT to perform well in different downstream tasks such as <em>binary and multi lablel classification</em>; <em>language modeling</em>; <em>question and answering</em>; <em>named entity recognition</em>; <em>etc</em>. Therefore, they said the following:</p>
-<blockquote><p>our input representation is able to unambiguously represent both a single sentence and a pair of sentences
-(e.g., h Question, Answeri) in one token sequence. Throughout this work, a “sentence” can be an arbitrary span of contiguous text, rather than an actual linguistic sentence. A “sequence” refers to the input token sequence to BERT, which may be a single sentence or two sentences packed together</p>
+<h2 id="Representa&#231;&#227;o-dos-Embeddings">Representa&#231;&#227;o dos Embeddings<a class="anchor-link" href="#Representa&#231;&#227;o-dos-Embeddings"> </a></h2><p>Quando o paper foi escrito, os autores tinham em mente que o BERT deveria performar bem em diferentes tarefas, tais como binary e multi lablel classification_; <em>language modeling</em>; <em>question and answering</em>; <em>named entity recognition</em>; <em>etc</em>. Fazendo a paráfrase do original:</p>
+<blockquote><p>Nossa representação de entrada tem que, de maneira desambiguável, representar tanto uma sentença única, quanto um par de sentenças em uma única sequência de tokens. Diferente de uma sentença na linguística tradicional, no BERT, uma "sentença" pode ser um span arbitrário de texto contínuo. Uma "sequência" representa a sequência de tokens de entrada no BERT, o que pode ser uma sentença única ou duas sentenças agrupadas.</p>
 </blockquote>
-<p>In order to perform and create the sentence embeddings, <a href="https://arxiv.org/abs/1609.08144">WordPiece tokenize is applied</a>. Then, besides adding [CLS] token, pairs of sentence (e.g. sentence <em>A</em> and <em>B</em>) are concatenated into a single sentence, being separated with a special token [SEP] (e.g. <em>A</em> [SEP] <em>B</em>). Then, a learned embedding <a href="#Next-Sentence-Prediction">explained in NSP section</a> that indicates if the token becomes to either A or B is also add to the token representation.
-Then:</p>
-<blockquote><p>For a given token, its input representation is constructed by summing the corresponding token, segment, and position embeddings.</p>
+<p>Para performar e criar esses embeddings de sentenças, utilizou-se o <a href="https://arxiv.org/abs/1609.08144">WordPiece</a>. Então, além de adicionar o [CLS] token, pares de sentença (e.g. sentence <em>A</em> and <em>B</em>) são concatenados em uma sentença única, sendo separados por um token especial [SEP] (e.g. <em>A</em> [SEP] <em>B</em>). 
+Então:</p>
+<blockquote><p>Para um dado token, sua representação é construída ao somar o token respectivo, o segmento (A ou B) e os positional embeddings.</p>
 </blockquote>
 
 </div>
@@ -419,14 +416,12 @@ Then:</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="BERT-Pre-Training">BERT Pre Training<a class="anchor-link" href="#BERT-Pre-Training"> </a></h1><p>The first part of BERT is a pre Training procedure that involved two objective functions</p>
-<h2 id="Masked-Language-Model-(MLM)">Masked Language Model (MLM)<a class="anchor-link" href="#Masked-Language-Model-(MLM)"> </a></h2><p>As we are feeding the whole sentence into the model, it is possible to say that the model is bidirectional and hence as we are trying to predict the next word in a sentence, it would has access to it! Then, the idea behind this task is pretty simple. We can directly quote from the <a href="https://arxiv.org/pdf/1810.04805.pdf">paper</a>:</p>
-<blockquote><p>Unfortunately, standard conditional language models can only be trained left-to-right or right-to-left, since bidirectional conditioning would allow each word to indirectly “see itself”, and the model could trivially
-predict the target word in a multi-layered context.</p>
-<p>In order to train a deep bidirectional representation, we simply mask some percentage of the input
-tokens at random, and then predict those masked tokens. We refer to this procedure as a “masked LM” (MLM), although it is often referred to as a <em>Cloze task</em> in the <a href="https://journals.sagepub.com/doi/abs/10.1177/107769905303000401">literature</a>. In thiscase, the final hidden vectors corresponding to the mask tokens are fed into an output softmax over the vocabulary, as in a standard LM.</p>
+<h1 id="Pr&#233;-Treinamento-do-BERT">Pr&#233; Treinamento do BERT<a class="anchor-link" href="#Pr&#233;-Treinamento-do-BERT"> </a></h1><p>A primeira parte do BERT é um processo de pé treinamento que tem <strong>duas</strong> funções objetivo</p>
+<h2 id="Modelo-de-Linguagem-Mascarado-(MLM)">Modelo de Linguagem Mascarado (MLM)<a class="anchor-link" href="#Modelo-de-Linguagem-Mascarado-(MLM)"> </a></h2><p>Conforme estamos alimentando o modelo com sentenças e considerando que estamos treinando um modelo de linguagem (isto é, queremos prever a palavra seguinte dado as palavras anteriores), como o BERT é bidirecional, isso acaba sendo problemático. A solução, proposta por essa <em>loss function</em> é relativamente simples. Para fraseando o <a href="https://arxiv.org/pdf/1810.04805.pdf">paper</a>:</p>
+<blockquote><p>Infelizmente, modelos de linguagem convencionais são apenas treinados considerando como input sentenças da esquerda para direita ou direita para esquerda, já que condicionalidade bidirecional permitiria que cada palavra "tivesse acesso a ela mesma" e, logo, o modelo conseguiria fazer a previsão de uma maneira direta.</p>
+<p>Para treinar uma representação bidirecional, nós mascaramos, de forma aleatória, uma certa porcentagem da entrada e prevismos estes tokens que forem ocultados. Nos referimos a esse processo como modelo de linguagem mascarado, apesar de que ele também recebe o nome de <em>cloze task</em> na <a href="https://journals.sagepub.com/doi/abs/10.1177/107769905303000401">literatura</a>. 
+No caso do BERT, 15% de cada sentença é mascarada durante a etapa de treinamento.</p>
 </blockquote>
-<p>In the case of BERT model, 15% of each sentence were masked during training.</p>
 
 </div>
 </div>
@@ -440,40 +435,40 @@ tokens at random, and then predict those masked tokens. We refer to this procedu
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Next-Sentence-Prediction-(NSP)">Next Sentence Prediction (NSP)<a class="anchor-link" href="#Next-Sentence-Prediction-(NSP)"> </a></h2><p>In order to learn relationships between pair of sentence (e.g. Question and Ansering tasks) the authors needed a different approach than plain Language Modeling. Then:</p>
-<blockquote><p>In order to train a model that understands sentence relationships, we pre-train for a binarized next sentence prediction task that can be trivially generated from any monolingual corpus. Specifically, when choosing the sentences A and B for each pretraining example, 50% of the time B is the actual next sentence that follows A (labeled as <code>IsNext</code>), and 50% of the time it is a random sentence from the corpus (labeled as <code>NotNext</code>).</p>
+<h2 id="Predi&#231;&#227;o-da-Pr&#243;xima-Senten&#231;a-(Next-Sentence-Prediction--NSP)">Predi&#231;&#227;o da Pr&#243;xima Senten&#231;a (Next Sentence Prediction- NSP)<a class="anchor-link" href="#Predi&#231;&#227;o-da-Pr&#243;xima-Senten&#231;a-(Next-Sentence-Prediction--NSP)"> </a></h2><p>Para aprender relações entre pares de sentença (i.e. tarefas de perguntas e respostas), os autores precisaram pensar em algo além da modelagem de língua tradicional. Então:</p>
+<blockquote><p>Para treinar um modelo que entenda relacionamento de sentenças, nós pre treinamos um modelo binarizado previsor de próxima sentença que poderia ser gerado de qualquer corpus monolingual. Especificamente, quando escolhemos sentenças A e B para cada exemplo de pré treino, 50% das vezes B é, de fato, a sentença seguinte de A (marcada como <code>IsNext</code>) e 50% das vezes é uma sequência aleatória (marcada como <code>NotNext</code>).</p>
 </blockquote>
-<p>Once defined, both objected functions are used in BERT Pre training learning :)
-<img src="/personal_blog/images/copied_from_nb/images/nsp.png" alt="" title="Next Sentence Preiction. Taken from here: http://jalammar.github.io/illustrated-bert/"></p>
+<p>Ambas funções objetivo (MLM e NSP) são usadas para o pré treinamento do BERT  :)
+<img src="/personal_blog/images/copied_from_nb/images/nsp.png" alt="" title="Next Sentence Preiction. Fonte: http://jalammar.github.io/illustrated-bert/"></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include note.html content='The training loss is the sum of the mean masked LM (MLM) likelihood and the mean next sentence prediction (NSP) likelihood' %}</p>
+<p>{% include note.html content='A <em>loss</em> de treinamento é a soma das médias da MLM e NSP' %}</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include important.html content='You may have noticed but this training procedure <strong>does not require labeling</strong>. As we are using the raw text inputs to generate the <em>labels</em> during training, e considerer this BERT Pre Training as a <em>self-surpervised</em> model!' %}</p>
+<p>{% include important.html content='Você deve ter notado que, durante o treinamento, não é necessário o uso de <em>labels</em>, já que derivamos <em>labels</em> a partir do input. Logo, o modelo de Pré Treinamento do BERT é considerado <em>self-surpervised</em>!' %}</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Putting-all-together">Putting all together<a class="anchor-link" href="#Putting-all-together"> </a></h1><p>As we are dealing with <strong>sentence</strong> embeddings than <strong>word</strong> embeddings we need a clever way to, well, encode these sentences. Let's see how BERT do it:</p>
+<h1 id="Resum&#227;o-de-tudo">Resum&#227;o de tudo<a class="anchor-link" href="#Resum&#227;o-de-tudo"> </a></h1><p>Como estamos lidando com embeddings de <strong>sentenças</strong> (não <strong>palavras</strong>), precisamos de uma forma de fazer o encoding desse input da maneira certa. Vamos ver como o BERT faz:</p>
 <ul>
-<li>We first take a text as input</li>
-<li>We apply WordPiece Tokenizer</li>
-<li>We fed the input into the Encoder stack</li>
-<li>We train the network (Pre-Training step)</li>
-<li>For those familiar with <em>CNN</em> we can say that [CLS] embedding works as a "pooled" representation (<a href="https://arxiv.org/pdf/2002.08909.pdf">ref</a>) of the sentence and then can be used as a <strong>contextual embedding feature</strong>. Hence, it can be fed into a Neural Net to solve classification tasks!</li>
-<li>Depending on the downstreaming task (<em>Fine tuning task</em>) other token embeddings can be used as well
-{% include important.html content='without the fine-tuning task, CLS vector is not a meaninful representation since it was trained with NSP (<a href="https://arxiv.org/pdf/1810.04805.pdf">ref</a>)' %}</li>
+<li>Primeiro recebemos os tokens de texto como entrada</li>
+<li>Aplicamos o WordPiece Tokenizer</li>
+<li>Essa entrada entra na pilha de Encoder</li>
+<li>Treinamos a rede (Pre-Training step)</li>
+<li>Para os familiarizados com redes convolucionais, podemos dizer que o embedding do token [CLS] funciona como uma representação "pooled" (<a href="https://arxiv.org/pdf/2002.08909.pdf">ref</a>) da sentença e, logo, pode ser usada como um embedding <strong>contextual</strong>. No caso, ela serve de entrada para uma rede neural para resolver problemas de classificação!</li>
+<li>Dependendo da tarefa de <em>Fine tuning</em>, é possível usar os embeddings de um token diferente do CLS
+{% include important.html content='Se desconsiderarmos a tarefa de fine tuning, o vetor CLS não tem uma representação muito grande, uma vez que ele foi treinado por meio da <em>loss</em> NSP (<a href="https://arxiv.org/pdf/1810.04805.pdf">ref</a>)' %}</li>
 </ul>
 
 </div>
@@ -481,7 +476,7 @@ tokens at random, and then predict those masked tokens. We refer to this procedu
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>I have tried to summarize a foward pass of BERT thorugh the following gif:</p>
+<p>Eu tentei resumir o processo todo com o gif abaixo</p>
 <p><img src="/personal_blog/images/copied_from_nb/images/media/videos/scene/720p30/TransformerEncoderExample.gif" alt="" title="Entire Forward passing in BERT"></p>
 
 </div>
@@ -489,7 +484,7 @@ tokens at random, and then predict those masked tokens. We refer to this procedu
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Working-in-Practice">Working in Practice<a class="anchor-link" href="#Working-in-Practice"> </a></h1><p>To show sentence embedding from BERT working, I usually rely on <a href="https://huggingface.co/transformers/">Hugging Face's transformer library</a>. Here, since the <strong>Bert Model for Language Model</strong> was trained already, I will be using the bare BERT Model without any specific head (e.g., <code>LanguageModeling head</code> or <code>Sentence Classification head</code>) on top of it!</p>
+<h1 id="Na-pr&#225;tica">Na pr&#225;tica<a class="anchor-link" href="#Na-pr&#225;tica"> </a></h1><p>Para mostrar o embedding de sentenças do BERT funcionando, eu irei usar a biblioteca <a href="https://huggingface.co/transformers/">Hugging Face's transformer</a>. Aqui, uma vez que o <strong>Bert Model para Modelos de Linguagem</strong> já foi treinado, Eu usarei o BERT sem nenhuma cabeça (i.g., <code>LanguageModeling head</code> or <code>SentenceClassification head</code>) na ponta!</p>
 
 </div>
 </div>
@@ -506,8 +501,8 @@ tokens at random, and then predict those masked tokens. We refer to this procedu
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">BertModel</span><span class="p">,</span><span class="n">BertTokenizer</span><span class="p">,</span> <span class="n">BertForPreTraining</span>
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">BertModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-multilingual-uncased&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">BertModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-multilingual-uncased&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -515,6 +510,22 @@ tokens at random, and then predict those masked tokens. We refer to this procedu
 </div>
 </p>
     </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Downloading: 100%|██████████| 872k/872k [00:01&lt;00:00, 699kB/s]
+Downloading: 100%|██████████| 625/625 [00:00&lt;00:00, 153kB/s]
+Downloading: 100%|██████████| 672M/672M [03:07&lt;00:00, 3.58MB/s]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     {% endraw %}
 
@@ -525,8 +536,8 @@ tokens at random, and then predict those masked tokens. We refer to this procedu
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sequence_0</span> <span class="o">=</span> <span class="s2">&quot;He will get scared&quot;</span>
-<span class="n">sequence_1</span> <span class="o">=</span> <span class="s2">&quot;She will get the drinks&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sequence_0</span> <span class="o">=</span> <span class="s2">&quot;Ele ocupa um alto posto na empresa&quot;</span>
+<span class="n">sequence_1</span> <span class="o">=</span> <span class="s2">&quot;Abasteci meu carro no posto do alto do morro&quot;</span>
 </pre></div>
 
     </div>
@@ -548,8 +559,8 @@ tokens at random, and then predict those masked tokens. We refer to this procedu
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sequence_0_w2id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">sequence_0</span><span class="p">)</span> <span class="c1"># we need to map words to id&#39;s :)</span>
 <span class="n">sequence_1_w2id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">sequence_1</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sequence 0 word2Id mapping: </span><span class="si">{</span><span class="n">sequence_0_w2id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sequence 1 word2Id mapping: </span><span class="si">{</span><span class="n">sequence_1_w2id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mapeamento de sequencia 0 word2Id: </span><span class="si">{</span><span class="n">sequence_0_w2id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mapeamento de sequence 1 word2Id: </span><span class="si">{</span><span class="n">sequence_1_w2id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -563,10 +574,43 @@ tokens at random, and then predict those masked tokens. We refer to this procedu
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Sequence 0 word2Id mapping: [101, 2002, 2097, 2131, 6015, 102]
-Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
+<pre>Mapeamento de sequencia 0 word2Id: [101, 12002, 28905, 10316, 13248, 14645, 10135, 14443, 102]
+Mapeamento de sequence 1 word2Id: [101, 51448, 11176, 10532, 44780, 43562, 10181, 14645, 10154, 13248, 10154, 43522, 102]
 </pre>
 </div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sequence_0_embeddings</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[  101, 12002, 28905, 10316, 13248, 14645, 10135, 14443,   102]])</pre>
+</div>
+
 </div>
 
 </div>
@@ -585,13 +629,9 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sequence_0_embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">sequence_0_w2id</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Batch size 1</span>
-<span class="n">sequence_0_embeddings</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">sequence_0_embeddings</span><span class="p">,</span> <span class="n">return_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span>
-    <span class="s2">&quot;last_hidden_state&quot;</span>
-<span class="p">]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">sequence_0_embeddings</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">sequence_0_embeddings</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 <span class="n">sequence_1_embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">sequence_1_w2id</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Batch size 1</span>
-<span class="n">sequence_1_embeddings</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">sequence_1_embeddings</span><span class="p">,</span> <span class="n">return_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span>
-    <span class="s2">&quot;last_hidden_state&quot;</span>
-<span class="p">]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">sequence_1_embeddings</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">sequence_1_embeddings</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -624,7 +664,7 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>((1, 6, 768), (1, 7, 768))</pre>
+<pre>((1, 9, 768), (1, 13, 768))</pre>
 </div>
 
 </div>
@@ -637,7 +677,7 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Since the first dimension means the batch size, we can get rid of it!</p>
+<p>Podemos remover a primeira sentença, já que ela representa o tamanho do batch</p>
 
 </div>
 </div>
@@ -669,7 +709,7 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>((6, 768), (7, 768))</pre>
+<pre>((9, 768), (13, 768))</pre>
 </div>
 
 </div>
@@ -682,8 +722,8 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It turns out that this model generates one embedding for each word plus <code>CLS</code> and <code>SEP</code> tokens. This explains why sentence_0 and sentence_1 both start and end with the same token number! Let's perform some cool math to analyze some patterns :)</p>
-<p>First, let's analyze the similarity between CLS and token words</p>
+<p>Podemos ver que esse modelo gera um embedding para cada palavra das frases mais dois: um para o token <code>CLS</code> e outro para o token <code>SEP</code></p>
+<p>Agora, vamos calcular a similaridade entre o token CLS e a média dos tokens que compõe a frase:</p>
 
 </div>
 </div>
@@ -700,7 +740,7 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">CLS_TOKEN_0</span> <span class="o">=</span> <span class="n">sequence_0_embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">CLS_TOKEN_WORDS_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sequence_0_embeddings</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;Cosine Similatiry between CLS token and the average of</span><span class="se">\n</span><span class="s2">&#39;</span><span class="si">{</span><span class="n">sequence_0</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;Similaridade de Cosseno entre o token CLS e a média dos tokens de</span><span class="se">\n</span><span class="s2">&#39;</span><span class="si">{</span><span class="n">sequence_0</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
     <span class="sa">f</span><span class="s2">&quot; tokens: </span><span class="si">{</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">CLS_TOKEN_0</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">CLS_TOKEN_WORDS_0</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="p">)</span>
 </pre></div>
@@ -716,8 +756,8 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Cosine Similatiry between CLS token and the average of
-&#39;He will get scared&#39; tokens: 0.29071152210235596
+<pre>Similaridade de Cosseno entre o token CLS e a média dos tokens de
+&#39;Ele ocupa um alto posto na empresa&#39; tokens: -0.04759013652801514
 </pre>
 </div>
 </div>
@@ -740,7 +780,7 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">CLS_TOKEN_1</span> <span class="o">=</span> <span class="n">sequence_1_embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">CLS_TOKEN_WORDS_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sequence_1_embeddings</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;Cosine Similatiry between CLS token and the average of </span><span class="se">\n</span><span class="s2">&#39;</span><span class="si">{</span><span class="n">sequence_1</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;Similaridade de Cosseno entre o token CLS e a média dos tokens de</span><span class="se">\n</span><span class="s2">&#39;</span><span class="si">{</span><span class="n">sequence_1</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
     <span class="sa">f</span><span class="s2">&quot; tokens: </span><span class="si">{</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">CLS_TOKEN_1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">CLS_TOKEN_WORDS_1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="p">)</span>
 </pre></div>
@@ -756,8 +796,8 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Cosine Similatiry between CLS token and the average of 
-&#39;She will get the drinks&#39; tokens: 0.32392317056655884
+<pre>Similaridade de Cosseno entre o token CLS e a média dos tokens de
+&#39;Abasteci meu carro no posto do alto do morro&#39; tokens: 0.05738348513841629
 </pre>
 </div>
 </div>
@@ -770,7 +810,7 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It is interesting since as stated by the paper, the CLS token <em>seems to be meaninfulless</em>. Then, let's analyze the similarity between the average tokens embeddings of each sentence</p>
+<p>Como dito pelo paper, o token CLS não tem significado nenhum aqui, Vamos, então, analisar a similaridade entre as médias dos tokens de ambas as sentenças</p>
 
 </div>
 </div>
@@ -785,8 +825,8 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Cosine Similatiry between average of embedding tokens of
-&#39;He will get scared&#39;and &#39;She will get the drinks&#39; tokens :0.6591895222663879
+<pre>Similaridade de Cosseno entre o token CLS e a média dos tokens de
+&#39;Ele ocupa um alto posto na empresa&#39;and &#39;Abasteci meu carro no posto do alto do morro&#39; tokens :0.5034023523330688
 </pre>
 </div>
 </div>
@@ -799,22 +839,22 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>As expected</strong>, despite the fact that <em>similar</em> words were used, their contexts were totally different and therefore, their embeddings similarities were less than the plain word vectors :)</p>
+<p><strong>Como esperado</strong>, apesar de palavras parecidas terem sido usadas, ccomo o contexto entre palavras foram totalmente disferentes, a similaridade de embeddings aqui foi menor do que o de combinação de palavras, usado no começo do artigo.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h1><p>Congratulations! You have learned the main concepts behind the BERT model :) Please stay tuned, tor future blog posts :) I intend adding distillation about some BERT fine tuning as well as dissecting it from scratch!</p>
-<p>However, if you want to have a higher level approach about how this works, I <a href="https://huggingface.co/blog/how-to-train">highly recommend this blog post</a>!</p>
+<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h1><p>Parabéns! Você aprendeu os principais conceitos por trás do modelo BERT :) Se você tiver interesse em ver outros posts em português, por favor me envie uma mensagem!</p>
+<p>Além disso, se você quer ter mais detalhes de como usar o BERT de uma maneira prática, eu recomendo esse <a href="https://huggingface.co/blog/how-to-train">blog post</a>!</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Resources-that-have-inspired-me">Resources that have inspired me<a class="anchor-link" href="#Resources-that-have-inspired-me"> </a></h1><p>Besides all other papers that I have referenced through this post, I would like to emphaisze the following:</p>
+<h1 id="Recursos-que-me-inspiraram">Recursos que me inspiraram<a class="anchor-link" href="#Recursos-que-me-inspiraram"> </a></h1><p>Além dos papers que eu usei para citar nesse post, eu também gostaria de enfatizar que os links abaixo serviram de uma inspiração absurda!</p>
 <ul>
 <li><a href="http://jalammar.github.io/illustrated-bert/">http://jalammar.github.io/illustrated-bert/</a></li>
 <li><a href="https://jalammar.github.io/illustrated-transformer/">https://jalammar.github.io/illustrated-transformer/</a></li>
@@ -826,8 +866,8 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Acknowledgments">Acknowledgments<a class="anchor-link" href="#Acknowledgments"> </a></h1><p>I would really like to appreciate the effort made by some colleagues that provided a fantastic technical review for this blog post :)</p>
-<p>In alphabetical order:</p>
+<h1 id="Reconhecimento">Reconhecimento<a class="anchor-link" href="#Reconhecimento"> </a></h1><p>Eu gostaria de agradecer, de verdade, alguns colegas que fizeram a revisão técnica desse blog :)</p>
+<p>Em ordem alfabética:</p>
 <ul>
 <li><a href="https://www.linkedin.com/in/alan-barzilay-58754855/">Alan Barzilay</a></li>
 <li><a href="https://www.linkedin.com/in/alvaro-marques-9a10aa131/">Alvaro Marques</a></li>

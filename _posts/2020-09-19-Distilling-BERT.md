@@ -362,7 +362,7 @@ sub-layers</strong>. The first is a <strong>multi-head self-attention mechanism<
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-Multi-Head-Attention">The Multi-Head Attention<a class="anchor-link" href="#The-Multi-Head-Attention"> </a></h3><p>Basically, the multi head attention is a <em>type</em> of an attention mechanism. It is basically a <em>concatenation</em> of another type of attention, the <em>scaled dot</em>. Both mechanisms works together as represented in the following image:</p>
+<h3 id="The-Multi-Head-Attention">The Multi-Head Attention<a class="anchor-link" href="#The-Multi-Head-Attention"> </a></h3><p>Basically, the multi head attention is a <em>type</em> of an attention mechanism. It is a <em>concatenation</em> of another type of attention, the <em>scaled dot</em>. Both mechanisms works together as represented in the following image:</p>
 <p><img src="/personal_blog/images/copied_from_nb/images/attention_specific.png" alt="" title="(left) Scaled Dot-Product Attention followed by the Multi-Head Attention which consists of several attention layers running in parallel. Source: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/">
 {% include note.html content='Scaled Dot-Product Attention is calculated by $softmax(\frac{QK^T}{\sqrt{n}})V$, where <em>K</em>, <em>V</em> and <em>Q</em> are the same as the ones described in a previous section whereas <em>n</em> represents the number of elements in the set. ' %}
 Here, <em>h</em>, or the number o attention heads (or layers) is equal to $12$ in the case of $\text{BERT}_\text{base}$ and $16$ in the case of  $\text{BERT}_\text{large}$</p>
@@ -400,9 +400,9 @@ layers, produce outputs of dimension $d_{model} = 512$ {% fn 5 %}.</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Embedding-Representation">Embedding Representation<a class="anchor-link" href="#Embedding-Representation"> </a></h2><p>The authors would like to make BERT to perform well in different downstream tasks such as <em>binary and multi lablel classification</em>; <em>language modeling</em>; <em>question and answering</em>; <em>named entity recognition</em>; <em>etc</em>. Therefore, they said the following:</p>
 <blockquote><p>our input representation is able to unambiguously represent both a single sentence and a pair of sentences
-(e.g., h Question, Answeri) in one token sequence. Throughout this work, a “sentence” can be an arbitrary span of contiguous text, rather than an actual linguistic sentence. A “sequence” refers to the input token sequence to BERT, which may be a single sentence or two sentences packed together</p>
+(e.g., h Question, Answer) in one token sequence. Throughout this work, a “sentence” can be an arbitrary span of contiguous text, rather than an actual linguistic sentence. A “sequence” refers to the input token sequence to BERT, which may be a single sentence or two sentences packed together</p>
 </blockquote>
-<p>In order to perform and create the sentence embeddings, <a href="https://arxiv.org/abs/1609.08144">WordPiece tokenize is applied</a>. Then, besides adding [CLS] token, pairs of sentence (e.g. sentence <em>A</em> and <em>B</em>) are concatenated into a single sentence, being separated with a special token [SEP] (e.g. <em>A</em> [SEP] <em>B</em>). Then, a learned embedding <a href="#Next-Sentence-Prediction">explained in NSP section</a> that indicates if the token becomes to either A or B is also add to the token representation.
+<p>In order to perform and create the sentence embeddings, <a href="https://arxiv.org/abs/1609.08144">WordPiece tokenize is applied</a>. Then, besides adding [CLS] token, pairs of sentence (e.g. sentence <em>A</em> and <em>B</em>) are concatenated into a single sentence, being separated with a special token [SEP] (e.g. <em>A</em> [SEP] <em>B</em>).
 Then:</p>
 <blockquote><p>For a given token, its input representation is constructed by summing the corresponding token, segment, and position embeddings.</p>
 </blockquote>
@@ -419,7 +419,7 @@ Then:</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="BERT-Pre-Training">BERT Pre Training<a class="anchor-link" href="#BERT-Pre-Training"> </a></h1><p>The first part of BERT is a pre Training procedure that involved two objective functions</p>
+<h1 id="BERT-Pre-Training">BERT Pre Training<a class="anchor-link" href="#BERT-Pre-Training"> </a></h1><p>The first part of BERT is a pre Training procedure that involved <strong>two</strong> objective functions</p>
 <h2 id="Masked-Language-Model-(MLM)">Masked Language Model (MLM)<a class="anchor-link" href="#Masked-Language-Model-(MLM)"> </a></h2><p>As we are feeding the whole sentence into the model, it is possible to say that the model is bidirectional and hence as we are trying to predict the next word in a sentence, it would has access to it! Then, the idea behind this task is pretty simple. We can directly quote from the <a href="https://arxiv.org/pdf/1810.04805.pdf">paper</a>:</p>
 <blockquote><p>Unfortunately, standard conditional language models can only be trained left-to-right or right-to-left, since bidirectional conditioning would allow each word to indirectly “see itself”, and the model could trivially
 predict the target word in a multi-layered context.</p>
