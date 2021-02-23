@@ -27,6 +27,7 @@ layout: notebook
         
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include note.html content='For a <strong>portuguese</strong> version of this post, please check <a href="https://abarbosa94.github.io/personal_blog/masters/nlp/knowledge-distill/2020/09/19/Distilling-BERT-pt.html">this</a>' %}</p>
 <h1 id="A-quick-review">A quick review<a class="anchor-link" href="#A-quick-review"> </a></h1><p>I remember someday of 2016 while I was starting my career as a Data Scientist when I've stumped into <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">Chirs McCormick blog about Word2Vec</a>. Honestly, I think that <a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">Tomas Mikolov paper</a> was one of the most elegant and simple idea that I have ever found so far {% fn 1 %} :)</p>
 <p>{{ 'Fun Fact: Whereas nowadays <a href="https://www.linkedin.com/in/tomas-mikolov-59831188/?originalSubdomain=cz">Miklov LinkedIn profile</a> points out that he has worked for Microsoft, Google and Facebook; another of W2V authors, <a href="http://www.cs.toronto.edu/~ilya/">Ilya Sutskever</a> worked with some of the prestigious researchers in the recent AI area, such as <a href="https://www.cs.toronto.edu/~hinton/">Geoffrey Hinton</a> and <a href="https://www.andrewng.org/">Andrew Ng</a>. Moreover, he is one of the founders of <a href="https://openai.com/">Open AI</a>! ' | fndetail: 1 }}</p>
 <h2 id="What-are-Word-Embeddings">What are Word Embeddings<a class="anchor-link" href="#What-are-Word-Embeddings"> </a></h2><p>According to <a href="https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html">Pytorch documentation</a> an <strong>Embedding</strong> can be defined as the following:</p>
@@ -109,47 +110,11 @@ layout: notebook
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Contains word representations that were trained on <a href="https://github.com/explosion/spacy-models/releases//tag/en_core_web_md-2.3.1">Common Crawl data using GloVe algorithm</a>. Unlike the example that I used initially, the word '!' was encoded as well. Another interesting fact is that since GloVe probably passed through a preprocessing step, both '<em>The</em>' and '<em>the</em>' got the same representation.</p>
+<p>Contains word representations that were trained on <a href="https://github.com/explosion/spacy-models/releases//tag/en_core_web_md-2.3.1">Common Crawl data using GloVe algorithm</a>. Unlike the example that I used initially, the word '!' was encoded as well.</p>
 
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<details class="description">
-      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p><div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of word &#39;The&#39; vector: </span><span class="si">{</span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;The&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of word &#39;the&#39; vector: </span><span class="si">{</span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;the&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-</p>
-    </details>
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>First 5 values of word &#39;The&#39; vector: [ 0.27 -0.06 -0.19  0.02 -0.02]
-First 5 values of word &#39;the&#39; vector: [ 0.27 -0.06 -0.19  0.02 -0.02]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can combine different words to form the embedding of a phrase. According to <a href="https://spacy.io/usage/vectors-similarity#_title">spacy documentation</a>:</p>
@@ -235,8 +200,8 @@ First 5 values of word &#39;the&#39; vector: [ 0.27 -0.06 -0.19  0.02 -0.02]
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">text1</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;He will get scared&quot;</span><span class="p">)</span>
 <span class="n">text2</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;She will get the drinks&quot;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of verb &#39;</span><span class="si">{</span><span class="n">text1</span><span class="si">}</span><span class="s2">&#39; vector: </span><span class="si">{</span><span class="n">text1</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of verb &#39;</span><span class="si">{</span><span class="n">text2</span><span class="si">}</span><span class="s2">&#39; vector: </span><span class="si">{</span><span class="n">text2</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of sentence &#39;</span><span class="si">{</span><span class="n">text1</span><span class="si">}</span><span class="s2">&#39; vector: </span><span class="si">{</span><span class="n">text1</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 5 values of sentence &#39;</span><span class="si">{</span><span class="n">text2</span><span class="si">}</span><span class="s2">&#39; vector: </span><span class="si">{</span><span class="n">text2</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -343,7 +308,7 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 <li><em>K</em> that stands for <strong>key</strong> vector that also has dimension $d_k$</li>
 <li><em>V</em> that stands for <strong>value</strong> vector that also has dimension $d_v$</li>
 </ul>
-<p>Where these three can be understood as projections over the input embeddings.</p>
+<p><strong>KV</strong> pair can be understood as the encoded representation of the input whereas the <strong>Q</strong> is the output of a previous layer.</p>
 <h3 id="Key-Value-Store">Key-Value Store<a class="anchor-link" href="#Key-Value-Store"> </a></h3><p>Again, from the <a href="https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-3/">Deep Learning Foundations Course from NYU</a>:</p>
 <blockquote><p>A key-value store is a paradigm designed for storing (saving), retrieving (querying), and managing associative arrays (dictionaries/hash tables)</p>
 <p>For example, say we wanted to find a recipe to make lasagne. We have a recipe book and search for “lasagne” - this is the query. This query is checked against all possible keys in your dataset - in this case, this could be the titles of all the recipes in the book. We check how aligned the query is with each title to find the maximum matching score between the query and all the respective keys. If our output is the argmax function - we retrieve the single recipe with the highest score. Otherwise, if we use a soft argmax function, we would get a probability distribution and can retrieve in order from the most similar content to less and less relevant recipes matching the query.</p>
@@ -355,14 +320,7 @@ First 5 values of verb &#39;She will get the drinks&#39; vector: [ 0.01  0.13 -0
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include warning.html content='I have decided not to cover attention concepts in this post, giving just a higher-level introduction. As you might have noticed, NYU Deep Learning Foundations Course provides a really nice introduction about the topic that I recommend going through if you want to learn more :)' %}</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include note.html content='Attention can be basically understood as measure of correlation of words between a set of sentences. For those interested to learn a little bit more, I <em>highly</em> recommend <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">this</a> blog post' %}</p>
+<p>{% include warning.html content='I have decided not to cover attention concepts in this post, giving just a higher-level introduction. As you might have noticed, NYU Deep Learning Foundations Course provides a really nice introduction about the topic that I recommend going through if you want to learn more :)' %}{% include note.html content='Attention can be basically understood as measure of correlation of words between a set of sentences. For those interested to learn a little bit more, I <em>highly</em> recommend <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">this</a> blog post' %}</p>
 
 </div>
 </div>
@@ -404,9 +362,10 @@ sub-layers</strong>. The first is a <strong>multi-head self-attention mechanism<
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-Multi-Head-Attention">The Multi-Head Attention<a class="anchor-link" href="#The-Multi-Head-Attention"> </a></h3><p>Basically, the multi head attention is a <em>type</em> of an attention mechanism. It is basically a <em>concatenation</em> of another type of attention, the <em>scaled dot</em>. Both mechanisms works together as represented in the following image:</p>
-<p><img src="/personal_blog/images/copied_from_nb/images/attention_specific.png" alt="" title="(left) Scaled Dot-Product Attention followed by the Multi-Head Attention which consists of several attention layers running in parallel. Source: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/"></p>
-<p>Here, <em>h</em>, or the number o attention heads (or layers) is equal to $12$ in the case of $\text{BERT}_\text{base}$ and $16$ in the case of  $\text{BERT}_\text{large}$</p>
+<h3 id="The-Multi-Head-Attention">The Multi-Head Attention<a class="anchor-link" href="#The-Multi-Head-Attention"> </a></h3><p>Basically, the multi head attention is a <em>type</em> of an attention mechanism. It is a <em>concatenation</em> of another type of attention, the <em>scaled dot</em>. Both mechanisms works together as represented in the following image:</p>
+<p><img src="/personal_blog/images/copied_from_nb/images/attention_specific.png" alt="" title="(left) Scaled Dot-Product Attention followed by the Multi-Head Attention which consists of several attention layers running in parallel. Source: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/">
+{% include note.html content='Scaled Dot-Product Attention is calculated by $softmax(\frac{QK^T}{\sqrt{n}})V$, where <em>K</em>, <em>V</em> and <em>Q</em> are the same as the ones described in a previous section whereas <em>n</em> represents the number of elements in the set. ' %}
+Here, <em>h</em>, or the number o attention heads (or layers) is equal to $12$ in the case of $\text{BERT}_\text{base}$ and $16$ in the case of  $\text{BERT}_\text{large}$</p>
 
 </div>
 </div>
@@ -441,9 +400,9 @@ layers, produce outputs of dimension $d_{model} = 512$ {% fn 5 %}.</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Embedding-Representation">Embedding Representation<a class="anchor-link" href="#Embedding-Representation"> </a></h2><p>The authors would like to make BERT to perform well in different downstream tasks such as <em>binary and multi lablel classification</em>; <em>language modeling</em>; <em>question and answering</em>; <em>named entity recognition</em>; <em>etc</em>. Therefore, they said the following:</p>
 <blockquote><p>our input representation is able to unambiguously represent both a single sentence and a pair of sentences
-(e.g., h Question, Answeri) in one token sequence. Throughout this work, a “sentence” can be an arbitrary span of contiguous text, rather than an actual linguistic sentence. A “sequence” refers to the input token sequence to BERT, which may be a single sentence or two sentences packed together</p>
+(e.g., h Question, Answer) in one token sequence. Throughout this work, a “sentence” can be an arbitrary span of contiguous text, rather than an actual linguistic sentence. A “sequence” refers to the input token sequence to BERT, which may be a single sentence or two sentences packed together</p>
 </blockquote>
-<p>In order to perform and create the sentence embeddings, <a href="https://arxiv.org/abs/1609.08144">WordPiece tokenize is applied</a>. Then, besides adding [CLS] token, pairs of sentence (e.g. sentence <em>A</em> and <em>B</em>) are concatenated into a single sentence, being separated with a special token [SEP] (e.g. <em>A</em> [SEP] <em>B</em>). Then, a learned embedding <a href="#Next-Sentence-Prediction">explained in NSP section</a> that indicates if the token becomes to either A or B is also add to the token representation.
+<p>In order to perform and create the sentence embeddings, <a href="https://arxiv.org/abs/1609.08144">WordPiece tokenize is applied</a>. Then, besides adding [CLS] token, pairs of sentence (e.g. sentence <em>A</em> and <em>B</em>) are concatenated into a single sentence, being separated with a special token [SEP] (e.g. <em>A</em> [SEP] <em>B</em>).
 Then:</p>
 <blockquote><p>For a given token, its input representation is constructed by summing the corresponding token, segment, and position embeddings.</p>
 </blockquote>
@@ -460,7 +419,7 @@ Then:</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="BERT-Pre-Training">BERT Pre Training<a class="anchor-link" href="#BERT-Pre-Training"> </a></h1><p>The first part of BERT is a pre Training procedure that involved two objective functions</p>
+<h1 id="BERT-Pre-Training">BERT Pre Training<a class="anchor-link" href="#BERT-Pre-Training"> </a></h1><p>The first part of BERT is a pre Training procedure that involved <strong>two</strong> objective functions</p>
 <h2 id="Masked-Language-Model-(MLM)">Masked Language Model (MLM)<a class="anchor-link" href="#Masked-Language-Model-(MLM)"> </a></h2><p>As we are feeding the whole sentence into the model, it is possible to say that the model is bidirectional and hence as we are trying to predict the next word in a sentence, it would has access to it! Then, the idea behind this task is pretty simple. We can directly quote from the <a href="https://arxiv.org/pdf/1810.04805.pdf">paper</a>:</p>
 <blockquote><p>Unfortunately, standard conditional language models can only be trained left-to-right or right-to-left, since bidirectional conditioning would allow each word to indirectly “see itself”, and the model could trivially
 predict the target word in a multi-layered context.</p>

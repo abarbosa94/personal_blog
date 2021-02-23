@@ -28,7 +28,7 @@ layout: notebook
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Drilling-down-Multiple-Choice-downstream-task">Drilling down Multiple Choice downstream task<a class="anchor-link" href="#Drilling-down-Multiple-Choice-downstream-task"> </a></h1><p>{% include note.html content='I have learned how to use bibtex citations with fastpages! Therefore, all my next post are going to follow these kind of formatting whenever possible. If you are interested, check <a href="https://drscotthawley.github.io/devblog4/2020/07/01/Citations-Via-Bibtex.html">this</a> out.' %}
-When I started studying Language Models, I remember when I've found the following image from GPT paper {% cite Radford2018ImprovingLU %} :</p>
+When I started studying Language Models, I remember when I've found the following image from Open AI transformer paper {% cite Radford2018ImprovingLU %} :</p>
 
 </div>
 </div>
@@ -191,7 +191,7 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include important.html content='Notice that if we have a dataset such as SquaD where each question comes with a context, we could append this context to either the question text or the option text and we would then have the tuple cited by <a href="https://www.cs.ubc.ca/~amuham01/LING530/papers/radford2018improving.pdf">GPT paper</a>' %}
+<p>{% include important.html content='Notice that if we have a dataset such as SquaD where each question comes with a context, we could append this context to either the question text or the option text and we would then have the tuple cited by <a href="https://www.cs.ubc.ca/~amuham01/LING530/papers/radford2018improving.pdf">Open AI transformer paper</a>' %}
 The output is a linear layer which would still be trained through a Cross Entropy loss. Then, as stated by the documentation, we still need to apply softmax to the logits</p>
 
 </div>
@@ -277,7 +277,7 @@ The output is a linear layer which would still be trained through a Cross Entrop
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h1><p>Congratulations! Adding up with the <a href="https://abarbosa94.github.io/personal_blog/masters/nlp/2020/09/19/Distilling-BERT.html">first part</a>, you have learned the end-to-end BERT Flow :)</p>
+<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h1><p>Congratulations! Adding up with the <a href="https://abarbosa94.github.io/personal_blog/masters/nlp/knowledge-distill/2020/09/19/Distilling-BERT.html">first part</a>, you have learned the end-to-end BERT Flow :)</p>
 
 </div>
 </div>
