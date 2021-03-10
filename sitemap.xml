@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://abarbosa94.github.io/personal_blog/masters/nlp/knowledge-distill/2020/09/19/Distilling-BERT-pt.html</loc>
+<loc>https://www.ime.usp.br/~andre.barbosa/masters/nlp/knowledge-distill/2020/09/19/Distilling-BERT-pt.html</loc>
 <lastmod>2020-09-19T00:00:00-05:00</lastmod>
 </url>
 <url>
-<loc>https://abarbosa94.github.io/personal_blog/masters/nlp/knowledge-distill/2020/09/19/Distilling-BERT.html</loc>
+<loc>https://www.ime.usp.br/~andre.barbosa/masters/nlp/knowledge-distill/2020/09/19/Distilling-BERT.html</loc>
 <lastmod>2020-09-19T00:00:00-05:00</lastmod>
 </url>
 <url>
-<loc>https://abarbosa94.github.io/personal_blog/masters/nlp/knowledge-distill/2021/02/21/Downstream-BERT-QA.html</loc>
+<loc>https://www.ime.usp.br/~andre.barbosa/masters/nlp/knowledge-distill/2021/02/21/Downstream-BERT-QA.html</loc>
 <lastmod>2021-02-21T00:00:00-06:00</lastmod>
 </url>
 <url>
-<loc>https://abarbosa94.github.io/personal_blog/about/</loc>
+<loc>https://www.ime.usp.br/~andre.barbosa/about/</loc>
 </url>
 <url>
-<loc>https://abarbosa94.github.io/personal_blog/</loc>
+<loc>https://www.ime.usp.br/~andre.barbosa/</loc>
 </url>
 <url>
-<loc>https://abarbosa94.github.io/personal_blog/search/</loc>
+<loc>https://www.ime.usp.br/~andre.barbosa/search/</loc>
 </url>
 <url>
-<loc>https://abarbosa94.github.io/personal_blog/categories/</loc>
+<loc>https://www.ime.usp.br/~andre.barbosa/categories/</loc>
 </url>
 </urlset>
