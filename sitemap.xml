@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://abarbosa94.github.io/personal_blog/posts/2020-09-19-distilling-bert.html</loc>
-    <lastmod>2023-06-24T13:44:43.234Z</lastmod>
-  </url>
-  <url>
-    <loc>https://abarbosa94.github.io/personal_blog/about.html</loc>
-    <lastmod>2023-06-24T13:44:41.204Z</lastmod>
+    <loc>https://abarbosa94.github.io/personal_blog/posts/2021-02-21-downstream-bert-qa.html</loc>
+    <lastmod>2023-06-24T14:28:46.274Z</lastmod>
   </url>
   <url>
     <loc>https://abarbosa94.github.io/personal_blog/index.html</loc>
-    <lastmod>2023-06-24T13:44:41.834Z</lastmod>
+    <lastmod>2023-06-24T14:28:44.654Z</lastmod>
   </url>
   <url>
-    <loc>https://abarbosa94.github.io/personal_blog/posts/2021-02-21-downstream-bert-qa.html</loc>
-    <lastmod>2023-06-24T13:44:43.694Z</lastmod>
+    <loc>https://abarbosa94.github.io/personal_blog/about.html</loc>
+    <lastmod>2023-06-24T14:28:44.134Z</lastmod>
+  </url>
+  <url>
+    <loc>https://abarbosa94.github.io/personal_blog/posts/2020-09-19-distilling-bert.html</loc>
+    <lastmod>2023-06-24T14:28:45.844Z</lastmod>
   </url>
 </urlset>
