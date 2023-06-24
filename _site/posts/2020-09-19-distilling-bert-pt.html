@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.427">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andre Barbosa">
+<meta name="dcterms.date" content="2020-09-19">
+<meta name="description" content="Um passo a passo sobre como ele funciona :)">
+
+<title>Andre Personal Blog :) - Destilando Pré Treinamento do BERT</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Andre Personal Blog :)</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Destilando Pré Treinamento do BERT</h1>
+                  <div>
+        <div class="description">
+          Um passo a passo sobre como ele funciona :)
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">masters</div>
+                <div class="quarto-category">nlp</div>
+                <div class="quarto-category">knowledge-distill</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Andre Barbosa </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 19, 2020</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#uma-rápida-revisão" id="toc-uma-rápida-revisão" class="nav-link active" data-scroll-target="#uma-rápida-revisão">Uma rápida revisão</a>
+  <ul class="collapse">
+  <li><a href="#o-que-são-word-embeddings" id="toc-o-que-são-word-embeddings" class="nav-link" data-scroll-target="#o-que-são-word-embeddings">O que são Word Embeddings</a></li>
+  <li><a href="#limitações-dos-word-embeddings" id="toc-limitações-dos-word-embeddings" class="nav-link" data-scroll-target="#limitações-dos-word-embeddings">Limitações dos Word Embeddings</a></li>
+  </ul></li>
+  <li><a href="#bert" id="toc-bert" class="nav-link" data-scroll-target="#bert">BERT</a>
+  <ul class="collapse">
+  <li><a href="#attention-é-tudo-o-que-você-precisa" id="toc-attention-é-tudo-o-que-você-precisa" class="nav-link" data-scroll-target="#attention-é-tudo-o-que-você-precisa">Attention é tudo o que você precisa</a>
+  <ul class="collapse">
+  <li><a href="#atenção" id="toc-atenção" class="nav-link" data-scroll-target="#atenção">Atenção?</a></li>
+  <li><a href="#armazenamento-key-value" id="toc-armazenamento-key-value" class="nav-link" data-scroll-target="#armazenamento-key-value">Armazenamento Key-Value</a></li>
+  <li><a href="#encoding-posicional" id="toc-encoding-posicional" class="nav-link" data-scroll-target="#encoding-posicional">Encoding Posicional</a></li>
+  </ul></li>
+  <li><a href="#o-modelo-bert" id="toc-o-modelo-bert" class="nav-link" data-scroll-target="#o-modelo-bert">O modelo BERT</a>
+  <ul class="collapse">
+  <li><a href="#the-multi-head-attention" id="toc-the-multi-head-attention" class="nav-link" data-scroll-target="#the-multi-head-attention">The Multi-Head Attention</a></li>
+  <li><a href="#conexões-residuais" id="toc-conexões-residuais" class="nav-link" data-scroll-target="#conexões-residuais">Conexões Residuais</a></li>
+  </ul></li>
+  <li><a href="#representação-dos-embeddings" id="toc-representação-dos-embeddings" class="nav-link" data-scroll-target="#representação-dos-embeddings">Representação dos Embeddings</a></li>
+  </ul></li>
+  <li><a href="#pré-treinamento-do-bert" id="toc-pré-treinamento-do-bert" class="nav-link" data-scroll-target="#pré-treinamento-do-bert">Pré Treinamento do BERT</a>
+  <ul class="collapse">
+  <li><a href="#modelo-de-linguagem-mascarado-mlm" id="toc-modelo-de-linguagem-mascarado-mlm" class="nav-link" data-scroll-target="#modelo-de-linguagem-mascarado-mlm">Modelo de Linguagem Mascarado (MLM)</a></li>
+  <li><a href="#predição-da-próxima-sentença-next-sentence-prediction--nsp" id="toc-predição-da-próxima-sentença-next-sentence-prediction--nsp" class="nav-link" data-scroll-target="#predição-da-próxima-sentença-next-sentence-prediction--nsp">Predição da Próxima Sentença (Next Sentence Prediction- NSP)</a></li>
+  </ul></li>
+  <li><a href="#resumão-de-tudo" id="toc-resumão-de-tudo" class="nav-link" data-scroll-target="#resumão-de-tudo">Resumão de tudo</a></li>
+  <li><a href="#na-prática" id="toc-na-prática" class="nav-link" data-scroll-target="#na-prática">Na prática</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#recursos-que-me-inspiraram" id="toc-recursos-que-me-inspiraram" class="nav-link" data-scroll-target="#recursos-que-me-inspiraram">Recursos que me inspiraram</a></li>
+  <li><a href="#reconhecimento" id="toc-reconhecimento" class="nav-link" data-scroll-target="#reconhecimento">Reconhecimento</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para uma versão em <strong>inglês</strong> confira <a href="https://abarbosa94.github.io/personal_blog/masters/nlp/knowledge-distill/2020/09/19/Distilling-BERT.html">aqui</a></p>
+</div>
+</div>
+<section id="uma-rápida-revisão" class="level1">
+<h1>Uma rápida revisão</h1>
+<p>Eu lembro algum dia de 2016, quando eu estava no início da kinha carreira, eu encontrei por acaso o <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">blog do Chirs McCormick sobre Word2Vec</a>. Honestamente, acredito que o <a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">artigo escrito pelo Tomas Mikolov</a> foi uma das indéias mais interessantes que eu já encontrei nessa minha jornada como cientista de dados {% fn 1 %} :)</p>
+<p>{{ ‘Fun Fact: O <a href="https://www.linkedin.com/in/tomas-mikolov-59831188/?originalSubdomain=cz">perfil do LinkedIn do Miklov</a> mostra que ele trabalhou na Microsoft, Google e Facebook; outro autor do W2V, <a href="http://www.cs.toronto.edu/~ilya/">Ilya Sutskever</a> teve oportunidades de trabalhar com os maiores pesquisadores da área moderna de IA, tais como <a href="https://www.cs.toronto.edu/~hinton/">Geoffrey Hinton</a> e <a href="https://www.andrewng.org/">Andrew Ng</a>. Além disso, ele é um dos fundadores da <a href="https://openai.com/">Open AI</a>!’ | fndetail: 1 }}</p>
+<section id="o-que-são-word-embeddings" class="level2">
+<h2 class="anchored" data-anchor-id="o-que-são-word-embeddings">O que são Word Embeddings</h2>
+<p>Segundo a documentação do <a href="https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html">Pytorch</a>, um <strong>Embedding</strong> pode ser definido da seguinte forma:</p>
+<blockquote class="blockquote">
+<p>Uma tabela de lookup formada por um <em>dicionário</em> de tamanho fixo.</p>
+</blockquote>
+<p>Podemos interpretar os embeddings como uma forma de converter <em>índices</em> em <em>vetores</em> de um tamanho específico. Logo, <strong>word embeddings</strong>, podem ser entendidos como palavras que são convertidas para inteiros e <strong>esses</strong> números servem de índices para diferentes linhas de uma matriz que representa o espaço vetorial.’</p>
+<p>Eu escrevi um código usando <a href="https://github.com/3b1b/manim">manim</a> que ilustra isso:</p>
+<p><img src="images/media/videos/scene/720p30/EmbeddingExample.gif" title="Nesse exemplo, a dimensão do embedding é NxM, em que N seria o tamanho do vocabulário (8) e M é 4." class="img-fluid"></p>
+<p>Podemos interpretar cada dimensão como um único neurônio de uma camada oculta, e, então, <strong>o tamanho desses embeddings podem ter seus números alterados</strong> a partir de uma rede neural. Essa é, basicamente, a ideia por trás de algoritmos como <a href="https://patents.google.com/patent/US9037464B1/en">Word2Vec</a> e <a href="https://fasttext.cc/">fastText</a> {% fn 2 %}</p>
+<p>Já existem algumas bibliotecas que já fornecem alguns vetores pré-treinados. Por exemplo, considere o <a href="https://spacy.io/models">código Spacy</a> abaixo:</p>
+<p>{{ ‘Eu não irei cobrir Word2Vec nesse blog post. Se você não tem familiaridade com isso, <a href="http://jalammar.github.io/illustrated-word2vec/">consulte aqui</a>; <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">aqui</a> e <a href="https://www.youtube.com/watch?v=ASn7ExxLZws">aqui</a>. Infelizmente, todos os links estão em inglês. Se você achar quiser que eu escreva um post sobre Word2Vec em português, me envie uma mensagem no meu <a href="https://www.linkedin.com/in/barbosaandre/">linkedin</a> :)’ | fndetail: 2 }}</p>
+<div class="cell" data-execution_count="11">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spacy</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>nlp <span class="op">=</span> spacy.load(<span class="st">"pt_core_news_sm"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Considere a sentença 'O rato roeu a roupa do rei de Roma!'"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> nlp(<span class="st">"O rato roeu a roupa do rei de Roma!"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> word <span class="kw">in</span> text:</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"'</span><span class="sc">{</span>word<span class="sc">.</span>text<span class="sc">}</span><span class="ss">' representação vetorial com tamanho </span><span class="sc">{</span>word<span class="sc">.</span>vector<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">. Seus primeiros 5 elementos são: </span><span class="sc">{</span>word<span class="sc">.</span>vector[:<span class="dv">5</span>]<span class="sc">.</span><span class="bu">round</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Considere a sentença 'O rato roeu a roupa do rei de Roma!'
+'O' representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 1.2   0.18 -0.97 -5.64 -4.65]
+'rato' representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 3.17  5.36  0.14 -1.27  3.09]
+'roeu' representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 1.17 -2.8   2.39 -0.33  0.4 ]
+'a' representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [-0.99  4.67  1.21 -3.48 -2.62]
+'roupa' representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 3.6   3.54 -0.66 -1.9   1.99]
+'do' representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [-3.28 -2.15 -1.62  4.33  0.55]
+'rei' representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 2.43  2.99 -2.72  2.31  5.31]
+'de' representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [-4.49 -1.73  2.27  7.9   3.35]
+'Roma' representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 4.87  0.42  1.91 -1.68  6.37]
+'!' representação vetorial com tamanho 96. Seus primeiros 5 elementos são: [ 0.61 -3.03 -1.37 -0.38 -2.72]</code></pre>
+</div>
+</div>
+<p>Essas palavras são representações que foram treinadas com base nos dados do <a href="https://github.com/explosion/spacy-models/releases/tag/en_core_web_md-3.0.0">Common Crawl usando o algoritmo GloVe</a>. Diferente do exemplo usado no começo deste blog, a palavra ‘!’ também teve uma representação vetorial.</p>
+<p>Para formar frases, podemos combinar embeddings de palavras de formas diferentes. Segundo a <a href="https://spacy.io/usage/vectors-similarity#_title">documentação do spacy</a>:</p>
+<blockquote class="blockquote">
+<p>Modelos que possuem vetores de palavras estão disponíveis pelo atributo Token.vector. Doc.vector e Span.vector, por padrão são representados pela <strong>média</strong> da representação de seus vetores.</p>
+</blockquote>
+<p>Logo, a frase que estamos usando como exemplo tem a seguinte representação vetorial:</p>
+<div class="cell" data-execution_count="3">
+<div class="cell-output cell-output-stdout">
+<pre><code>Os primeiros 5 valores de 'The quick brown fox jumps over the lazy dog!!': [-0.23  0.08 -0.03 -0.07 -0.02]</code></pre>
+</div>
+</div>
+</section>
+<section id="limitações-dos-word-embeddings" class="level2">
+<h2 class="anchored" data-anchor-id="limitações-dos-word-embeddings">Limitações dos Word Embeddings</h2>
+<p>Apesar de Word Embeddings trouxeram muitos benefícios na área de linguística computacional, eles possuem algumas limitações. Existe um fenômeno na linguística chamado <em>polissemia</em>. De acordo com o <a href="https://pt.wikipedia.org/wiki/Sem%C3%A2ntica">wikipedia</a>:</p>
+<blockquote class="blockquote">
+<p>É a propriedade que uma mesma palavra tem de apresentar vários significados. Exemplos: Ele ocupa um alto posto na empresa. / Abasteci meu carro no posto da esquina. / Os convites eram de graça. / Os fiéis agradecem a graça recebida.</p>
+</blockquote>
+<p>Considerando o exemplo acima, mesmo que as palavras tenham <strong>significados diferentes</strong> por conta do contexto, <strong>sua representação vetorial é a mesma</strong></p>
+<div class="cell" data-execution_count="12">
+<div class="cell-output cell-output-stdout">
+<pre><code>Primeiros cinco valores da palavra 'posto': [ 2.23  0.89  1.63  1.8  -0.12]</code></pre>
+</div>
+</div>
+<p>Se pegarmos duas frases: <code>Ele ocupa um alto posto na empresa</code> e <code>Abasteci meu carro no posto da esquina</code>, então nós teremos os seguintes vetores:</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>text1 <span class="op">=</span> nlp(<span class="st">"Ele ocupa um alto posto na empresa"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>text2 <span class="op">=</span> nlp(<span class="st">"Abasteci meu carro no posto do alto do morro"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Os primeiros 5 valores do vetor da sentença '</span><span class="sc">{</span>text1<span class="sc">}</span><span class="ss"> ': </span><span class="sc">{</span>text1<span class="sc">.</span>vector[:<span class="dv">5</span>]<span class="sc">.</span><span class="bu">round</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Os primeiros 5 valores do vetor da sentença </span><span class="sc">{</span>text2<span class="sc">}</span><span class="ss"> ': </span><span class="sc">{</span>text2<span class="sc">.</span>vector[:<span class="dv">5</span>]<span class="sc">.</span><span class="bu">round</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Os primeiros 5 valores do vetor da sentença 'Ele ocupa um alto posto na empresa ': [ 0.55  1.04  0.21 -0.36  0.51]
+Os primeiros 5 valores do vetor da sentença Abasteci meu carro no posto do alto do morro ': [ 0.73  0.82 -0.78  2.11  0.61]</code></pre>
+</div>
+</div>
+<p>Ao calcular a <strong>similaridade de cossenos</strong> entre a média destes vetores:</p>
+<div class="cell" data-execution_count="20">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Similaridade:</span><span class="ch">\n</span><span class="ss"> '</span><span class="sc">{</span>text1<span class="sc">}</span><span class="ss">' and '</span><span class="sc">{</span>text2<span class="sc">}</span><span class="ss">': "</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>cosine_similarity(text1.vector.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>),text2.vector.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))[<span class="dv">0</span>][<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Similaridade:
+ 'Ele ocupa um alto posto na empresa' and 'Abasteci meu carro no posto do alto do morro': 0.5666443705558777</code></pre>
+</div>
+</div>
+<p>Isso indica que ambos os vetores tem alguma similares. Contudo, a razão disso foi o uso de palavras parecidas, uma vez que o significado das sentenças é <strong>completamente</strong> diferente.</p>
+<p>Isso é algo que o BERT tenta resolver.{% fn 3 %}</p>
+<p>{{ ‘Existem alguns percursores do BERT como o <a href="https://allennlp.org/elmo">ELMo</a>; <a href="https://arxiv.org/abs/1801.06146">ULMFit</a> e <a href="https://openai.com/blog/language-unsupervised/">Open AI Transformer</a> que eu não irei cobrir aqui. Por favor, caso você queira, confira esse post <a href="http://jalammar.github.io/illustrated-bert/">aqui</a> para saber mais’ | fndetail: 3 }}</p>
+</section>
+</section>
+<section id="bert" class="level1">
+<h1>BERT</h1>
+<section id="attention-é-tudo-o-que-você-precisa" class="level2">
+<h2 class="anchored" data-anchor-id="attention-é-tudo-o-que-você-precisa">Attention é tudo o que você precisa</h2>
+<p>O artigo <a href="https://arxiv.org/abs/1706.03762">Attention is all you need</a> introduziu a chamada arquitetura Transformer, que pode ser resumida pela imagem abaixo:</p>
+<p><img src="images/transformer.png" title="A arquitetura Transformer. Fonte: https://arxiv.org/abs/1706.03762" class="img-fluid"></p>
+<p>A principal motivação por trás desse paper é que arquiteturas baseadas em <em>RNN</em> tem um custo computacional de memória caro. A proposta por trás dos Transformers, então, é que resultados similareas à uma <em>RNN</em> poderiam ser obtidos de uma forma muito mais eficiente aplicas, <strong>apenas</strong>, mecanismos de atenção (e evitando arquiteturas até então conhecidas, como <em>CNN</em> ou <em>RNN</em>) !{% fn 4 %} Apesar do fato de que a proposta original em torno dos Transformers é que eles resolveriam problemas de tradução, percebeu-se que apenas algumas variações em seu funcionamento seriam capazes de atingir resultados <strong>incríveis</strong> em outras áreas. Essa é, basicamente, a principal motivação por trás do modelo <strong>BERT</strong>!</p>
+<p>{{ ‘<a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html">O grupo de NLP de Harvard</a> escreveu um blog post muito bom que explica o passo a passo desse paper, além de apresentar uma implementação do mesmo em pytorch. Se você tiver interesse de entender essa arquiteutra com mais detalhes, eu recomendo dar uma lida!’ | fndetail: 4 }}</p>
+<section id="atenção" class="level3">
+<h3 class="anchored" data-anchor-id="atenção">Atenção?</h3>
+<p>Segundo a aula de <a href="https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-3/">Transformer e Atenção do curso de Fundamentos de Deep Learning da NYU</a>:</p>
+<blockquote class="blockquote">
+<p>Transformers são compostos por módulos de atenção, os quais podem ser entendidos como um mapeamento entre conjuntos (não sequências). Em outras palavras, nós não precisamos nos preocupar entre a relação de <strong>ordenação</strong> entre os valores de entrada e saída.</p>
+</blockquote>
+<p>Ao analisarmos os mecanismos de atenção da arquitetura transformer, tanto o <em>Multi-Head Attention</em> quanto <em>Multi-Head Masked Attention</em> possuem 3 <em>Arrow Heads</em>. Cada uma dessas cabeças tem a seguinte representação:</p>
+<ul>
+<li><em>Q</em> Significa o vetor da <strong>query</strong> , com uma dimensão <span class="math inline">\(d_k\)</span></li>
+<li><em>K</em> Significa o vetor da <strong>chave</strong> (key), o qual também tem <span class="math inline">\(d_k\)</span></li>
+<li><em>V</em> Significa o vetor de <strong>value</strong>, com uma dimensão <span class="math inline">\(d_v\)</span></li>
+</ul>
+<p>O par <strong>KV</strong>, no caso, são os inputs da rede, enquanto o <em>Q</em> é a saída de uma camada específica.</p>
+</section>
+<section id="armazenamento-key-value" class="level3">
+<h3 class="anchored" data-anchor-id="armazenamento-key-value">Armazenamento Key-Value</h3>
+<p>Ainda de acordo com uma das aulas do curso<a href="https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-3/">Fundamentos de Deep Learning da NYU</a>:</p>
+<blockquote class="blockquote">
+<p>O armazenamento chave-valor (<em>key-value</em>) é um paradigma desenvolvido para armazenar (saving), recuperar (querying), e gerenciar arrays associativos (dictionaries/hash tables)</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Por exemplo, considere que queremos fazer uma receita de <em>lasanha</em>. Nós temos a receita em um livro e , para encontrala, procuramos pela palavra <em>lasanha</em>, que seria a nossa <strong>query</strong>. Essa query é comparada contra todas as outras <strong>chaves</strong> possíveis. Estas, por sua vez, poderiam representar os títulos de todas as receitas no livro. Então, podemos checar aplicar um matching score entre todas as <strong>chaves</strong> em relação à <strong>query</strong>. Caso a saída desse score seja o argmax, podemos retornar apenas a receita (<strong>value</strong>) com o valor máximo. Se for a softmax, podemos retornar uma distribuição de probabilidades e, então, descobrir as receitas mais similares com a query ou as menos similares.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Eu decidi não cobrir os conceitos de atenção em grandes detalhes. Para quem quiser saber mais, eu fortemente recomendo o curso da NYU de Fundamentos de Deep Learning que eu já citei acima.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>De uma maneira genérica, um mecanismo de atenção pode ser entendido, basicamente, como uma medida de correção entre dois conjuntos de palavras. Para quem quer, realmente, estudar o assunto em profundidade, esse <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">blog</a> é excelente.</p>
+</div>
+</div>
+</section>
+<section id="encoding-posicional" class="level3">
+<h3 class="anchored" data-anchor-id="encoding-posicional">Encoding Posicional</h3>
+<p><a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html#prelims">Eu retirei essa sessão por parte do blog annotated transformer</a>, onde é possível encontrar uma implementação em pytorch. Na verdade, o quote abaixo é retirado diretamente do paper <a href="https://arxiv.org/pdf/1706.03762.pdf">Attention is all you need</a>:</p>
+<blockquote class="blockquote">
+<p>Uma vez que nosso modelo não contém recorrência ou convolução, para fazer com que o modelo aprenda alguma noção de sequência, nós precisamos injetar alguma informação sobre a posição absoluta ou relativa sobre as palavras (tokens) de uma certa sequência. Esses “encoding posicionais” são somados aos embeddings de entrada tanto na pilha de encoder, quanto na pilha de decoder. Por conta disso, o “encoding posicional” tem a mesma dimensão <span class="math inline">\(d_{model}\)</span> que os embeddings (para que, então, eles possam ser somados).</p>
+</blockquote>
+<p><img src="images/positional_encoding.png" title="Um exemplo de um embedding posicional que gera ondas senóides com base no tamanho. Note que cada dimensão gera uma senóide com uma frequência diferente. Fonte: http://nlp.seas.harvard.edu/2018/04/03/attention.html" class="img-fluid"></p>
+</section>
+</section>
+<section id="o-modelo-bert" class="level2">
+<h2 class="anchored" data-anchor-id="o-modelo-bert">O modelo BERT</h2>
+<p>O modelo BERT é, na prática, um modelo <em>encoder</em>, derivado da arquitetura transformer. Considerando os modelos treinados do <a href="https://arxiv.org/pdf/1810.04805.pdf">paper</a>, o modelo <strong>base</strong> consiste de 12 camadas <em>encoder</em> empilhados, enquanto o modelo <strong>large</strong> é composto de 24 camadas <em>encoder</em> empilhadas.</p>
+<p>De acordo com o paper <a href="https://arxiv.org/pdf/1706.03762.pdf">Attention is all you need paper</a>:</p>
+<blockquote class="blockquote">
+<p>O encoder é composto por uma pilha de <span class="math inline">\(N = 6\)</span> camadas. Cada camada é formada por <strong>dois sub-camada</strong>. A primeira sub-camada é um mecanismo <strong>multi-head self-attention</strong>, enquanto a segunda é uma rede <strong>fully connected feed-forward position wise </strong>. Nós aplicamos uma <a href="https://arxiv.org/abs/1512.03385">residual connection</a> ao redor de cada uma das duas sub-camadas, seguido de uma <a href="https://arxiv.org/abs/1607.06450">camada de normalização</a>.</p>
+</blockquote>
+<p><img src="images/sublayers.jpg" title="The encoder layer. Source: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/" class="img-fluid"></p>
+<section id="the-multi-head-attention" class="level3">
+<h3 class="anchored" data-anchor-id="the-multi-head-attention">The Multi-Head Attention</h3>
+<p>Basicamente, o mecanismo de atençção multi head é um <em>tipo</em> de mecanismo de atenção. Ele formado pela <em>concatenação</em> de outro mecanosmo, o <em>produto interno</em> (scaled dot). A representação de ambos mecanismos se dá pela imagem abaixo:</p>
+<p><img src="images/attention_specific.png" title="(escerda) Atenção Scaled Dot-Product seguida da atenção Multi-Head, que consistem em uma sére de camadas de atenção rodando em paralelo. Fonte: https://atcold.github.io/pytorch-Deep-Learning/en/week12/12-1/" class="img-fluid"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A forma de calcular a atenção Scaled Dot-Product é dada por <span class="math inline">\(softmax(\frac{QK^T}{\sqrt{n}})V\)</span>, em que <em>K</em>, <em>V</em> and <em>Q</em> são os mesmos que os descritos na sessão antetior, enquanto <em>n</em> representa o número de elementos dentro do conjunto.</p>
+</div>
+</div>
+<p><em>h</em>, ou o número de camadas de atenção é igual a <span class="math inline">\(12\)</span> no caso do <span class="math inline">\(\text{BERT}_\text{base}\)</span>, e <span class="math inline">\(16\)</span> no caso do <span class="math inline">\(\text{BERT}_\text{large}\)</span></p>
+</section>
+<section id="conexões-residuais" class="level3">
+<h3 class="anchored" data-anchor-id="conexões-residuais">Conexões Residuais</h3>
+<p>Cada subcamada da pilha de encoder contém uma conexão resiudal (a flecha curvada à esquerda) adicionada à saída da subcamada anterior à camada de normalização. A <a href="https://arxiv.org/pdf/1512.03385.pdf">idea de Conexões Residuais</a> vem do campo de visão computacional e, na verdade, é uma técnica que pode ser resumida pela seguinte imagem:</p>
+<p><img src="images/residual_connection.png" title="Residual Connection example. Source (https://arxiv.org/pdf/1512.03385.pdf)" class="img-fluid"></p>
+<p>Considerando a arquitetura de pilha Encoder, cada <span class="math inline">\(\mathcal{F}(x)\)</span> significa ou a atenção <em>Multi-Head</em> ou a camada <em>Feed Forward</em>. Logo, citando o paper:</p>
+<blockquote class="blockquote">
+<p>Ou seja, a <strong>saída de cada sub camada é LayerNorm(x + Sublayer(x))</strong>, onde cada Sublayer(x) é a função implementada pela subcamada em si. Para <em>facilitar essas conexões individuais</em>, todas as sub-camadas do modelo, assim como as camadas de embedding, produzem saídas de dimenção <span class="math inline">\(d_{model} = 512\)</span> {% fn 5 %}.</p>
+</blockquote>
+<p>{{ ‘No caso do <a href="https://arxiv.org/pdf/1810.04805.pdf">BERT</a>, tenha em mente que <span class="math inline">\(N\)</span> pode ser <span class="math inline">\(12\)</span> (BERT<sub>base</sub>) ou <span class="math inline">\(24\)</span> ((BERT<sub>large</sub>) e <em>d<sub>model</sub></em> é 768 para o BERT base e 1024 para o BERT large’ | fndetail: 5 }}</p>
+<p>Mas o que, de fato, está sendo encodado?</p>
+</section>
+</section>
+<section id="representação-dos-embeddings" class="level2">
+<h2 class="anchored" data-anchor-id="representação-dos-embeddings">Representação dos Embeddings</h2>
+<p>Quando o paper foi escrito, os autores tinham em mente que o BERT deveria performar bem em diferentes tarefas, tais como binary e multi lablel classification_; <em>language modeling</em>; <em>question and answering</em>; <em>named entity recognition</em>; <em>etc</em>. Fazendo a paráfrase do original:</p>
+<blockquote class="blockquote">
+<p>Nossa representação de entrada tem que, de maneira desambiguável, representar tanto uma sentença única, quanto um par de sentenças em uma única sequência de tokens. Diferente de uma sentença na linguística tradicional, no BERT, uma “sentença” pode ser um span arbitrário de texto contínuo. Uma “sequência” representa a sequência de tokens de entrada no BERT, o que pode ser uma sentença única ou duas sentenças agrupadas.</p>
+</blockquote>
+<p>Para performar e criar esses embeddings de sentenças, utilizou-se o <a href="https://arxiv.org/abs/1609.08144">WordPiece</a>. Então, além de adicionar o [CLS] token, pares de sentença (e.g.&nbsp;sentence <em>A</em> and <em>B</em>) são concatenados em uma sentença única, sendo separados por um token especial [SEP] (e.g.&nbsp;<em>A</em> [SEP] <em>B</em>).</p>
+<p>Então:</p>
+<blockquote class="blockquote">
+<p>Para um dado token, sua representação é construída ao somar o token respectivo, o segmento (A ou B) e os positional embeddings.</p>
+</blockquote>
+<p><img src="images/token_embeddings.png" title="BERT input representation. Source: https://arxiv.org/pdf/1810.04805.pdf" class="img-fluid"></p>
+</section>
+</section>
+<section id="pré-treinamento-do-bert" class="level1">
+<h1>Pré Treinamento do BERT</h1>
+<p>A primeira parte do BERT é um processo de pé treinamento que tem <strong>duas</strong> funções objetivo</p>
+<section id="modelo-de-linguagem-mascarado-mlm" class="level2">
+<h2 class="anchored" data-anchor-id="modelo-de-linguagem-mascarado-mlm">Modelo de Linguagem Mascarado (MLM)</h2>
+<p>Conforme estamos alimentando o modelo com sentenças e considerando que estamos treinando um modelo de linguagem (isto é, queremos prever a palavra seguinte dado as palavras anteriores), como o BERT é bidirecional, isso acaba sendo problemático. A solução, proposta por essa <em>loss function</em> é relativamente simples. Para fraseando o <a href="https://arxiv.org/pdf/1810.04805.pdf">paper</a>:</p>
+<blockquote class="blockquote">
+<p>Infelizmente, modelos de linguagem convencionais são apenas treinados considerando como input sentenças da esquerda para direita ou direita para esquerda, já que condicionalidade bidirecional permitiria que cada palavra “tivesse acesso a ela mesma” e, logo, o modelo conseguiria fazer a previsão de uma maneira direta.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Para treinar uma representação bidirecional, nós mascaramos, de forma aleatória, uma certa porcentagem da entrada e prevismos estes tokens que forem ocultados. Nos referimos a esse processo como modelo de linguagem mascarado, apesar de que ele também recebe o nome de <em>cloze task</em> na <a href="https://journals.sagepub.com/doi/abs/10.1177/107769905303000401">literatura</a>.</p>
+</blockquote>
+<p>No caso do BERT, 15% de cada sentença é mascarada durante a etapa de treinamento.</p>
+<p><img src="images/mlm.png" title="MLM task. Taken from here: http://jalammar.github.io/illustrated-bert/" class="img-fluid"></p>
+</section>
+<section id="predição-da-próxima-sentença-next-sentence-prediction--nsp" class="level2">
+<h2 class="anchored" data-anchor-id="predição-da-próxima-sentença-next-sentence-prediction--nsp">Predição da Próxima Sentença (Next Sentence Prediction- NSP)</h2>
+<p>Para aprender relações entre pares de sentença (i.e.&nbsp;tarefas de perguntas e respostas), os autores precisaram pensar em algo além da modelagem de língua tradicional. Então:</p>
+<blockquote class="blockquote">
+<p>Para treinar um modelo que entenda relacionamento de sentenças, nós pre treinamos um modelo binarizado previsor de próxima sentença que poderia ser gerado de qualquer corpus monolingual. Especificamente, quando escolhemos sentenças A e B para cada exemplo de pré treino, 50% das vezes B é, de fato, a sentença seguinte de A (marcada como <code>IsNext</code>) e 50% das vezes é uma sequência aleatória (marcada como <code>NotNext</code>).</p>
+</blockquote>
+<p>Ambas funções objetivo (MLM e NSP) são usadas para o pré treinamento do BERT :)</p>
+<p><img src="images/nsp.png" title="Next Sentence Preiction. Fonte: http://jalammar.github.io/illustrated-bert/" class="img-fluid"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <em>loss</em> de treinamento é a soma das médias da MLM e NSP</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Você deve ter notado que, durante o treinamento, não é necessário o uso de <em>labels</em>, já que derivamos <em>labels</em> a partir do input. Logo, o modelo de Pré Treinamento do BERT é considerado <em>self-surpervised</em>!</p>
+</div>
+</div>
+</section>
+</section>
+<section id="resumão-de-tudo" class="level1">
+<h1>Resumão de tudo</h1>
+<p>Como estamos lidando com embeddings de <strong>sentenças</strong> (não <strong>palavras</strong>), precisamos de uma forma de fazer o encoding desse input da maneira certa. Vamos ver como o BERT faz:</p>
+<ul>
+<li>Primeiro recebemos os tokens de texto como entrada</li>
+<li>Aplicamos o WordPiece Tokenizer</li>
+<li>Essa entrada entra na pilha de Encoder</li>
+<li>Treinamos a rede (Pre-Training step)</li>
+<li>Para os familiarizados com redes convolucionais, podemos dizer que o embedding do token [CLS] funciona como uma representação “pooled” (<a href="https://arxiv.org/pdf/2002.08909.pdf">ref</a>) da sentença e, logo, pode ser usada como um embedding <strong>contextual</strong>. No caso, ela serve de entrada para uma rede neural para resolver problemas de classificação!</li>
+<li>Dependendo da tarefa de <em>Fine tuning</em>, é possível usar os embeddings de um token diferente do CLS</li>
+</ul>
+<blockquote class="blockquote">
+<p>Important: Se desconsiderarmos a tarefa de fine tuning, o vetor CLS não tem uma representação muito grande, uma vez que ele foi treinado por meio da <em>loss</em> NSP (<a href="https://arxiv.org/pdf/1810.04805.pdf">ref</a>)</p>
+</blockquote>
+<p>Eu tentei resumir o processo todo com o gif abaixo</p>
+<p><img src="images/media/videos/scene/720p30/TransformerEncoderExample.gif" title="Entire Forward passing in BERT" class="img-fluid"></p>
+</section>
+<section id="na-prática" class="level1">
+<h1>Na prática</h1>
+<p>Para mostrar o embedding de sentenças do BERT funcionando, eu irei usar a biblioteca <a href="https://huggingface.co/transformers/">Hugging Face’s transformer</a>. Aqui, uma vez que o <strong>Bert Model para Modelos de Linguagem</strong> já foi treinado, Eu usarei o BERT sem nenhuma cabeça (i.g., <code>LanguageModeling head</code> or <code>SentenceClassification head</code>) na ponta!</p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> BertModel,BertTokenizer, BertForPreTraining</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> BertTokenizer.from_pretrained(<span class="st">"bert-base-multilingual-uncased"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BertModel.from_pretrained(<span class="st">"bert-base-multilingual-uncased"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading: 100%|██████████| 872k/872k [00:01&lt;00:00, 699kB/s]
+Downloading: 100%|██████████| 625/625 [00:00&lt;00:00, 153kB/s]
+Downloading: 100%|██████████| 672M/672M [03:07&lt;00:00, 3.58MB/s]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sequence_0 <span class="op">=</span> <span class="st">"Ele ocupa um alto posto na empresa"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sequence_1 <span class="op">=</span> <span class="st">"Abasteci meu carro no posto do alto do morro"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="4">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sequence_0_w2id <span class="op">=</span> tokenizer.encode(sequence_0) <span class="co"># we need to map words to id's :)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sequence_1_w2id <span class="op">=</span> tokenizer.encode(sequence_1)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mapeamento de sequencia 0 word2Id: </span><span class="sc">{</span>sequence_0_w2id<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mapeamento de sequence 1 word2Id: </span><span class="sc">{</span>sequence_1_w2id<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mapeamento de sequencia 0 word2Id: [101, 12002, 28905, 10316, 13248, 14645, 10135, 14443, 102]
+Mapeamento de sequence 1 word2Id: [101, 51448, 11176, 10532, 44780, 43562, 10181, 14645, 10154, 13248, 10154, 43522, 102]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sequence_0_embeddings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>tensor([[  101, 12002, 28905, 10316, 13248, 14645, 10135, 14443,   102]])</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sequence_0_embeddings <span class="op">=</span> torch.tensor(sequence_0_w2id).unsqueeze(<span class="dv">0</span>)  <span class="co"># Batch size 1</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sequence_0_embeddings <span class="op">=</span> model(sequence_0_embeddings)[<span class="dv">0</span>].detach().numpy()</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>sequence_1_embeddings <span class="op">=</span> torch.tensor(sequence_1_w2id).unsqueeze(<span class="dv">0</span>)  <span class="co"># Batch size 1</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>sequence_1_embeddings <span class="op">=</span> model(sequence_1_embeddings)[<span class="dv">0</span>].detach().numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sequence_0_embeddings.shape, sequence_1_embeddings.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>((1, 9, 768), (1, 13, 768))</code></pre>
+</div>
+</div>
+<p>Podemos remover a primeira sentença, já que ela representa o tamanho do batch</p>
+<div class="cell" data-execution_count="11">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sequence_0_embeddings<span class="op">=</span>sequence_0_embeddings[<span class="dv">0</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sequence_1_embeddings<span class="op">=</span>sequence_1_embeddings[<span class="dv">0</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sequence_0_embeddings.shape, sequence_1_embeddings.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>((9, 768), (13, 768))</code></pre>
+</div>
+</div>
+<p>Podemos ver que esse modelo gera um embedding para cada palavra das frases mais dois: um para o token <code>CLS</code> e outro para o token <code>SEP</code></p>
+<p>Agora, vamos calcular a similaridade entre o token CLS e a média dos tokens que compõe a frase:</p>
+<div class="cell" data-execution_count="15">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>CLS_TOKEN_0 <span class="op">=</span> sequence_0_embeddings[<span class="dv">0</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>CLS_TOKEN_WORDS_0 <span class="op">=</span> np.mean(sequence_0_embeddings[[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Similaridade de Cosseno entre o token CLS e a média dos tokens de</span><span class="ch">\n</span><span class="ss">'</span><span class="sc">{</span>sequence_0<span class="sc">}</span><span class="ss">'"</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f" tokens: </span><span class="sc">{</span>cosine_similarity(CLS_TOKEN_0.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>), CLS_TOKEN_WORDS_0.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))[<span class="dv">0</span>][<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Similaridade de Cosseno entre o token CLS e a média dos tokens de
+'Ele ocupa um alto posto na empresa' tokens: -0.04759013652801514</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="16">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>CLS_TOKEN_1 <span class="op">=</span> sequence_1_embeddings[<span class="dv">0</span>]</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>CLS_TOKEN_WORDS_1 <span class="op">=</span> np.mean(sequence_1_embeddings[[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Similaridade de Cosseno entre o token CLS e a média dos tokens de</span><span class="ch">\n</span><span class="ss">'</span><span class="sc">{</span>sequence_1<span class="sc">}</span><span class="ss">'"</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f" tokens: </span><span class="sc">{</span>cosine_similarity(CLS_TOKEN_1.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>), CLS_TOKEN_WORDS_1.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))[<span class="dv">0</span>][<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Similaridade de Cosseno entre o token CLS e a média dos tokens de
+'Abasteci meu carro no posto do alto do morro' tokens: 0.05738348513841629</code></pre>
+</div>
+</div>
+<p>Como dito pelo paper, o token CLS não tem significado nenhum aqui, Vamos, então, analisar a similaridade entre as médias dos tokens de ambas as sentenças</p>
+<div class="cell" data-execution_count="17">
+<div class="cell-output cell-output-stdout">
+<pre><code>Similaridade de Cosseno entre o token CLS e a média dos tokens de
+'Ele ocupa um alto posto na empresa'and 'Abasteci meu carro no posto do alto do morro' tokens :0.5034023523330688</code></pre>
+</div>
+</div>
+<p><strong>Como esperado</strong>, apesar de palavras parecidas terem sido usadas, ccomo o contexto entre palavras foram totalmente disferentes, a similaridade de embeddings aqui foi menor do que o de combinação de palavras, usado no começo do artigo.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>Parabéns! Você aprendeu os principais conceitos por trás do modelo BERT :) Se você tiver interesse em ver outros posts em português, por favor me envie uma mensagem!</p>
+<p>Além disso, se você quer ter mais detalhes de como usar o BERT de uma maneira prática, eu recomendo esse <a href="https://huggingface.co/blog/how-to-train">blog post</a>!</p>
+</section>
+<section id="recursos-que-me-inspiraram" class="level1">
+<h1>Recursos que me inspiraram</h1>
+<p>Além dos papers que eu usei para citar nesse post, eu também gostaria de enfatizar que os links abaixo serviram de uma inspiração absurda!</p>
+<ul>
+<li>http://jalammar.github.io/illustrated-bert/</li>
+<li>https://jalammar.github.io/illustrated-transformer/</li>
+<li>http://nlp.seas.harvard.edu/2018/04/03/attention.html</li>
+</ul>
+</section>
+<section id="reconhecimento" class="level1">
+<h1>Reconhecimento</h1>
+<p>Eu gostaria de agradecer, de verdade, alguns colegas que fizeram a revisão técnica desse blog :)</p>
+<p>Em ordem alfabética:</p>
+<ul>
+<li><a href="https://www.linkedin.com/in/alan-barzilay-58754855/">Alan Barzilay</a></li>
+<li><a href="https://www.linkedin.com/in/alvaro-marques-9a10aa131/">Alvaro Marques</a></li>
+<li><a href="https://www.linkedin.com/in/ighoelscher/">Igor Hoelscher</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
