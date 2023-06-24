@@ -1,21 +1,2 @@
-*.swp
-~*
-*~
-_site
-.sass-cache
-.jekyll-cache
-.jekyll-metadata
-vendor
-_notebooks/.ipynb_checkpoints
-# Local Netlify folder
-.netlify
-.tweet-cache
-__pycache__
-_notebooks/images/media/Tex/*
-_notebooks/images/media/texts/*
-_notebooks/images/media/videos/scene/480p15/*
-_notebooks/images/media/videos/scene/1080p60/*.mp4
-_notebooks/images/media/videos/scene/720p30/*.mp4
-_notebooks/images/media/videos/scene/1080p60/partial_movie_files/*
-_notebooks/images/media/videos/scene/720p30/partial_movie_files/*
-
+/.quarto/
+/_site/
