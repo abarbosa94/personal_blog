@@ -242,8 +242,7 @@ Note
 </div>
 <section id="a-quick-review" class="level1">
 <h1>A quick review</h1>
-<p>I remember someday of 2016 while I was starting my career as a Data Scientist when I’ve stumped into <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">Chirs McCormick blog about Word2Vec</a>. Honestly, I think that <a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">Tomas Mikolov paper</a> was one of the most elegant and simple idea that I have ever found so far {% fn 1 %} :)</p>
-<p>{{ ‘Fun Fact: Whereas nowadays <a href="https://www.linkedin.com/in/tomas-mikolov-59831188/?originalSubdomain=cz">Miklov LinkedIn profile</a> points out that he has worked for Microsoft, Google and Facebook; another of W2V authors, <a href="http://www.cs.toronto.edu/~ilya/">Ilya Sutskever</a> worked with some of the prestigious researchers in the recent AI area, such as <a href="https://www.cs.toronto.edu/~hinton/">Geoffrey Hinton</a> and <a href="https://www.andrewng.org/">Andrew Ng</a>. Moreover, he is one of the founders of <a href="https://openai.com/">Open AI</a>!’ | fndetail: 1 }}</p>
+<p>I remember someday of 2016 while I was starting my career as a Data Scientist when I’ve stumped into <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">Chirs McCormick blog about Word2Vec</a>. Honestly, I think that <a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">Tomas Mikolov paper</a> was one of the most elegant and simple idea that I have ever found so far<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> :)</p>
 <section id="what-are-word-embeddings" class="level2">
 <h2 class="anchored" data-anchor-id="what-are-word-embeddings">What are Word Embeddings</h2>
 <p>According to <a href="https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html">Pytorch documentation</a> an <strong>Embedding</strong> can be defined as the following:</p>
@@ -253,9 +252,8 @@ Note
 <p>Then, we can interpret embeddings as a simple way to convert <em>integers</em> into <em>vectors</em> of a given size. Then, for <strong>word embeddings</strong>, we can interpret simply as words that are encoded as integers, and then <em>these</em> integers serve as inputs for a vector space.’</p>
 <p>A have written some code with <a href="https://github.com/3b1b/manim">manim</a> to illustrate this process:</p>
 <p><img src="images/media/videos/scene/720p30/EmbeddingExample.gif" title="In this example, the embedding dimension is NxM, where N is the vocab size (8) and M is 4." class="img-fluid"></p>
-<p>We can then interpret each dimension as a single neuron of a hidden layer, and then <strong>these embedding numbers can be modified</strong> from a learning algorithm through a neural network. This is the main motivation behind Word Embeddings algorithms such as <a href="https://patents.google.com/patent/US9037464B1/en">Word2Vec</a> and <a href="https://fasttext.cc/">fastText</a> {% fn 2 %}</p>
+<p>We can then interpret each dimension as a single neuron of a hidden layer, and then <strong>these embedding numbers can be modified</strong> from a learning algorithm through a neural network. This is the main motivation behind Word Embeddings algorithms such as <a href="https://patents.google.com/patent/US9037464B1/en">Word2Vec</a> and <a href="https://fasttext.cc/">fastText</a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p>Nowadays, there are some libraries that provide already trained vectors based on a fixed and previously trained vocabulary. For instance, considerer the following <a href="https://spacy.io/models">Spacy</a> code:</p>
-<p>{{ ‘I am not going to cover word embeddings through this blog post. If you are not familiarized with them, I highly recommend <a href="http://jalammar.github.io/illustrated-word2vec/">this</a>; <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">this</a> and <a href="https://www.youtube.com/watch?v=ASn7ExxLZws">this</a> as potential resources :)’ | fndetail: 2 }}</p>
 <div class="cell" data-execution_count="1">
 <details>
 <summary>Code</summary>
@@ -655,7 +653,14 @@ Sequence 1 word2Id mapping: [101, 2016, 2097, 2131, 1996, 8974, 102]</code></pre
 
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Fun Fact: Whereas nowadays <a href="https://www.linkedin.com/in/tomas-mikolov-59831188/?originalSubdomain=cz">Miklov LinkedIn profile</a> points out that he has worked for Microsoft, Google and Facebook; another of W2V authors, <a href="http://www.cs.toronto.edu/~ilya/">Ilya Sutskever</a> worked with some of the prestigious researchers in the recent AI area, such as <a href="https://www.cs.toronto.edu/~hinton/">Geoffrey Hinton</a> and <a href="https://www.andrewng.org/">Andrew Ng</a>. Moreover, he is one of the founders of <a href="https://openai.com/">Open AI</a>!<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>I am not going to cover word embeddings through this blog post. If you are not familiarized with them, I highly recommend <a href="http://jalammar.github.io/illustrated-word2vec/">this</a>; <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">this</a> and <a href="https://www.youtube.com/watch?v=ASn7ExxLZws">this</a> as potential resources :)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
