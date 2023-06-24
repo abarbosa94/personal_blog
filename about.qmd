@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: profile.jpg
+image: myself.png
 about:
   template: jolla
   links:
@@ -16,4 +16,10 @@ about:
 
 ---
 
-About this blog
+Hi there! My name is André Barbosa and I'm currently a Master Student@[Institute of Mathemathics and Statistics](https://www.ime.usp.br/en/institute) as well as a Data Scientist@[QuintoAndar](https://www.quintoandar.com.br/), a real state company. My current reserch interests include the following:
+
+-Natural Language Processing
+-Causal Inference
+
+
+Fell free to follow me on social media and contact me :)
