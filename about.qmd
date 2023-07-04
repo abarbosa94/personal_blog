@@ -6,20 +6,21 @@ about:
   links:
     - icon: twitter
       text: Twitter
-      href: https://twitter.com
+      href: https://twitter.com/seu_bolino
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: https://www.linkedin.com/in/barbosaandre
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/abarbosa94
 
 ---
 
 Hi there! My name is André Barbosa and I'm currently a Master Student@[Institute of Mathemathics and Statistics](https://www.ime.usp.br/en/institute) as well as a Data Scientist@[QuintoAndar](https://www.quintoandar.com.br/), a real state company. My current reserch interests include the following:
 
--Natural Language Processing
--Causal Inference
+- Explainable AI
+- Natural Language Processing
+- Causal Inference
 
 
 Fell free to follow me on social media and contact me :)
