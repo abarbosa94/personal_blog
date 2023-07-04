@@ -7,9 +7,9 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/
-      - icon: twitter
-        href: https://twitter.com
+        href: https://github.com/abarbosa94
+      - icon: linkedin
+        href: https://www.linkedin.com/in/barbosaandre
 format:
   html:
     theme: cosmo
