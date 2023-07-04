@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andre Barbosa">
+<meta name="dcterms.date" content="2023-06-24">
+<meta name="description" content="An attempt to distill Anchors paper through code">
+
+<title>Andre Personal Blog :) - Distilling Anchors</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Andre Personal Blog :)</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/abarbosa94" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/barbosaandre" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Distilling Anchors</h1>
+                  <div>
+        <div class="description">
+          An attempt to distill Anchors paper through code
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">masters</div>
+                <div class="quarto-category">knowledge-distill</div>
+                <div class="quarto-category">xai</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Andre Barbosa </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 24, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#distilling-anchors-high-precision-model-agnostic-explanations" id="toc-distilling-anchors-high-precision-model-agnostic-explanations" class="nav-link active" data-scroll-target="#distilling-anchors-high-precision-model-agnostic-explanations">Distilling Anchors: High-Precision Model-Agnostic Explanations</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#necessary-jargon" id="toc-necessary-jargon" class="nav-link" data-scroll-target="#necessary-jargon">Necessary Jargon</a>
+  <ul class="collapse">
+  <li><a href="#predicate" id="toc-predicate" class="nav-link" data-scroll-target="#predicate">Predicate</a></li>
+  <li><a href="#rule" id="toc-rule" class="nav-link" data-scroll-target="#rule">Rule</a></li>
+  <li><a href="#anchor" id="toc-anchor" class="nav-link" data-scroll-target="#anchor">Anchor</a></li>
+  <li><a href="#precision" id="toc-precision" class="nav-link" data-scroll-target="#precision">Precision</a></li>
+  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage">Coverage</a></li>
+  </ul></li>
+  <li><a href="#going-formal" id="toc-going-formal" class="nav-link" data-scroll-target="#going-formal">Going Formal</a>
+  <ul class="collapse">
+  <li><a href="#computing-anchors" id="toc-computing-anchors" class="nav-link" data-scroll-target="#computing-anchors">Computing Anchors</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#anchor-algorithm" id="toc-anchor-algorithm" class="nav-link" data-scroll-target="#anchor-algorithm">Anchor Algorithm</a>
+  <ul class="collapse">
+  <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link" data-scroll-target="#the-dataset">The Dataset</a></li>
+  <li><a href="#identifying-candidates" id="toc-identifying-candidates" class="nav-link" data-scroll-target="#identifying-candidates">Identifying Candidates</a>
+  <ul class="collapse">
+  <li><a href="#show-me-the-code" id="toc-show-me-the-code" class="nav-link" data-scroll-target="#show-me-the-code">Show me the code!</a></li>
+  </ul></li>
+  <li><a href="#selecting-the-best-candidate" id="toc-selecting-the-best-candidate" class="nav-link" data-scroll-target="#selecting-the-best-candidate">Selecting the Best Candidate</a>
+  <ul class="collapse">
+  <li><a href="#differences-into-algorithm-approaches" id="toc-differences-into-algorithm-approaches" class="nav-link" data-scroll-target="#differences-into-algorithm-approaches">Differences into algorithm approaches</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#going-greedy" id="toc-going-greedy" class="nav-link" data-scroll-target="#going-greedy">Going greedy</a>
+  <ul class="collapse">
+  <li><a href="#issues-with-greedy-search" id="toc-issues-with-greedy-search" class="nav-link" data-scroll-target="#issues-with-greedy-search">Issues with Greedy Search</a></li>
+  </ul></li>
+  <li><a href="#beam-search" id="toc-beam-search" class="nav-link" data-scroll-target="#beam-search">Beam Search</a></li>
+  <li><a href="#show-me-the-real-example" id="toc-show-me-the-real-example" class="nav-link" data-scroll-target="#show-me-the-real-example">Show me the <del>real</del> example</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="distilling-anchors-high-precision-model-agnostic-explanations" class="level1">
+<h1>Distilling Anchors: High-Precision Model-Agnostic Explanations</h1>
+<p>Inspired by <a href="http://nlp.seas.harvard.edu/annotated-transformer/">The Annotated Transformer</a> blog post, which is an amazing educational resource, I decided to start this series of posts where I will try to drill down some papers that I’ve been reading :) The focus is to provide some dummy explanation, giving preference to use <code>code</code> and some cool vizualizations alongside with it!</p>
+<p>This is the first blog, where I’m going to explain in details the Anchor’s paper <span class="citation" data-cites="anchors">(<a href="#ref-anchors" role="doc-biblioref">Ribeiro, Singh, and Guestrin 2018</a>)</span> <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p><img src="images/annotated-anchor/anchor-introduction.jpeg" title="Anchor paper definition" class="img-fluid"></p>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>As a starting point, the authors from the paper claim that having a high level of human precision is super important when it comes to truly understanding a model’s prediction.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is important to endorse that <strong>human precision</strong> means that fraction of time where a <strong>human</strong> confidently predict the outcome of a model (thats not the same as <strong>precision from machine learning</strong> jargon)</p>
+</div>
+</div>
+<p>Building on that concept, anchors come into play. They offer high-precision rules that simplify the behavior of complex models, ensuring predictions with a high confidence level. Think of them as your trusty local guides (well, <em>anchors</em>), helping you navigate the complex lanes of your model’s prediction landscape.</p>
+<p>Local explanation methods like LIME <span class="citation" data-cites="LIMEPaper">(<a href="#ref-LIMEPaper" role="doc-biblioref">Ribeiro, Singh, and Guestrin 2016</a>)</span> are great, but they have their limitations. They represent the model’s local behavior linearly, which may not always capture the full picture (especially when extrapolating for instances). Here’s where anchors shine.</p>
+<p>In essence, an anchor explanation is a set of ‘if-then’ rules (so called <strong>anchors</strong>). These rules assure us that the explanation holds good locally, and the algorithm tries to extend its relevance to as large an area as possible. So, as long as the anchors are in place, the prediction (almost) remains consistent, irrespective of what’s happening with other features not included in the anchor. In a nutshell, anchors keep the prediction ship steady, even when other features might be creating waves.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the way, my attempt here will be to explain Anchors in the context of tabular data and, at most, with text data. Please keep in mind that it is a model-agnostic model, so it works for any type of input!</p>
+</div>
+</div>
+<section id="necessary-jargon" class="level2">
+<h2 class="anchored" data-anchor-id="necessary-jargon">Necessary Jargon</h2>
+<p>I’ll take the definitions from <a href="https://docs.seldon.io/projects/alibi/en/stable/methods/Anchors.html">Alibi’s documentation</a>, which are concise and really well defined :)</p>
+<section id="predicate" class="level3">
+<h3 class="anchored" data-anchor-id="predicate">Predicate</h3>
+<blockquote class="blockquote">
+<p>Represents an expression involving a single feature. Some examples of predicates for a tabular dataset having features such as <code>Age, Relationship, and Occupation</code> are: - 28 &lt; Age &lt; 50 - Relationship = Husband - Occupation = Blue-Collar</p>
+</blockquote>
+</section>
+<section id="rule" class="level3">
+<h3 class="anchored" data-anchor-id="rule">Rule</h3>
+<blockquote class="blockquote">
+<p>A rule represents a set of predicates connected by the <code>AND</code> operator. Considering all the predicate examples above, we can construct the following rule:</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><code>28 &lt; Age &lt; 50 AND Relationship = Husband AND Occupation = Blue-Collar</code></p>
+</blockquote>
+<p>Note that a rule selects/refers to a particular subpopulation from the given dataset.</p>
+</section>
+<section id="anchor" class="level3">
+<h3 class="anchored" data-anchor-id="anchor">Anchor</h3>
+<blockquote class="blockquote">
+<p>An anchor explanation is a <strong>rule</strong> that sufficiently <em>anchors</em> the prediction locally – such that changes to the rest of the feature values of the instance do not matter <span class="citation" data-cites="anchors">(<a href="#ref-anchors" role="doc-biblioref">Ribeiro, Singh, and Guestrin 2018</a>)</span></p>
+</blockquote>
+</section>
+<section id="precision" class="level3">
+<h3 class="anchored" data-anchor-id="precision">Precision</h3>
+<blockquote class="blockquote">
+<p>Precision represents the probability of receiving the same classification label of the explained input if we query the model on other instances that satisfy the anchor predicates. The expected precision range is the interval <span class="math inline">\([t,1]\)</span>, where <span class="math inline">\(t\)</span> is the user-specified precision threshold.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>For example, if <span class="math inline">\(t=0.95\)</span> and we have two instances, <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, that contains the same anchor predicates, the probability that a given model will predict the same result for both is <span class="math inline">\(0.95\)</span>.</p>
+</blockquote>
+</section>
+<section id="coverage" class="level3">
+<h3 class="anchored" data-anchor-id="coverage">Coverage</h3>
+<blockquote class="blockquote">
+<p>Coverage represents the proportion of the population which satisfy the anchor predicates. It is a positive number <span class="math inline">\(\leq 1\)</span>, where a value of corresponds <span class="math inline">\(1\)</span> to the empty anchor.</p>
+</blockquote>
+</section>
+</section>
+<section id="going-formal" class="level2">
+<h2 class="anchored" data-anchor-id="going-formal">Going Formal</h2>
+<p>Let’s say we have a set of conditions or rules, which we’ll call <span class="math inline">\(A\)</span>. <span class="math inline">\(A\)</span> works on an easily understandable representation and it goes like this - if all conditions of <span class="math inline">\(A\)</span> are met for a specific instance (let’s call it <span class="math inline">\(x\)</span>), then <span class="math inline">\(A(x)\)</span> will return 1.</p>
+<p>In our earlier example, <span class="math inline">\(x\)</span> has these feature values: <code>Age is between 28 and 50</code>, <code>Relationship status is 'Husband'</code>, and <code>Occupation is 'Blue-Collar'</code>. If these are the conditions <span class="math inline">\(A\)</span> is checking for, in this case, <span class="math inline">\(A(x)\)</span> is <span class="math inline">\(1\)</span> because all the conditions are met.</p>
+<p>Now, suppose we have a complex model (we’ll refer to it as a ‘black box model’), which we’ll denote as <span class="math inline">\(f\)</span>, that takes input <span class="math inline">\(X\)</span> and generates output <span class="math inline">\(Y\)</span>. Now, if we have a specific instance <span class="math inline">\(x \in X\)</span>, our objective with local model-agnostic interpretability is to make it easy for a user to understand why <span class="math inline">\(f(x)\)</span> - the prediction for the instance <span class="math inline">\(x\)</span> - is what it is.</p>
+<p>The fundamental assumption here is that even if the model is too intricate to explain in a brief manner globally, if we “zoom in” on individual predictions, the task of explaining becomes feasible. In order to achieve this, most model-agnostic techniques use a process called ‘perturbation’, modifying the instance <span class="math inline">\(x\)</span> following a specific “perturbation distribution” which we’ll denote as <span class="math inline">\(\mathcal{D}\)</span>.</p>
+<p>Assuming the definition of <span class="math inline">\(A\)</span> from before, we denote as <span class="math inline">\(\mathcal{D}(\cdot|A)\)</span> the case when conditional distribution contains the rule <span class="math inline">\(A\)</span> being applied. <span class="math inline">\(A\)</span> is called an <em>anchor</em> if it holds true for <span class="math inline">\(x\)</span> (i.e., <span class="math inline">\(A(x)=1\)</span>) and is a sufficient condition for <span class="math inline">\(f(x)\)</span> with high probability (the <span class="math inline">\(\tau\)</span> introduced before). If we sample an instance <span class="math inline">\(z\)</span> from <span class="math inline">\(\mathcal{D}(z|A)\)</span> and it’s predicted as Positive in the same way as <span class="math inline">\(x\)</span> (meaning <span class="math inline">\(f(x) = f(z)\)</span>), then <span class="math inline">\(A\)</span> is an anchor.</p>
+<p>In other words:</p>
+<ul>
+<li>Given we apply the anchor <span class="math inline">\(A\)</span> to <span class="math inline">\(x\)</span>, the expected probability that <span class="math inline">\(f(x) = f(z)\)</span> under the distribution <span class="math inline">\(\mathcal{D}\)</span> conditioned on <span class="math inline">\(A\)</span> is equal or greater then some threshold <span class="math inline">\(\tau\)</span>.</li>
+</ul>
+<p>Mathematically,</p>
+<p><span class="math inline">\(\mathbb{E}_{\mathcal{D}(z|A)}[\mathbb{1}_{f(x)=f(z)}] \geq \tau,A(x)=1\)</span></p>
+<section id="computing-anchors" class="level3">
+<h3 class="anchored" data-anchor-id="computing-anchors">Computing Anchors</h3>
+<p>As stated before, an anchor <span class="math inline">\(A\)</span> is identified as a collection of feature predicates related to <span class="math inline">\(x\)</span>, with a precision <span class="math inline">\(prec(A)\)</span> that is equal to or greater than <span class="math inline">\(\tau\)</span>. This precision can be defined as follows:</p>
+<p><span class="math inline">\(prec(A) = \mathbb{E}_{D(z|A)}[\mathbb{1}{f(x) = f(z)}]\)</span></p>
+<p>The authors define precision in a probabilistic manner:</p>
+<blockquote class="blockquote">
+<p><strong>An anchor meets the precision condition with a high level of certainty.</strong></p>
+</blockquote>
+<p><span class="math inline">\(P(prec(A) \geq \tau) \geq 1 - \delta\)</span></p>
+<p>If there are multiple anchors that satisfy these criteria, preference is given to those that represent a larger portion of the input space, or in other words, those with the greatest <strong>coverage</strong>.</p>
+<p>The coverage of an anchor <span class="math inline">\(A\)</span>, <span class="math inline">\(\text{cov}(A)\)</span>, is formally defined as the probability that it is applicable to samples derived from the distribution <span class="math inline">\(D\)</span>. We can represent it as follows:</p>
+<p><span class="math inline">\(\text{cov}(A) = \mathbb{E}_{D(z)}[A(z)]\)</span>.</p>
+<section id="searching-the-set-of-anchors" class="level4">
+<h4 class="anchored" data-anchor-id="searching-the-set-of-anchors">Searching the set of Anchors</h4>
+<p>Thus, our goal is to identify the set of anchors, <span class="math inline">\(A\)</span>, that ensures maximum coverage. This can be achieved through the following combinatorial optimization problem:</p>
+<p><span class="math display">\[\begin{align*}
+\underset{A \text{ s.t. } , P(prec(A) \geq \tau) \geq 1 - \delta}{\text{max}}  \text{cov}(A)
+\end{align*}\]</span></p>
+<p>To accomplish this, we don’t utilize a pre-existing dataset. Rather, we employ perturbation distributions along with a black box model, which are instrumental in estimating precision and coverage bounds under the distribution <span class="math inline">\(\mathcal{D}\)</span>.</p>
+<p>For a good (and trackable) exploration of the model’s behavior within the perturbation space, we map the problem to a multi-armed bandit formulation.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="anchor-algorithm" class="level1">
+<h1>Anchor Algorithm</h1>
+<section id="the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="the-dataset">The Dataset</h2>
+<p>For learning purposes, let’s use a simple dataset generator from scikit-learn which I trained a <code>LGBMClassifier</code></p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightgbm <span class="im">import</span> LGBMClassifier</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a 2D dataset with two classes</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples<span class="op">=</span><span class="dv">200</span>, centers<span class="op">=</span><span class="dv">2</span>, random_state<span class="op">=</span><span class="dv">42</span>, cluster_std<span class="op">=</span><span class="fl">2.0</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the LightGBM classifier</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> LGBMClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>clf.fit(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LGBMClassifier(random_state=42)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">LGBMClassifier</label><div class="sk-toggleable__content"><pre>LGBMClassifier(random_state=42)</pre></div></div></div></div></div>
+</div>
+</div>
+<p>Also, I want to explain a single instance from <code>test</code> set. Let’s take the first element :)</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>instance_to_explain <span class="op">=</span> np.where(X<span class="op">==</span>X_test[<span class="dv">0</span>])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> (X[instance_to_explain]<span class="op">==</span>X_test[<span class="dv">0</span>]).<span class="bu">all</span>()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_dataset_with_instance(X, y, highlight_row<span class="op">=</span><span class="va">None</span>, title<span class="op">=</span><span class="st">"Dataset"</span>):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Assuming you have two classes 0 and 1</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    class_0 <span class="op">=</span> X[y <span class="op">==</span> <span class="dv">0</span>]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    class_1 <span class="op">=</span> X[y <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a scatter plot for each class</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    plt.scatter(class_0[:, <span class="dv">0</span>], class_0[:, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Class 0'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    plt.scatter(class_1[:, <span class="dv">0</span>], class_1[:, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Class 1'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> highlight_row <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        plt.scatter(X[highlight_row, <span class="dv">0</span>], X[highlight_row, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'green'</span>, label<span class="op">=</span><span class="st">'Instance'</span>, alpha<span class="op">=</span><span class="dv">1</span>, marker<span class="op">=</span><span class="st">'o'</span>, edgecolors<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Feature 1'</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Feature 2'</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    plt.title(title)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add a legend to the plot</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Pass in the index of the row you want to highlight</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>plot_dataset_with_instance(X, y, highlight_row<span class="op">=</span>instance_to_explain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2023-06-24-Distilling-Anchors_files/figure-html/cell-3-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Therefore, I want to provide an explaination through <code>Anchors</code> for the <code>green</code> point, which comes from the <code>test set</code>.</p>
+<p>In the paper, the authors separates the candidate generation from the Anchor algorithm itself. I think it is better to threat them altogether, then in other hands we can say that the whole algorithm is three fold: 1. Candidate Generation 2. Best candidate identification</p>
+</section>
+<section id="identifying-candidates" class="level2">
+<h2 class="anchored" data-anchor-id="identifying-candidates">Identifying Candidates</h2>
+<p>We start by creating an ‘anchor’ <span class="math inline">\(A\)</span>, which we initially set up as an <em>empty rule</em> that can apply to every instance. As we iterate through our process, we come up with new potential rules that expand <span class="math inline">\(A\)</span> by adding another feature predicate, denoted as <span class="math inline">\(\{a_i\}\)</span>, to its definition. In other words, with each iteration, our set of potential rules looks like <span class="math inline">\(\{A \wedge a_i, A \wedge a_{i+1}, A \wedge a_{i+2}, \dots\}\)</span>, each one just adding a new feature predicate to the last.</p>
+<p>Mathematically, the algorithm is defined as follows (taken from the paper): <img src="images/annotated-anchor/generate_candidates.jpeg" title="Generate Anchor Candidates" class="img-fluid"></p>
+<section id="show-me-the-code" class="level3">
+<h3 class="anchored" data-anchor-id="show-me-the-code">Show me the code!</h3>
+<p>Before that we have to define some intermediate functions that will help us to simplify things<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<section id="creating-predicates" class="level4">
+<h4 class="anchored" data-anchor-id="creating-predicates">Creating Predicates</h4>
+<p>Since anchors are a set of predicates, we need to define what a Predicate is</p>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> namedtuple</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Predicate:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, feature, operator, threshold):</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.feature <span class="op">=</span> feature</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.operator <span class="op">=</span> operator</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.threshold <span class="op">=</span> threshold</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, x):</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.operator <span class="op">==</span> <span class="st">"&lt;="</span>:</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> x[:, <span class="va">self</span>.feature] <span class="op">&lt;=</span> <span class="va">self</span>.threshold</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="va">self</span>.operator <span class="op">==</span> <span class="st">"&gt;"</span>:</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> x[:, <span class="va">self</span>.feature] <span class="op">&gt;</span> <span class="va">self</span>.threshold</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>):</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f'x[</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>feature<span class="sc">}</span><span class="ss">] </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>operator<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>threshold<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_predicates(X_train):</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    predicates <span class="op">=</span> []</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> feature <span class="kw">in</span> <span class="bu">range</span>(X_train.shape[<span class="dv">1</span>]):</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> threshold <span class="kw">in</span> np.unique(X_train[:, feature]):</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>            predicates.append(Predicate(feature, <span class="st">"&lt;="</span>, threshold))</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>            predicates.append(Predicate(feature, <span class="st">"&gt;"</span>, threshold))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> predicates</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Please note that the <code>generate_predicates</code> method that I implemented uses <strong>unique</strong> values from dataset train to set the rules. I decided to keep it this way to simplify things and focus on what matters. However, if we considerer real implementations, we should create rules based on <strong>Discretization</strong> of continuous features to reduce the search space. Also, authors claim to have used a validation dataset for <span class="math inline">\(\mathcal{D}\)</span> instead of the training set.</p>
+</div>
+</div>
+<div class="cell" data-execution_count="4">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_coverage(anchor, D):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    D_sample <span class="op">=</span> D.copy()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> predicate <span class="kw">in</span> anchor:</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        mask <span class="op">=</span> predicate(D_sample)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        indices_match_anchor <span class="op">=</span> np.argwhere(mask <span class="op">==</span> <span class="va">True</span>).flatten()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        D_sample <span class="op">=</span> D_sample[indices_match_anchor]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># D_sample is equal to the number of instances where anchor rules hold</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">len</span>(D_sample)<span class="op">/</span><span class="bu">len</span>(D)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_cands(anchor_set, c, X_train):</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    A_r <span class="op">=</span> []</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    predicates <span class="op">=</span> generate_predicates(X_train)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(anchor_set) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># each predicate is a potential anchor in the first round</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> predicate <span class="kw">in</span> predicates:</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>            anchor <span class="op">=</span> [predicate]</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>            cov <span class="op">=</span> calculate_coverage(anchor, X_train)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> cov <span class="op">&gt;</span> c:</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                A_r.append(anchor)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> anchor <span class="kw">in</span> anchor_set:</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            anchor_features <span class="op">=</span> {pred.feature <span class="cf">for</span> pred <span class="kw">in</span> anchor}</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> predicate <span class="kw">in</span> predicates:</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Skip predicates already in the anchor</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> predicate.feature <span class="kw">in</span> anchor_features:</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Create a new candidate anchor by adding the predicate</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                A_new <span class="op">=</span> anchor.copy()</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                A_new.append(predicate)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                cov <span class="op">=</span> calculate_coverage(anchor, X_train)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> cov <span class="op">&gt;</span> c:</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># If coverage is above threshold, add to results</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                    A_r.append(A_new)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Found </span><span class="sc">{</span><span class="bu">len</span>(A_r)<span class="sc">}</span><span class="ss"> new anchors with coverage above </span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A_r</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Lets see a quick and simple example where we want to explain the first element of test set and the desired coverage is 0.95</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Also, realize that the way that we defined <span class="math inline">\(\mathcal{D}\)</span> is specific for Tabular cases. For Images or Text these might difer. If you want to learn more, check <a href="https://docs.seldon.io/projects/alibi/en/stable/methods/Anchors.html#Simple-sampling-strategies">this</a> out</p>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> []  <span class="co"># start with an empty anchor</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">0.95</span>  <span class="co"># coverage threshold, set as desired</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> X_test[<span class="dv">0</span>]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>A_r <span class="op">=</span> generate_cands(A, c, X_train)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(A_r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Found 26 new anchors with coverage above 0.95</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>26</code></pre>
+</div>
+</div>
+<p>For example, these are some candidates:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A_r[<span class="dv">0</span>][<span class="dv">0</span>])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A_r[<span class="dv">10</span>][<span class="dv">0</span>])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A_r[<span class="dv">20</span>][<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x[0] &gt; -5.959033288078816
+x[0] &lt;= 8.884191230253368
+x[1] &lt;= 11.128530580636152</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="selecting-the-best-candidate" class="level2">
+<h2 class="anchored" data-anchor-id="selecting-the-best-candidate">Selecting the Best Candidate</h2>
+<p>In order to determine the most suitable candidate from a given pool, the authors approach the problem by formulating it as an exploration of multi-armed bandits <span class="citation" data-cites="Kaufmann13">(<a href="#ref-Kaufmann13" role="doc-biblioref">Kaufmann and Kalyanakrishnan 2013</a>)</span>. Here, each candidate <span class="math inline">\(A\)</span> is considered as an arm, and the hidden reward is represented by the true precision of <span class="math inline">\(A\)</span> on <span class="math inline">\(\mathcal{D}(\cdot|A)\)</span>. Evaluating the expression <span class="math inline">\(\mathbb{1}_{f(x)=f(z)}\)</span> on a sample drawn from <span class="math inline">\(\mathcal{D}(z|A)\)</span> corresponds to pulling the arm <span class="math inline">\(A\)</span>.</p>
+<p>The authors utilized a method called KL-LUCB (short for <em>Kullback-Leibler Lower Confidence Bound</em>), to determine the rule with the highest precision. However, explaining the intricacies of KL-LUCB in a brief blog post may be overly complex. Since our main focus is on Anchor’s theory rather than Reinforcement Learning, I will simplify this part by employing an <span class="math inline">\(\epsilon\)</span>-greedy approach.</p>
+<section id="differences-into-algorithm-approaches" class="level3">
+<h3 class="anchored" data-anchor-id="differences-into-algorithm-approaches">Differences into algorithm approaches</h3>
+<p>I asked ChatGPT to define this one and considering it is correct, I thought it would worth to put it here:</p>
+<p>The <strong>Kullback-Leibler Lower Confidence Bound</strong> (KL-LUCB) and the <strong><span class="math inline">\(\epsilon\text{-greedy}\)</span></strong> algorithms are two different approaches to the multi-armed bandit problem, which is a classical problem in probability theory and statistics that models the trade-off between exploration and exploitation in sequential decision-making.</p>
+<p>An <span class="math inline">\(\epsilon\text{-greedy}\)</span> algorithm is a simple approach where, with probability epsilon, the algorithm chooses an arm at random (exploration). With probability <span class="math inline">\(1-\epsilon\)</span>, it selects the arm with the highest estimated reward (exploitation). The value of epsilon is usually set to a small value, and it can be decreased over time to favor exploitation over exploration.</p>
+<p>On the other hand, the KL-LUCB calculates the confidence bounds (an <strong>upper one</strong> and a <strong>lower one</strong> on the expected rewards for each option using the Kullback-Leibler divergence, which quantifies the difference between two probability distributions. This allows KL-LUCB to make more informed decisions based on the uncertainty of the rewards.</p>
+<p>Therefore, for implementing the exploration vs.&nbsp;exploitation algorithm, we will not need to calculate the upper confidence and lower confidence bounds for precision, but rather we will always take the maximum precision <em>or</em> a random one, depending on <span class="math inline">\(\epsilon\)</span> value.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I’ll not paste the pseudo code for the other algorithms (<code>BestCands</code> and <code>BeamSearch</code>) shown in paper since I implemented variations of them by using <span class="math inline">\(\epsilon \text{- greedy}\)</span> instead of KL-LUCB</p>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to get a sample which satisfies the rules in an anchor</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sample_conditionally(X, anchor):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    D_sample <span class="op">=</span> X.copy()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> predicate <span class="kw">in</span> anchor:</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        mask <span class="op">=</span> predicate(D_sample)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Use the mask to sample from the training set</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        D_sample <span class="op">=</span> D_sample[mask]</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#we are interested in obtaining samples from minimum size of 2</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(D_sample)<span class="op">&lt;=</span><span class="dv">1</span>: </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#D_sample will contain the instances where A(x)=1, where A is the anchor</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># I decided to sample half of it, but we could use other values</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    rnd_indices <span class="op">=</span> np.random.choice(<span class="bu">len</span>(D_sample), size<span class="op">=</span><span class="bu">len</span>(D_sample)<span class="op">//</span><span class="dv">2</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    D_sample <span class="op">=</span> D_sample[rnd_indices]</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> D_sample</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to estimate the precision of an anchor</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> estimate_precision(clf, X_train, x, anchor):</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    fx <span class="op">=</span> clf.predict([x])</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> sample_conditionally(X_train, anchor)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> z <span class="kw">is</span> <span class="va">None</span>: <span class="co"># No sample satisfies the anchor</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">0.0</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    fz <span class="op">=</span> clf.predict(z)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (fz<span class="op">==</span>fx).mean()</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Main function to find the best candidate to add to the anchor</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> best_cand(anchor_candidates, X_train, x, clf, epsilon, num_samples<span class="op">=</span><span class="dv">1000</span>):</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(anchor_candidates) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    num_arms <span class="op">=</span> <span class="bu">len</span>(anchor_candidates)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    Q <span class="op">=</span> np.zeros(num_arms)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> np.zeros(num_arms, dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> tqdm(<span class="bu">range</span>(num_samples), desc<span class="op">=</span><span class="st">"Performing Epsilon Greedy approach"</span>):</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.random.rand() <span class="op">&lt;</span> epsilon: <span class="co"># Explore</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>            arm <span class="op">=</span> np.random.randint(num_arms)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="co"># Exploit</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>            arm <span class="op">=</span> np.argmax(Q)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>        anchor <span class="op">=</span> anchor_candidates[arm]</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>        reward <span class="op">=</span> estimate_precision(clf, X_train, x, anchor)</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        N[arm] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        Q[arm] <span class="op">+=</span> (reward <span class="op">-</span> Q[arm]) <span class="op">/</span> N[arm]</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> anchor_candidates[np.argmax(Q)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>best_anchor <span class="op">=</span> best_cand(A_r, X_train, x, clf, <span class="fl">0.3</span>, num_samples<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:16&lt;00:00, 59.52it/s]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Anchors final rule: "</span> <span class="op">+</span> <span class="st">"AND "</span>.join(<span class="bu">str</span>(predicate) <span class="cf">for</span> predicate <span class="kw">in</span> best_anchor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anchors final rule: x[0] &lt;= 7.2508364505367595</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="going-greedy" class="level1">
+<h1>Going greedy</h1>
+<p>To get the complete version of the algorithm, we then implement a Greedy Search approach, based on the following parameters: - <code>blackbox_model</code> the blackbox model that we want to explain - <code>instance_to_explain</code> the instance that we want to analyze - <code>D</code> the perturbation sample dataset. <code>X_train</code> in our scenario - <code>epsilon</code>, the <span class="math inline">\(\epsilon\)</span> related to <span class="math inline">\(\epsilon \text{- greedy}\)</span> approach - <code>tau</code> the desired precision that we want to achieve</p>
+<p>Therefore, greedly we will always take the best candidate anchor according to previous <code>best_cand</code> implementation if its precision is above our desired threshond <span class="math inline">\(\tau\)</span> and then we <strong>incrementaly</strong> increases the predicates to the rule set of this given anchor until we explore the entire space</p>
+<p>The implementation can be find below:</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> greedy_search(blackbox_model, instance_to_explain, D, epsilon, tau, num_samples<span class="op">=</span><span class="dv">1000</span>):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    a_star <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    anchor_candidates <span class="op">=</span> []</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    best_cov <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        anchor_candidates <span class="op">=</span> generate_cands(anchor_candidates, best_cov, D)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        best_candidate <span class="op">=</span> best_cand(anchor_candidates, D, instance_to_explain, blackbox_model, epsilon, num_samples)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(anchor_candidates) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        candidate_precision <span class="op">=</span> estimate_precision(clf, X_train, x, best_candidate)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>  candidate_precision <span class="op">&gt;=</span> tau:</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>            cov_current <span class="op">=</span> calculate_coverage(best_candidate, D)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> cov_current <span class="op">&gt;</span> best_cov:</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                a_star <span class="op">=</span> best_candidate</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                best_cov <span class="op">=</span> cov_current</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a_star</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>final_anchor <span class="op">=</span> greedy_search(blackbox_model<span class="op">=</span>clf, instance_to_explain<span class="op">=</span>x, D<span class="op">=</span>X_train, epsilon<span class="op">=</span><span class="fl">0.05</span>, tau<span class="op">=</span><span class="fl">0.95</span>, num_samples<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Found 560 new anchors with coverage above -1
+Found 150640 new anchors with coverage above 0.03571428571428571
+Found 0 new anchors with coverage above 0.10714285714285714</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Performing Epsilon Greedy approach:   2%|▏         | 21/1000 [00:00&lt;00:26, 37.42it/s]Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:17&lt;00:00, 57.46it/s]
+Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:12&lt;00:00, 78.39it/s]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="12">
+<div class="cell-output cell-output-stdout">
+<pre><code>Anchors final rule: x[0] &gt; -4.891804617458048AND x[1] &gt; 10.040820994425033</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="39">
+<div class="cell-output cell-output-stdout">
+<pre><code>Anchor coverage: 0.45714285714285713
+Anchor precision: 1.0</code></pre>
+</div>
+</div>
+<p>As we can see, there is some issues by using a Greedy approach, which we will get into details in the next section</p>
+<section id="issues-with-greedy-search" class="level2">
+<h2 class="anchored" data-anchor-id="issues-with-greedy-search">Issues with Greedy Search</h2>
+<p>As we can see, due to the greedy nature of the algorithm, it is impossible to search two different anchors “at the same time”. At every time, it will select the <em>best</em> candidate and incrementally augment it (so we can’t backtrack, for example). Also, the greedy search does not consider coverage, so it is biased to return the shortest anchor that respects the precision <span class="math inline">\(\tau\)</span> threshold.</p>
+<p>We can extend the greedy approach to address these issues so that <strong>instead of taking the best candidate, we take the best <span class="math inline">\(B\)</span> ones</strong>. Therefore, we turn a <strong>greedy</strong> search problem into <strong>beam-search</strong>. Given this set of <strong><span class="math inline">\(B\)</span></strong> candidates, we search for the one with the highest coverage.</p>
+</section>
+</section>
+<section id="beam-search" class="level1">
+<h1>Beam Search</h1>
+<div class="cell" data-execution_count="14">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> best_candidate_beam(anchor_candidates, X_train, x, clf, epsilon, num_samples<span class="op">=</span><span class="dv">1000</span>, B<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(anchor_candidates) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> B <span class="op">&gt;</span> <span class="bu">len</span>(anchor_candidates):</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> anchor_candidates</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    num_arms <span class="op">=</span> <span class="bu">len</span>(anchor_candidates)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    Q <span class="op">=</span> np.zeros(num_arms)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> np.zeros(num_arms, dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> tqdm(<span class="bu">range</span>(num_samples), desc<span class="op">=</span><span class="st">"Performing Epsilon Greedy approach"</span>):</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.random.rand() <span class="op">&lt;</span> epsilon: <span class="co"># Explore</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>            arm <span class="op">=</span> np.random.randint(num_arms)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="co"># Exploit</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>            arm <span class="op">=</span> np.argmax(Q)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        anchor <span class="op">=</span> anchor_candidates[arm]</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        reward <span class="op">=</span> estimate_precision(clf, X_train, x, anchor)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        N[arm] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        Q[arm] <span class="op">+=</span> (reward <span class="op">-</span> Q[arm]) <span class="op">/</span> N[arm]</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    top_B_indices <span class="op">=</span> np.argpartition(Q, <span class="op">-</span>B)[<span class="op">-</span>B:] <span class="co"># Take the best B candidates instead of the top one</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    top_B_anchors <span class="op">=</span> [anchor_candidates[i] <span class="cf">for</span> i <span class="kw">in</span> top_B_indices]</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> top_B_anchors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="15">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> beam_search(blackbox_model, instance_to_explain, D, epsilon, B, tau, num_samples<span class="op">=</span><span class="dv">1000</span>):</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    a_star <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    anchor_candidates <span class="op">=</span> []</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    best_cov <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        anchor_candidates <span class="op">=</span> generate_cands(anchor_candidates, best_cov, D)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        best_candidates <span class="op">=</span> best_candidate_beam(anchor_candidates, D, instance_to_explain, blackbox_model, epsilon, num_samples, B)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(anchor_candidates) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> candidate <span class="kw">in</span> best_candidates: <span class="co">#iterate over the beam search results</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>            candidate_precision <span class="op">=</span> estimate_precision(clf, X_train, x, candidate)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> candidate_precision <span class="op">&gt;=</span> tau:</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                cov_current <span class="op">=</span> calculate_coverage(candidate, D)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> cov_current <span class="op">&gt;</span> best_cov:</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                    a_star <span class="op">=</span> candidate</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>                    best_cov <span class="op">=</span> cov_current</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a_star</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>final_anchor <span class="op">=</span> beam_search(blackbox_model<span class="op">=</span>clf, instance_to_explain<span class="op">=</span>x, D<span class="op">=</span>X_train, epsilon<span class="op">=</span><span class="fl">0.05</span>, B<span class="op">=</span><span class="dv">10</span>, tau<span class="op">=</span><span class="fl">0.95</span>, num_samples<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Found 560 new anchors with coverage above -1
+Found 85680 new anchors with coverage above 0.45
+Found 0 new anchors with coverage above 0.45714285714285713</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Performing Epsilon Greedy approach:   6%|▋         | 63/1000 [00:00&lt;00:17, 54.71it/s]Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:13&lt;00:00, 73.41it/s]
+Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:14&lt;00:00, 71.40it/s]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Anchors final rule: "</span> <span class="op">+</span> <span class="st">"AND "</span>.join(<span class="bu">str</span>(predicate) <span class="cf">for</span> predicate <span class="kw">in</span> final_anchor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anchors final rule: x[1] &gt; 5.038647509945887AND x[0] &lt;= 3.0942284071529578</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>calculate_coverage(final_anchor, X_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>0.45714285714285713</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>estimate_precision(clf, X_train, x, final_anchor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>1.0</code></pre>
+</div>
+</div>
+<p>This concludes the step-by-step simplified explanation of the Anchor algorithm. However, in a real world scenarios, we don’t expect to implement such an algorithm from scratch (also, this is <em>reeeeeeeeally</em> low performative due to maintaining that as didactic as possible). For that, we can rely on really awesome libraries, such as <a href="https://github.com/SeldonIO/alibi">alibi</a></p>
+</section>
+<section id="show-me-the-real-example" class="level1">
+<h1>Show me the <del>real</del> example</h1>
+<p>I could use a sample dataset for that, but this would increase the lenght of this post, but I will use a simple boilerplate code for alibi code such that it could be easily extensible for other datasets :)</p>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alibi.explainers <span class="im">import</span> AnchorTabular</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>explainer <span class="op">=</span> AnchorTabular(clf.predict, feature_names<span class="op">=</span>clf.feature_name_)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>explainer.fit(X_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>AnchorTabular(meta={
+  'name': 'AnchorTabular',
+  'type': ['blackbox'],
+  'explanations': ['local'],
+  'params': {'seed': None, 'disc_perc': (25, 50, 75)},
+  'version': '0.9.3'}
+)</code></pre>
+</div>
+</div>
+<p>Some considerations: - <code>batch_size</code> is the size of sample size used, which was half of the dataset in our examples - <code>coverage_sample</code> is the number of times we repeat the sampling process for calculating coverage. We sampled just one for the entire dataset in our case</p>
+<div class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>explanation <span class="op">=</span> explainer.explain(x, threshold<span class="op">=</span><span class="fl">0.95</span>, batch_size<span class="op">=</span><span class="dv">100</span>, beam_size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Anchors final rule: "</span> <span class="op">+</span> <span class="st">" AND "</span>.join(<span class="bu">str</span>(predicate) <span class="cf">for</span> predicate <span class="kw">in</span> explanation.anchor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anchors final rule: Column_1 &gt; 4.35 AND Column_0 &lt;= 1.94</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="40">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Anchor precision: </span><span class="sc">{</span>explanation<span class="sc">.</span>precision<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Anchor coverage: </span><span class="sc">{</span>explanation<span class="sc">.</span>coverage<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anchor precision: 0.9748953974895398
+Anchor coverage: 0.4609</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>I hope that this blog post provided more insights about Anchors algorithms and its applications. For more explanations, please refer to main paper <span class="citation" data-cites="anchors">(<a href="#ref-anchors" role="doc-biblioref">Ribeiro, Singh, and Guestrin 2018</a>)</span> (especially if you want to learn about the KL-LUCB setting and its relationship with other definitions, such as the probabilistic meaning of precision and the <span class="math inline">\(\delta\)</span> hyperparameter), <a href="https://docs.seldon.io/projects/alibi/en/latest/methods/Anchors.html">the alibi documentation</a> provides really valuable resources and <a href="https://christophm.github.io/interpretable-ml-book/anchors.html">Anchor’s Chapter from Interpretable ML book</a></p>
+
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Kaufmann13" class="csl-entry" role="listitem">
+Kaufmann, Emilie, and Shivaram Kalyanakrishnan. 2013. <span>“Information Complexity in Bandit Subset Selection.”</span> In <em>Proceedings of the 26th Annual Conference on Learning Theory</em>, edited by Shai Shalev-Shwartz and Ingo Steinwart, 30:228–51. Proceedings of Machine Learning Research. Princeton, NJ, USA: PMLR. <a href="https://proceedings.mlr.press/v30/Kaufmann13.html">https://proceedings.mlr.press/v30/Kaufmann13.html</a>.
+</div>
+<div id="ref-LIMEPaper" class="csl-entry" role="listitem">
+Ribeiro, Marco Tulio, Sameer Singh, and Carlos Guestrin. 2016. <span>“"Why Should <span>I</span> Trust You?": Explaining the Predictions of Any Classifier.”</span> <em>CoRR</em> abs/1602.04938. <a href="http://arxiv.org/abs/1602.04938">http://arxiv.org/abs/1602.04938</a>.
+</div>
+<div id="ref-anchors" class="csl-entry" role="listitem">
+———. 2018. <span>“Anchors: High-Precision Model-Agnostic Explanations.”</span> In <em>AAAI Conference on Artificial Intelligence (AAAI)</em>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Depending on the effort that I will need to put on that I will decide if I would continue or not<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>ChatGPT helped me to create this whole. It is be being a true ally for writing my posts as well :)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
