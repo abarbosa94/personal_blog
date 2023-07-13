@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andre Barbosa">
+<meta name="dcterms.date" content="2023-07-08">
+<meta name="description" content="Distilling Diverse Counterfactual Explanations">
+
+<title>Andre Personal Blog :) - Distilling Diverse Counterfactual Explanations</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Andre Personal Blog :)</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/abarbosa94" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/barbosaandre" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Distilling Diverse Counterfactual Explanations</h1>
+                  <div>
+        <div class="description">
+          Distilling Diverse Counterfactual Explanations
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">masters</div>
+                <div class="quarto-category">knowledge-distill</div>
+                <div class="quarto-category">xai</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Andre Barbosa </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 8, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#distilling-diverse-counterfactual-explanations" id="toc-distilling-diverse-counterfactual-explanations" class="nav-link active" data-scroll-target="#distilling-diverse-counterfactual-explanations">Distilling Diverse Counterfactual Explanations</a></li>
+  <li><a href="#the-theory" id="toc-the-theory" class="nav-link" data-scroll-target="#the-theory">The theory</a>
+  <ul class="collapse">
+  <li><a href="#the-caveat" id="toc-the-caveat" class="nav-link" data-scroll-target="#the-caveat">The caveat</a>
+  <ul class="collapse">
+  <li><a href="#but-what-is-wrong-with-feature-importance-methods" id="toc-but-what-is-wrong-with-feature-importance-methods" class="nav-link" data-scroll-target="#but-what-is-wrong-with-feature-importance-methods">But what is wrong with Feature Importance methods?</a></li>
+  </ul></li>
+  <li><a href="#approaching-the-solution" id="toc-approaching-the-solution" class="nav-link" data-scroll-target="#approaching-the-solution">Approaching the solution</a></li>
+  <li><a href="#going-formal" id="toc-going-formal" class="nav-link" data-scroll-target="#going-formal">Going Formal</a>
+  <ul class="collapse">
+  <li><a href="#counterfactuals-generation-engine" id="toc-counterfactuals-generation-engine" class="nav-link" data-scroll-target="#counterfactuals-generation-engine">Counterfactuals Generation Engine</a></li>
+  <li><a href="#new-set-of-metrics" id="toc-new-set-of-metrics" class="nav-link" data-scroll-target="#new-set-of-metrics">New set of metrics</a></li>
+  <li><a href="#optimizing-everything" id="toc-optimizing-everything" class="nav-link" data-scroll-target="#optimizing-everything">Optimizing everything</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#the-practice" id="toc-the-practice" class="nav-link" data-scroll-target="#the-practice">The practice</a>
+  <ul class="collapse">
+  <li><a href="#a-few-practical-considerations" id="toc-a-few-practical-considerations" class="nav-link" data-scroll-target="#a-few-practical-considerations">A few practical considerations</a>
+  <ul class="collapse">
+  <li><a href="#choice-of-loss" id="toc-choice-of-loss" class="nav-link" data-scroll-target="#choice-of-loss">Choice of loss</a></li>
+  <li><a href="#distance-function" id="toc-distance-function" class="nav-link" data-scroll-target="#distance-function">Distance function</a></li>
+  <li><a href="#scaling-features" id="toc-scaling-features" class="nav-link" data-scroll-target="#scaling-features">Scaling features</a></li>
+  <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters">Hyperparameters</a></li>
+  <li><a href="#getting-real" id="toc-getting-real" class="nav-link" data-scroll-target="#getting-real">Getting real</a></li>
+  </ul></li>
+  <li><a href="#performing-adjustment" id="toc-performing-adjustment" class="nav-link" data-scroll-target="#performing-adjustment">Performing Adjustment</a>
+  <ul class="collapse">
+  <li><a href="#enhancing-sparcity" id="toc-enhancing-sparcity" class="nav-link" data-scroll-target="#enhancing-sparcity">Enhancing Sparcity</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#give-me-a-real-use-case" id="toc-give-me-a-real-use-case" class="nav-link" data-scroll-target="#give-me-a-real-use-case">Give me a <del>real</del> use case :)</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="distilling-diverse-counterfactual-explanations" class="level1">
+<h1>Distilling Diverse Counterfactual Explanations</h1>
+<p><img src="images/distill-dice/introduction.jpeg" title="DiCE" class="img-fluid"></p>
+</section>
+<section id="the-theory" class="level1">
+<h1>The theory</h1>
+<p>Continuing my series of post, this time I’ll provide an introdutory elucidation of <code>Counterfactual Explanations</code>, an interest concept that goes in the same direction of model explanation, but it is different than feature attribution methods like <span class="citation" data-cites="LIMEPaper">(<a href="#ref-LIMEPaper" role="doc-biblioref">Ribeiro, Singh, and Guestrin 2016</a>)</span> and <span class="citation" data-cites="SHAPPaper">(<a href="#ref-SHAPPaper" role="doc-biblioref">Lundberg and Lee 2017</a>)</span>.</p>
+<p>Simply speaking, according to authors from <span class="citation" data-cites="dice">(<a href="#ref-dice" role="doc-biblioref">Mothilal, Sharma, and Tan 2020</a>)</span>, suppose that someone who tried to get a loan but got turned down by the bank’s computer system. Normally, the bank might tell them why, like “you have a bad credit history”. But this doesn’t give the person a clue about what they should do differently next time to get approved. Also, what the system flagged as most important might not even be something they can change, e.g.&nbsp;their <code>gender</code> or <code>race</code>. So, it’s super crucial not only to know why you got rejected, but <strong>also to see what changes could lead to a different result</strong>. This way, people can figure out what actions they could’ve taken to swing the decision in their favor.</p>
+<p>This leads us to the definition of Counterfactual Explanations <span class="citation" data-cites="CounterFactualWatcher">(<a href="#ref-CounterFactualWatcher" role="doc-biblioref">Wachter, Mittelstadt, and Russell 2017</a>)</span>. Using the loan example, these would show how the same person could have changed a few things to get approved for the loan. For instance, they might say “if you earned $10,000 more, you’d have gotten the loan.” Basically, these are “what-if” scenarios based on the model’s results. A big plus of these counterfactual explanations is that they’re always true to the original model since they’re just a different take on the system’s results. Plus, they can be easy for people to understand.</p>
+<section id="the-caveat" class="level2">
+<h2 class="anchored" data-anchor-id="the-caveat">The caveat</h2>
+<p>Coming up with “what-if” scenarios that someone can actually do is tough. Let’s go back to the loan example. A counterfactual explanation might suggest “lower your rent”, but it doesn’t give other options or consider how hard different changes might be to pull off. That’s why we need a variety of counterfactual examples to help people wrap their heads around these complex machine learning models. Ideally, these examples should offer a range of suggestions and think about how doable those changes are.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Rules should make sense with real-world rules, like, you can’t just downgrade your degree or change your race.</p>
+</div>
+</div>
+<section id="but-what-is-wrong-with-feature-importance-methods" class="level3">
+<h3 class="anchored" data-anchor-id="but-what-is-wrong-with-feature-importance-methods">But what is wrong with Feature Importance methods?</h3>
+<p>Models like those mentioned in the <span class="citation" data-cites="LIMEPaper">(<a href="#ref-LIMEPaper" role="doc-biblioref">Ribeiro, Singh, and Guestrin 2016</a>)</span> and <span class="citation" data-cites="SHAPPaper">(<a href="#ref-SHAPPaper" role="doc-biblioref">Lundberg and Lee 2017</a>)</span> papers are seen as “Feature Importance” methods. They explain things by ranking the most relevant features. But here’s the thing, these explanations aren’t totally honest about what’s going on with the machine learning models. As there is always this balancing act between being true to the model and making it understandable to humans when you’re explaining a complex model, an explanation methods that use simpler stand-in models are always approximatios the real model to some extent. Therefore, one big issue with this is that because the explanations come from these simpler models, there’s no guarantee that they’re actually representing the original model accurately.</p>
+</section>
+</section>
+<section id="approaching-the-solution" class="level2">
+<h2 class="anchored" data-anchor-id="approaching-the-solution">Approaching the solution</h2>
+<p>Extending the work from <span class="citation" data-cites="CounterFactualWatcher">(<a href="#ref-CounterFactualWatcher" role="doc-biblioref">Wachter, Mittelstadt, and Russell 2017</a>)</span>, <span class="citation" data-cites="dice">(<a href="#ref-dice" role="doc-biblioref">Mothilal, Sharma, and Tan 2020</a>)</span> authors set up an optimization problem that looks at both the diversity of the “what-if” scenarios and how close they are to the original data, coming up with a method that generates a bunch of “what-if” scenarios. Also, they provide a set of interesting metrics for evaluating counterfactual explanations, which I believe is worthwhile to explore :)</p>
+</section>
+<section id="going-formal" class="level2">
+<h2 class="anchored" data-anchor-id="going-formal">Going Formal</h2>
+<p>So, what we’re working with here is a trained machine learning model, <span class="math inline">\(f\)</span>, and a specific case, <span class="math inline">\(x\)</span>. Our aim is to generate a group of <span class="math inline">\(k\)</span> counterfactuals, {<span class="math inline">\(c_1, c_2, \cdots{. . .}, c_k\)</span>}, that would lead to a different outcome than <span class="math inline">\(x\)</span>. Both <span class="math inline">\(x\)</span> and all the CF examples (<span class="math inline">\({c_1, c_2, \cdots{. . .} , c_k}\)</span>) are <span class="math inline">\(d\text{-dimensional}\)</span>. Throughout this paper, we’re assuming that the machine learning model is differentiable and static (it doesn’t change over time), and that the output is <strong>binary</strong>.</p>
+<p>Our goal is to generate an actionable counterfactual set, that is, the user should be able to find CF examples that they can act upon. To do so, we need individual CF examples to be feasible with respect to the original input, but also need diversity among the generated counterfactuals to provide different ways of changing the outcome class.</p>
+<section id="counterfactuals-generation-engine" class="level3">
+<h3 class="anchored" data-anchor-id="counterfactuals-generation-engine">Counterfactuals Generation Engine</h3>
+<p>Let’s say you have an input feature <span class="math inline">\(x\)</span> and an output from an ML model <span class="math inline">\(f\)</span>. A counterfactual explanation is a tweak to the input that causes a different output <span class="math inline">\(y\)</span> from the same model. Specifically, Wachter and his team came up with this idea:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_{cf} = \arg \min_{x_{cf}} \quad &amp; yloss(f(x_{cf}), y) + |x - x_{cf}| \\
+\text{s.t.} \quad &amp; f(x_{cf}) = y', y' \neq y
+\end{aligned}
+\]</span></p>
+<p>In plain terms, we want the counterfactual example <span class="math inline">\(x_{cf}\)</span> that minimizes the loss such that this instance stays relatively close to the original data point. Thefore, while the first component (<em>yloss</em>) drives the counterfactual <span class="math inline">\(x_{cf}\)</span> towards a prediction that’s different from the original data point the second one (<span class="math inline">\(x - x_{cf}\)</span>) ensures that the counterfactual stays relatively close to <span class="math inline">\(x\)</span>.</p>
+<p>For simplicity, for now on, lets assume that <span class="math inline">\(x_{cf}=c\)</span></p>
+</section>
+<section id="new-set-of-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="new-set-of-metrics">New set of metrics</h3>
+<p>As mentioned, authors from <span class="citation" data-cites="dice">(<a href="#ref-dice" role="doc-biblioref">Mothilal, Sharma, and Tan 2020</a>)</span> implements a new set of metrics and definitions that I am going to explain further. In other words, while having a bunch of different counterfactuals might boost the odds of finding at least one a person can act on, the examples could end up tweaking a ton of features. Or, they might go for maximum diversity by suggesting big changes from the original data. This issue could get even trickier when you’re dealing with lots of features. So, we need a mix of <strong>diversity</strong> and <strong>feasibility</strong>, which I’ll lay out next.</p>
+<section id="diversity-via-determinantal-point-processes" class="level4">
+<h4 class="anchored" data-anchor-id="diversity-via-determinantal-point-processes">Diversity via Determinantal Point Processes</h4>
+<p>When it comes to diversity, we’re borrowing from something called determinantal point processes <span class="citation" data-cites="DPP">(<a href="#ref-DPP" role="doc-biblioref">Kulesza and Taskar 2012</a>)</span>. These have been used to tackle subset selection problems with diversity constraints. We measure diversity with this determinant of a kernel matrix that is based on the counterfactuals:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{dpp\_diversity}(x) = \det(K(x))
+\end{aligned}
+\]</span></p>
+<p>Here, <span class="math inline">\(K_{i,j} = \frac{1}{1+dist(x_i,c_j)}\)</span>, where <span class="math inline">\(dist(c_i,c_j)\)</span> is a way to measure the distance between two counterfactual examples. In practice, to dodge issues with undefined determinants, we add small random changes to the diagonal elements when we calculate the determinant.</p>
+<p>If we want to have quick and dirty implementation about that, here it is <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.spatial.distance <span class="im">as</span> distance</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(seed)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>np.random.seed(seed)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>random.seed(seed)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>torch.use_deterministic_algorithms(<span class="va">True</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_k_matrix(counterfactuals, distance_func, training_data, eps<span class="op">=</span><span class="fl">1e-6</span>):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    Creates a kernel matrix K based on counterfactuals and a given distance function.</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">    counterfactuals (list(torch.Tensor)): A list of counterfactual candidates</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">    distance_func (function): A function to measure distance between two counterfactual examples.</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">    eps (float): A small value added to the diagonal of the matrix to avoid determinant issues.</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">    torch.Tensor: The kernel matrix K.</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    num_counterfactuals <span class="op">=</span> <span class="bu">len</span>(counterfactuals)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    K <span class="op">=</span> torch.zeros((num_counterfactuals, num_counterfactuals))</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_counterfactuals):</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>, num_counterfactuals):</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>            dist <span class="op">=</span> distance_func(counterfactuals[i], counterfactuals[j], training_data)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>            K[i, j] <span class="op">=</span> K[j, i] <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> dist)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add small perturbations to the diagonal elements</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Clone the tensor first if gradient computation is needed</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    K <span class="op">=</span> K.clone() </span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    K.diagonal().add_(eps)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> K</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="proximity" class="level4">
+<h4 class="anchored" data-anchor-id="proximity">Proximity</h4>
+<p>So, the counterfactual examples that are closest to the original data are usually the most helpful for users. We calculate proximity as the (negative) vector distance between the original data and the features of the counterfactual example. This can be figured out using a distance metric like the <span class="math inline">\(\ell_{1}\text{-distance}\)</span> (and you can weight this by feature if you want). The proximity of a set of counterfactual examples is just the average proximity across the set.</p>
+<p><span class="math display">\[
+\begin{aligned}
+-\frac{1}{k}\sum^{k}_{i=1}\text{dist}(c_i,x)
+\end{aligned}
+\]</span></p>
+<p>As expected, here is an attempt of implementation</p>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> distance</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_proximity(x, c, dist_function<span class="op">=</span><span class="st">'euclidean'</span>):</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the distance between x and each counterfactual in c</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    distances <span class="op">=</span> np.array([distance.cdist([x], [c_i], dist_function) <span class="cf">for</span> c_i <span class="kw">in</span> c])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the average proximity across the set</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    proximity <span class="op">=</span> <span class="op">-</span>np.mean(distances)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> proximity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="sparsity" class="level4">
+<h4 class="anchored" data-anchor-id="sparsity">Sparsity</h4>
+<p>Closely linked to proximity is the concept of <strong>sparsity</strong>: it’s about determining the <strong>number of features</strong> someone needs to alter to reach the counterfactual class. It’s intuitive that a counterfactual example will be more feasible if it modifies fewer features. As this constraint is non-convex (it doesn’t have a simple, consistent shape), we don’t include it in the loss function. Instead, we manage it by modifying the counterfactuals we generate.</p>
+<p><span class="math display">\[
+\begin{aligned}
+1 - \frac{1}{kd}\sum^{k}_{i=1}\sum^{d}_{l=1}\mathbb{1}_[c^l_i \neq x^l_i]
+\end{aligned}
+\]</span></p>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sparsity(x, c):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the sparsity based on the given equation.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    x (list): Input features.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">    c (list): Set of counterfactuals. It should be a 2D list where each inner list is a counterfactual.</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">    float: Sparsity value.</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="bu">len</span>(c)  <span class="co"># Number of counterfactuals</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> <span class="bu">len</span>(x)  <span class="co"># Number of input features</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">all</span>(<span class="bu">len</span>(cf) <span class="op">==</span> d <span class="cf">for</span> cf <span class="kw">in</span> c), <span class="st">"The size of input features and counterfactuals should match."</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the sum of the indicator function</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    indicator_sum <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cf <span class="kw">in</span> c:</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> xi, cfi <span class="kw">in</span> <span class="bu">zip</span>(x, cf):</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> xi <span class="op">!=</span> cfi:</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>                indicator_sum <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the sparsity</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    sparsity <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">/</span> (k <span class="op">*</span> d)) <span class="op">*</span> indicator_sum</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sparsity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="user-constraints" class="level4">
+<h4 class="anchored" data-anchor-id="user-constraints">User Constraints</h4>
+<p>A counterfactual example might seem feasible if you’re just looking at the features, but real-world restrictions could make it a no-go. So, it’s a good idea to let users set some constraints on how features can be changed. These can be defined in two ways. First, as box constraints that set feasible ranges for each feature—this is where we need to look for counterfactual examples. Like, “income can’t go above 200,000”. Or, a user could just list the variables they’re okay with changing.</p>
+</section>
+</section>
+<section id="optimizing-everything" class="level3">
+<h3 class="anchored" data-anchor-id="optimizing-everything">Optimizing everything</h3>
+<p>The authors then propose a combined loss function, <span class="math inline">\(C(x)\)</span>, that considers all generated counterfactuals:</p>
+<span class="math display">\[\begin{aligned}
+C(x) = \arg \min_{c_1, \cdots, c_k} \quad &amp; \frac{1}{k} \sum^{k}_{i=1} yloss(f(c_i), y) + \frac{\lambda_{1}}{k} \sum^{k}_{i=1} dist(c_i, x) - \lambda_{2} \text{dpp\_diversity}(c_1, \cdots, c_k)
+\end{aligned}\]</span>
+<p>In this equation, <span class="math inline">\(c_i\)</span> represents a counterfactual example (CF), <span class="math inline">\(k\)</span> is the total number of CFs we want to make, <span class="math inline">\(f(\cdot)\)</span> is the ML model, <span class="math inline">\(yloss(\cdot)\)</span> is a metric that shrinks the distance between <span class="math inline">\(f(\cdot)\)</span>’s prediction for <span class="math inline">\(c_i\)</span> and the preferred outcome <span class="math inline">\(y\)</span>, <span class="math inline">\(x\)</span> is the initial input, and <span class="math inline">\(\text{dpp\_diversity}(\cdot)\)</span> is the diversity metric. <span class="math inline">\(\lambda1\)</span> and <span class="math inline">\(\lambda_2\)</span> are hyperparameters.</p>
+<p>Since that <span class="math inline">\(y\)</span> is the preferable class could also be the opposite of <span class="math inline">\(f(x)\)</span>, so we can use the model’s prediction for the instance we want to explain instead of its label, but then we would need to <code>flip</code> its result. Moreover, author’s state that they initialize <span class="math inline">\(c_i\)</span> randomly and optimize it via <strong>gradient descent</strong>.</p>
+<p>One way to see this is that given a <span class="math inline">\(c_i\)</span> random array with the same <span class="math inline">\(d\)</span> dimensions of <span class="math inline">\(x\)</span> and we want to <em>learn</em> the best set of <span class="math inline">\(k\)</span> <span class="math inline">\(c\)</span> arrays, we can “think” of this as some sort of single layer neural network, with <span class="math inline">\(x\)</span> and <span class="math inline">\(f(x)\)</span> being the label. For example, if <span class="math inline">\(k=1\)</span>, we are optmizing some sort of single “hidden layer” so that in the end we would have the counterfactuals.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As the loss is going to be optimized via <strong>gradient descent</strong> and we want to learn the counterfactuals through it as we are passing it through <span class="math inline">\(f(c_i)\)</span>, <strong>the model inference function has to be <em>differentiable</em></strong>. This, the blackbox model <strong>has</strong> to be something like a Neural Network or Logistic Function but not a boosted decision tree or a random forest, as <strong>decision trees are not differentiable</strong></p>
+</div>
+</div>
+<p>Let’s breakdown each element of this loss function:</p>
+<ul>
+<li><span class="math inline">\(yloss(f(c\_i), y)\)</span>: this part will try to make <span class="math inline">\(f(c_i)\)</span> as close as possible to <span class="math inline">\(y\)</span>, that is the <strong>desired counterfactual</strong></li>
+<li><span class="math inline">\(dist(c_i, x)\)</span>: will make sure that <span class="math inline">\(c_i\)</span> is close to <span class="math inline">\(x\)</span></li>
+<li><span class="math inline">\(\text{dpp\_diversity}(c_1, \cdots, c_k)\)</span>: this part will try to diversify <span class="math inline">\((c_1, \cdots, c_k)\)</span></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The authors suggest that we implement a <em>stop criteria</em> based on the following rulles: - The loss stops improving at some threshold - The class found is the counterfactual one</p>
+</div>
+</div>
+<p>Here is pytorch for implementing this.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.autograd <span class="im">import</span> Variable</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.auto <span class="im">import</span> tqdm</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> detect_convergence(model_classifier, current_loss, previous_loss, y, counterfactuals, threshold <span class="op">=</span> <span class="fl">1e-3</span>):</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the change in loss</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    change_in_loss <span class="op">=</span> torch.<span class="bu">abs</span>(current_loss <span class="op">-</span> previous_loss)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if the instance_to_analyze's prediction is different from all counterfactuals</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    y_diff_all <span class="op">=</span> <span class="bu">all</span>([y <span class="op">!=</span> model_classifier.predict(c_i) <span class="cf">for</span> c_i <span class="kw">in</span> counterfactuals])</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if the change in loss is less than threshold and y is different from all counterfactuals</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> change_in_loss <span class="op">&lt;</span> threshold <span class="kw">and</span> y_diff_all:</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Loss converged at: </span><span class="sc">{</span>change_in_loss<span class="sc">}</span><span class="ss">, stop criteria reached"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> learn_counterfactuals(instance_to_analyze, </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                            lambda_1, lambda_2, yloss, </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                            distance_function, model_classifier,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                            k, training_dataset, num_epochs<span class="op">=</span><span class="dv">100</span>, learning_rate<span class="op">=</span><span class="fl">0.01</span>):</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert inputs to PyTorch tensors</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    counterfactual_candidates <span class="op">=</span> [torch.randn_like(instance_to_analyze, requires_grad<span class="op">=</span><span class="va">True</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(k)]</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the optimizer</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> torch.optim.AdamW(counterfactual_candidates, lr<span class="op">=</span>learning_rate)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Gradient descent</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    prev_loss <span class="op">=</span> torch.tensor(<span class="bu">float</span>(<span class="st">'inf'</span>))</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch <span class="kw">in</span> tqdm(<span class="bu">range</span>(num_epochs), desc<span class="op">=</span><span class="st">"Number of epochs"</span>):</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> model_classifier.predict(instance_to_analyze)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        counterfactual_class <span class="op">=</span> torch.tensor([<span class="dv">1</span>]) <span class="cf">if</span> y <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> torch.tensor([<span class="dv">0</span>])</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute average yloss</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        yloss_per_ci <span class="op">=</span> torch.stack([yloss(counterfactual_class, model_classifier(c_i)) <span class="cf">for</span> c_i <span class="kw">in</span> counterfactual_candidates])</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        avg_yloss <span class="op">=</span> torch.mean(yloss_per_ci)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute average distance</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        dist_per_ci <span class="op">=</span> torch.stack([distance_function(c_i, instance_to_analyze, training_dataset) <span class="cf">for</span> c_i <span class="kw">in</span> counterfactual_candidates])</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        avg_dist <span class="op">=</span> torch.mean(dist_per_ci)</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute dpp_diversity</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        K <span class="op">=</span> create_k_matrix(counterfactual_candidates, distance_function, training_dataset)</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>        dpp_diversity <span class="op">=</span> torch.det(K)</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Normalize dpp_diversity by the size of K to avoid determinant being too large</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>        normalized_dpp_diversity <span class="op">=</span> dpp_diversity <span class="op">/</span> K.numel()</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the final loss</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> avg_yloss <span class="op">+</span> lambda_1<span class="op">*</span>avg_dist <span class="op">-</span> lambda_2<span class="op">*</span>normalized_dpp_diversity</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> detect_convergence(model_classifier, loss, prev_loss, y, counterfactual_candidates, threshold <span class="op">=</span> <span class="fl">1e-3</span>):</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>            <span class="co"># this is still not working</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>        prev_loss <span class="op">=</span> loss</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Backpropagation</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Update the counterfactuals</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> epoch<span class="op">%</span><span class="dv">10</span><span class="op">==</span><span class="dv">0</span>:</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Current loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return the optimized counterfactuals</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [c_i <span class="cf">for</span> c_i <span class="kw">in</span> counterfactual_candidates]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="the-practice" class="level1">
+<h1>The practice</h1>
+<section id="a-few-practical-considerations" class="level2">
+<h2 class="anchored" data-anchor-id="a-few-practical-considerations">A few practical considerations</h2>
+<p>Authors also describe a few practical considerations that I’ll be using for understanding the main idea behind the paper. Let’s dive into them</p>
+<section id="choice-of-loss" class="level3">
+<h3 class="anchored" data-anchor-id="choice-of-loss">Choice of loss</h3>
+<p>At a first glance it might seem intuitive to use <span class="math inline">\(\ell_1\text{-loss}\)</span> (<span class="math inline">\(|f(x_{cf}) − f (c)|\)</span>) or <span class="math inline">\(\ell_2\text{-loss}\)</span> ((<span class="math inline">\(f(x_{cf}) - f(c))^2\)</span>) as the yloss, but this isn’t actually the best idea.</p>
+<p>These loss functions take into account the difference between <span class="math inline">\(f(c)\)</span> and our desired <span class="math inline">\(f(x_{cf})\)</span> or <span class="math inline">\(y\)</span>, but what we really want for a valid counterfactual is for <span class="math inline">\(f(c)\)</span> to be either more close than the threshold set by <span class="math inline">\(f\)</span> such that it flips the class outcome, not necessarily the closest to our ideal <span class="math inline">\(y\)</span> (either <span class="math inline">\(1\)</span> or <span class="math inline">\(0\)</span>). In fact, trying to optimize <span class="math inline">\(f(c)\)</span> to be close to either <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> encourages bigger changes to <span class="math inline">\(x\)</span> to fit the counterfactual class, which can result in a counterfactual that’s less feasible for a user. Because of this, we prefer to use a hinge-loss function that has no penalty as long as <span class="math inline">\(f(c)\)</span> is above a certain threshold when the preferred class is 1 (or below a certain threshold when the preferred class is 0). It also adds a penalty that’s proportional to the difference between <span class="math inline">\(f(c)\)</span> and the threshold when the classifier gets it right (but within the threshold), and a larger penalty when <span class="math inline">\(f(c)\)</span> doesn’t show the desired counterfactual class. More precisely, the hinge-loss is: <span class="math display">\[
+\begin{aligned}
+\text{hinge\_yloss}=max(0,1 - z*logit(f(c)))
+\end{aligned}
+\]</span></p>
+<p>Where <span class="math inline">\(z\)</span> is -1 when <span class="math inline">\(y = 0\)</span> and <span class="math inline">\(1\)</span> when <span class="math inline">\(y=1\)</span>, and <span class="math inline">\(logit(f(c))\)</span> is the unscaled output from the ML model (e.g., final logits that enter a softmax layer for making predictions in a neural network).</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hinge_yloss(y, probabilities, eps<span class="op">=</span><span class="fl">1e-7</span>):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes the hinge loss.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">    eps (float): A small value to prevent log(0) when f_c is 0.</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensures f_c is in (0, 1) interval to prevent log(0)</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    probabilities <span class="op">=</span> probabilities.clamp(eps, <span class="dv">1</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute logit</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    prediction_logits <span class="op">=</span> torch.log(probabilities <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> probabilities))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Determine z based on y</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> torch.where(y <span class="op">==</span> <span class="dv">0</span>, <span class="op">-</span>torch.ones_like(y), torch.ones_like(y))</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute hinge loss</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    hinge_loss <span class="op">=</span> torch.maximum(torch.tensor(<span class="fl">0.0</span>), <span class="dv">1</span> <span class="op">-</span> z <span class="op">*</span> prediction_logits)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hinge_loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I decided to have a quick test about it.</p>
+<p>Notice that as we need to differentiate the loss, the LogisticRegression method from sklearn wouldnt work since I dont have access to it’s derivatives or gradients (and they would be lost as I would need to convert <code>torch.Tensor</code> to <code>numpy.array</code> if I had to perform something like <code>model.predict_proba(instance_tensor)</code>)</p>
+<p>Therefore, I’m creating a simple LogsiticRegression in Pytorch</p>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LogisticRegressionModel(nn.Module):</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_dim):</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(LogisticRegressionModel, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.linear <span class="op">=</span> nn.Linear(input_dim, <span class="dv">1</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, x, threshold<span class="op">=</span><span class="fl">0.5</span>):</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">eval</span>()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        label_probability <span class="op">=</span> <span class="va">self</span>(x)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> (label_probability <span class="op">&gt;</span> threshold).<span class="bu">float</span>()</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> torch.sigmoid(<span class="va">self</span>.linear(x))</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> out</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>And then training it in a really dummy dataset, just for testing :)</p>
+<div class="cell" data-execution_count="7">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a binary classification dataset</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_classification(n_samples<span class="op">=</span><span class="dv">100</span>, n_features<span class="op">=</span><span class="dv">20</span>, n_informative<span class="op">=</span><span class="dv">2</span>, n_redundant<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Split into train/test sets</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.5</span>, random_state<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> torch.FloatTensor(X_train)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> torch.FloatTensor(X_test)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> torch.FloatTensor(y_train).view(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> torch.FloatTensor(y_test).view(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>input_dim <span class="op">=</span> X_train.shape[<span class="dv">1</span>]  <span class="co"># takes variable 'x' </span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegressionModel(input_dim)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> torch.nn.BCELoss()  <span class="co"># Binary Cross Entropy loss</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>epochs <span class="op">=</span> <span class="dv">2000</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> tqdm(<span class="bu">range</span>(epochs), desc<span class="op">=</span><span class="st">"Training Logistic Regression"</span>):</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Forward pass</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> model(X_train)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute Loss</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> criterion(y_pred, y_train)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Backward pass and update</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print progress</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (epoch<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> <span class="dv">500</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'epoch: </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">, loss = </span><span class="sc">{</span>loss<span class="sc">.</span>item()<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"d6e0807f040243f9b25b4607eb0d341d","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>epoch: 500, loss = 0.06291789561510086
+epoch: 1000, loss = 0.04198703169822693
+epoch: 1500, loss = 0.031998444348573685
+epoch: 2000, loss = 0.025996342301368713</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sample instance</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> X_test[<span class="dv">0</span>].reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> hinge_yloss(model.predict(x), model(x))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Call the hinge_yloss function</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Hinge loss for a test case: </span><span class="sc">{</span>result<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hinge loss for a test case: tensor([[0.9653]], grad_fn=&lt;MaximumBackward0&gt;)</code></pre>
+</div>
+</div>
+<p>It seems to have worked :)</p>
+</section>
+<section id="distance-function" class="level3">
+<h3 class="anchored" data-anchor-id="distance-function">Distance function</h3>
+<p>When dealing with continuous features, we define the ‘dist’ function as the average of feature-wise <span class="math inline">\(\ell_1\)</span> distances (or Manhattan distance) between the counterfactual example and the original input, as suggested by <span class="citation" data-cites="CounterFactualWatcher">(<a href="#ref-CounterFactualWatcher" role="doc-biblioref">Wachter, Mittelstadt, and Russell 2017</a>)</span>. However, it’s worth noting that features can cover different ranges. So, to make sure we account for this, we divide each feature-wise distance by the median absolute deviation (MAD) of that feature’s values from the training set. This approach follows what was done in the paper by <span class="citation" data-cites="CounterFactualWatcher">(<a href="#ref-CounterFactualWatcher" role="doc-biblioref">Wachter, Mittelstadt, and Russell 2017</a>)</span>. By looking at how much a feature deviates from the median, we can get a reliable measure of how variable a feature’s values are. So, dividing by the MAD lets us see how common it is to find the feature at a specific value. Mathematically, this can be represented as follows:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{dist\_continuous}(c,x)=\frac{1}{d_{cont}}\sum^{d_{cont}}_{p=1}\frac{|c^p - x^p|}{MAD_p}
+\end{aligned}
+\]</span></p>
+<p>Here, <span class="math inline">\(d_{cont}\)</span> stands for the number of continuous variables and <span class="math inline">\(MAD_p\)</span> is the median absolute deviation for the <span class="math inline">\(p\text{-th}\)</span> continuous variable, |c^p - x^p| is the Manhattan distance (<span class="math inline">\(\ell_1\)</span> distance) between a counterfactual vector and the instance we are analyzing</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> median_abs_deviation(x):</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute the Median Absolute Deviation (MAD) of a tensor along an axis.</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">    As I need to have access through tensors, this is necessary to be used instead</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">    of scipy function</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">    x (torch.Tensor): The input tensor.</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">    torch.Tensor: The computed MAD values.</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    median <span class="op">=</span> torch.median(x, axis<span class="op">=</span><span class="dv">0</span>)[<span class="dv">0</span>]</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    mad <span class="op">=</span> torch.median(torch.<span class="bu">abs</span>(x <span class="op">-</span> median), axis<span class="op">=</span><span class="dv">0</span>)[<span class="dv">0</span>]</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mad</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dist_continuous(c, x, training_data):</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute the distance function for continuous features. </span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">    We are assuming that training data contains only continuous features </span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="co">    c (torch.Tensor): A counterfactual example.</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co">    x (torch.Tensor): The original input instance.</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="co">    training_data (torch.Tensor): The training dataset.</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="co">    float: The computed distance.</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    d_cont <span class="op">=</span> x.shape[<span class="dv">0</span>]</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute MAD values for each feature</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    mad_values <span class="op">=</span> median_abs_deviation(training_data)</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    abs_diff <span class="op">=</span> torch.<span class="bu">abs</span>(c <span class="op">-</span> x)</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    normalized_diff <span class="op">=</span> abs_diff <span class="op">/</span> mad_values</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.<span class="bu">sum</span>(normalized_diff) <span class="op">/</span> d_cont</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And then a quick test :)</p>
+<div class="cell" data-execution_count="10">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> median_abs_deviation <span class="im">as</span> mad_np</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#first lest see if the MAD implementation is correct</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>data_np <span class="op">=</span> np.random.rand(<span class="dv">100</span>, <span class="dv">5</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>data_torch <span class="op">=</span> torch.tensor(data_np, dtype<span class="op">=</span>torch.<span class="bu">float</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate MAD with both functions</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>mad_scipy <span class="op">=</span> mad_np(data_np, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>mad_torch <span class="op">=</span> median_abs_deviation(data_torch).numpy()</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(mad_scipy, mad_torch, atol<span class="op">=</span><span class="fl">1e-1</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the number of features</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>num_features <span class="op">=</span> X_train.shape[<span class="dv">1</span>]</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a counterfactual and an original instance with the correct number of features</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> np.random.rand(num_features)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.random.rand(num_features)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the distance</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>distance <span class="op">=</span> dist_continuous(torch.tensor(c, requires_grad<span class="op">=</span><span class="va">True</span>), torch.tensor(x), X_train)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(distance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>tensor(0.6583, dtype=torch.float64, grad_fn=&lt;DivBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Authors also defined metrics and evaluations for <strong>categorical features</strong>, but I decided to skip them since this would give more details that could deviate from the main algorithm. If you want to check, please see the original paper <span class="citation" data-cites="dice">(<a href="#ref-dice" role="doc-biblioref">Mothilal, Sharma, and Tan 2020</a>)</span></p>
+</div>
+</div>
+</section>
+<section id="scaling-features" class="level3">
+<h3 class="anchored" data-anchor-id="scaling-features">Scaling features</h3>
+<p>Typically, continuous features can take on a broad variety of values, while categorical features are often constrained to a one-hot binary representation. It’s important to keep in mind that the scale of a feature can significantly influence its importance in our objective function. The authors provide to the users interactive interfaces where they can express their preferences for different features. <strong>However</strong>, as a reasonable starting point, we opt to transform all features to fall within the range of [0, 1].</p>
+<p><strong>Therefore, for implementation purposes, I’ll be using StandardScaler for this example</strong></p>
+</section>
+<section id="hyperparameters" class="level3">
+<h3 class="anchored" data-anchor-id="hyperparameters">Hyperparameters</h3>
+<p>The process of generating counterfactuals happens after the machine learning model has been trained, and so, as suggested in <span class="citation" data-cites="CounterFactualWatcher">(<a href="#ref-CounterFactualWatcher" role="doc-biblioref">Wachter, Mittelstadt, and Russell 2017</a>)</span>, it’s not strictly necessary to use the same hyperparameters for each original input. However, because hyperparameters can significantly impact the counterfactuals that are produced, it could be problematic to present users with counterfactuals that were generated using different hyperparameters. In this study, the authors opted for <strong><span class="math inline">\(\lambda_1 = 0.5\)</span> and <span class="math inline">\(\lambda_2 = 1\)</span>.</strong></p>
+</section>
+<section id="getting-real" class="level3">
+<h3 class="anchored" data-anchor-id="getting-real">Getting real</h3>
+<p>Let’s use the same dummy dataset that I used for Anchors example. <strong>There are a few differences, however</strong>: - We will be creating a SimpleNeuralNetwork classifier and we will use it as our blackbox model - We will be using StandardScaler to scale our features</p>
+<div class="cell" data-execution_count="11">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SimpleNet(nn.Module):</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_size, hidden_size):</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(SimpleNet, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fc1 <span class="op">=</span> nn.Linear(input_size, hidden_size)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.relu <span class="op">=</span> nn.ReLU()</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fc2 <span class="op">=</span> nn.Linear(hidden_size, <span class="dv">1</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.sigmoid <span class="op">=</span> nn.Sigmoid()</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, x, threshold<span class="op">=</span><span class="fl">0.5</span>):</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">eval</span>()</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ensure x is a 2D tensor: add an extra dimension if x is a 1D tensor</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(x.shape) <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> x.unsqueeze(<span class="dv">0</span>) </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        label_probability <span class="op">=</span> <span class="va">self</span>(x)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> (label_probability <span class="op">&gt;</span> threshold).<span class="bu">float</span>()</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.fc1(x)</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.relu(x)</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.fc2(x)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.sigmoid(x)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a 2D dataset with two classes</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples<span class="op">=</span><span class="dv">200</span>, centers<span class="op">=</span><span class="dv">2</span>, random_state<span class="op">=</span><span class="dv">42</span>, cluster_std<span class="op">=</span><span class="fl">2.0</span>)</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>std_features <span class="op">=</span> StandardScaler()</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>std_features.fit(X_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>StandardScaler()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">StandardScaler</label><div class="sk-toggleable__content"><pre>StandardScaler()</pre></div></div></div></div></div>
+</div>
+</div>
+<p>And then train the network</p>
+<div class="cell" data-execution_count="12">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define network parameters</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>input_size <span class="op">=</span> X_train.shape[<span class="dv">1</span>]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>hidden_size <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Instantiate the network, loss function, and optimizer</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> SimpleNet(input_size, hidden_size)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> nn.BCELoss()</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> optim.SGD(net.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>epochs <span class="op">=</span> <span class="dv">2000</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> tqdm(<span class="bu">range</span>(epochs), desc<span class="op">=</span><span class="st">"Training Neural Net"</span>):</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    net.train()</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Forward pass</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> net(torch.from_numpy(std_features.transform(X_train).astype(np.float32)))</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute Loss</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> criterion(y_pred, torch.from_numpy(y_train.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>).astype(np.float32)))</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Backward pass and update</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print progress</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (epoch<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> <span class="dv">500</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'epoch: </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">, loss = </span><span class="sc">{</span>loss<span class="sc">.</span>item()<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"9d976a5ffa8945b3b7745d69880f00a2","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>epoch: 500, loss = 0.009603435173630714
+epoch: 1000, loss = 0.005159247666597366
+epoch: 1500, loss = 0.0036031161434948444
+epoch: 2000, loss = 0.0027885879389941692</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> net.predict(torch.from_numpy(std_features.transform(X_test).astype(np.float32))).numpy().reshape(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, predictions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>1.0</code></pre>
+</div>
+</div>
+<p>It was pretty easy to get a perfect model, which was expected.</p>
+<p>Then, now I want to explain a single instance from <code>test</code> set. Let’s take the first element :)</p>
+<div class="cell" data-execution_count="14">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>instance_to_explain <span class="op">=</span> np.where(X<span class="op">==</span>X_test[<span class="dv">0</span>])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> (X[instance_to_explain]<span class="op">==</span>X_test[<span class="dv">0</span>]).<span class="bu">all</span>()</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_dataset_with_instance(X, y, highlight_row<span class="op">=</span><span class="va">None</span>, counterfactual_instance_list<span class="op">=</span><span class="va">None</span>, title<span class="op">=</span><span class="st">"Dataset"</span>):</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Assuming you have two classes 0 and 1</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    class_0 <span class="op">=</span> X[y <span class="op">==</span> <span class="dv">0</span>]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    class_1 <span class="op">=</span> X[y <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a scatter plot for each class</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    plt.scatter(class_0[:, <span class="dv">0</span>], class_0[:, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Class 0'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    plt.scatter(class_1[:, <span class="dv">0</span>], class_1[:, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Class 1'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> highlight_row <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>        plt.scatter(X[highlight_row, <span class="dv">0</span>], X[highlight_row, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'green'</span>, label<span class="op">=</span><span class="st">'Instance'</span>, alpha<span class="op">=</span><span class="dv">1</span>, marker<span class="op">=</span><span class="st">'o'</span>, edgecolors<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> counterfactual_instance_list <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> <span class="bu">isinstance</span>(counterfactual_instance_list, <span class="bu">list</span>):</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> counterfactual_instance <span class="kw">in</span> counterfactual_instance_list:</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>            plt.scatter(counterfactual_instance[<span class="dv">0</span>], counterfactual_instance[<span class="dv">1</span>], </span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>                        c<span class="op">=</span><span class="st">'cyan'</span>, label<span class="op">=</span><span class="st">'Counterfactual Instance'</span>, alpha<span class="op">=</span><span class="dv">1</span>, marker<span class="op">=</span><span class="st">'o'</span>, edgecolors<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Feature 1'</span>)</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Feature 2'</span>)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    plt.title(title)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add a legend to the plot</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Pass in the index of the row you want to highlight</span></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>plot_dataset_with_instance(X, y, highlight_row<span class="op">=</span>instance_to_explain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="2023-07-08-Distilling-DiverseCounterfactualExplanations_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Therefore, we want to find the <em>set of candidates</em> that makes the <strong>green</strong> instance becomes <strong>red</strong>. For that, then let’s use the <code>learn_counterfactuals</code> defined earlier with the following consierations:</p>
+<ul>
+<li><span class="math inline">\(x=\)</span> the same instance that we are trying to get the counterfactuals, transformed from <strong>std_features</strong></li>
+<li><span class="math inline">\(\text{yloss}\)</span> is the hinge_loss that we defined earlier</li>
+<li><span class="math inline">\(\text{distance\_function}\)</span> is the <span class="math inline">\(\text{distance\_continuous}\)</span> that was defined earlier</li>
+<li><span class="math inline">\(\text{lambda\_1}=\lambda_1=0.5\)</span></li>
+<li><span class="math inline">\(\text{lambda\_2}=\lambda_2=2.0\)</span></li>
+<li><span class="math inline">\(\text{model\_predict}\)</span> will be our <code>net</code> model which we just trained</li>
+<li><span class="math inline">\(k=3\)</span>, so we are trying to learn a three counterfactual</li>
+</ul>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>instance_to_explain <span class="op">=</span> X_test[<span class="dv">0</span>]</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>reference_instance <span class="op">=</span> np.where(X<span class="op">==</span>instance_to_explain)[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> torch.from_numpy(std_features.transform(instance_to_explain.reshape(<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>)).astype(np.float32))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>lambda_1 <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>lambda_2 <span class="op">=</span> <span class="fl">2.0</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>number_of_counterfactuals <span class="op">=</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>learnt_counterfactuals <span class="op">=</span> learn_counterfactuals(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    instance_to_analyze<span class="op">=</span>x,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    lambda_1<span class="op">=</span>torch.tensor(lambda_1),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    lambda_2<span class="op">=</span>torch.tensor(lambda_2),</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    yloss<span class="op">=</span>hinge_yloss,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    distance_function<span class="op">=</span>dist_continuous,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    model_classifier<span class="op">=</span>net,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span>number_of_counterfactuals,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    training_dataset<span class="op">=</span>torch.FloatTensor(X_train),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    num_epochs<span class="op">=</span><span class="dv">50</span>, </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">0.05</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"a88912286dc84e8e8edd457529a32258","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Current loss: 0.6136817932128906
+Current loss: 0.20534832775592804
+Current loss: 0.1759258359670639
+Loss converged at: 0.0008479952812194824, stop criteria reached</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>counterfactual_instances_scaled_back <span class="op">=</span> []</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> single_counterfactual <span class="kw">in</span> learnt_counterfactuals:</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    counterfactual_instances_scaled_back.append(std_features.inverse_transform(single_counterfactual.detach().numpy())[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>plot_dataset_with_instance(X, y, highlight_row<span class="op">=</span>reference_instance, counterfactual_instance_list<span class="op">=</span>counterfactual_instances_scaled_back, title<span class="op">=</span><span class="st">"Initial Dataset"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel" data-execution_count="18">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div id="counterfactual-instances" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="2023-07-08-Distilling-DiverseCounterfactualExplanations_files/figure-html/counterfactual-instances-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Dataset with Learnt Counterfactual Instances</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="performing-adjustment" class="level2">
+<h2 class="anchored" data-anchor-id="performing-adjustment">Performing Adjustment</h2>
+<section id="enhancing-sparcity" class="level3">
+<h3 class="anchored" data-anchor-id="enhancing-sparcity">Enhancing Sparcity</h3>
+<p>The loss function aims to minimize the distance between the input and the generated counterfactuals. However, an ideal counterfactual should change as few features as possible to maintain its sparsity considering the feasibility definition. To promote this sparsity, the authors implemented a post-processing step where they revert the values of continuous features back to their original values in <span class="math inline">\(x\)</span>, proceeding greedily until the predicted class <span class="math inline">\(f(c)\)</span> changes. For this step, they consider all continuous features <span class="math inline">\(c^j\)</span> where the difference from <span class="math inline">\(x^j\)</span> is below a chosen threshold. Although the median absolute distance (<span class="math inline">\(MAD\)</span>) may seem like an intuitive threshold, it can be rather large for features with high variance. Thus, for each feature, they choose the lower value between the <span class="math inline">\(MAD\)</span> and the 10 percentile of the absolute difference between non-identical values from the median.</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> post_hoc_adjustment(c_list_original, instance_to_explain, model, X_train, std_features):</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Post-hoc filtering to promote sparsity in the counterfactuals.</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">    c_list_original (List[torch.Tensor]): A list of counterfactual unscaled.</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">    instance_to_explain (torch.Tensor): The original input instance unscaled.</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co">    model: The machine learning model that we are trying to explain.</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">    X_train_scaled (torch.Tensor): The training dataset unscaled.</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">    List[torch.Tensor]: The list of sparse counterfactuals unscaled.</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate MAD values for each feature</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    mad_values <span class="op">=</span> median_abs_deviation(X_train)</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the 10th percentile of absolute differences from the median</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    p10_values <span class="op">=</span> torch.quantile(<span class="bu">input</span><span class="op">=</span>torch.<span class="bu">abs</span>(X_train <span class="op">-</span> torch.median(X_train)), q<span class="op">=</span><span class="fl">0.10</span>, dim<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Choose the lower value between the MAD and the 10th percentile for each feature</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    thresholds <span class="op">=</span> torch.minimum(mad_values, p10_values)</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prepare a container for sparse counterfactuals</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    c_sparse_list <span class="op">=</span> []</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> original_counterfactual <span class="kw">in</span> c_list_original:</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate the absolute differences between the counterfactual and the original instance</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>        scale_c <span class="op">=</span> std_features.transform(original_counterfactual.detach().numpy().reshape(<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>)).astype(np.float32)</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>        scale_x <span class="op">=</span> std_features.transform(instance_to_explain.detach().numpy().reshape(<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>)).astype(np.float32)</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>        abs_diff <span class="op">=</span> torch.<span class="bu">abs</span>(torch.from_numpy(scale_c) <span class="op">-</span> torch.from_numpy(scale_x))</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a list of indices ordered by the absolute differences</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>        ordered_indices <span class="op">=</span> torch.argsort(abs_diff)</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Copy the counterfactual to avoid modifying the original</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>        c_sparse <span class="op">=</span> original_counterfactual.clone()</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Revert each feature until the predicted class changes</span></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> idx <span class="kw">in</span> ordered_indices[<span class="dv">0</span>]:</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> abs_diff[<span class="dv">0</span>][idx] <span class="op">&lt;</span> thresholds[idx]:</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>                c_sparse_tmp <span class="op">=</span> scale_c</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>                c_sparse_tmp[<span class="dv">0</span>][idx] <span class="op">=</span> scale_x[<span class="dv">0</span>][idx]</span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> model.predict(torch.from_numpy(c_sparse_tmp)) <span class="op">!=</span> model.predict(torch.from_numpy(scale_c)):</span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">break</span></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>                c_sparse[<span class="dv">0</span>][idx] <span class="op">=</span> instance_to_explain[idx]</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>        c_sparse_list.append(c_sparse)</span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [counterfactual_sparse[<span class="dv">0</span>].detach().numpy() <span class="cf">for</span> counterfactual_sparse <span class="kw">in</span> c_sparse_list]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lets do the post processing and then compare the plots</p>
+<div class="cell" data-execution_count="20">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>c_sparse <span class="op">=</span> post_hoc_adjustment(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>      learnt_counterfactuals,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>      torch.Tensor(instance_to_explain), </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>      net, </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>      torch.FloatTensor(X_train), </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>      std_features</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="counterfactual-post-processing" class="cell quarto-layout-panel" data-execution_count="21">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="2023-07-08-Distilling-DiverseCounterfactualExplanations_files/figure-html/counterfactual-post-processing-output-1.png" id="counterfactual-post-processing-1" class="img-fluid" alt="Initial counterfactuals."></p>
+</div>
+<div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="2023-07-08-Distilling-DiverseCounterfactualExplanations_files/figure-html/counterfactual-post-processing-output-2.png" id="counterfactual-post-processing-2" class="img-fluid" alt="After postprocessing"></p>
+</div>
+</div>
+</div>
+<p>We can see from this plot that if we just move <code>Feature 2</code> and keep <code>Feature 1</code> constant, we can achieve three different counterfactuals, that is, we have found the feature changes that modify the class result! :)</p>
+</section>
+</section>
+</section>
+<section id="give-me-a-real-use-case" class="level1">
+<h1>Give me a <del>real</del> use case :)</h1>
+<p>For using a real library, let’s rely on <a href="https://github.com/interpretml/DiCE/tree/main">DiCE</a> project</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dice_ml</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>instance_to_explain <span class="op">=</span> pd.DataFrame(X_test[[<span class="dv">0</span>]], columns<span class="op">=</span>[<span class="st">"Feature 1"</span>, <span class="st">"Feature 2"</span>])</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>x_train_pd <span class="op">=</span> pd.DataFrame(X_train, columns<span class="op">=</span>[<span class="st">"Feature 1"</span>, <span class="st">"Feature 2"</span>])</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>y_labels_pd <span class="op">=</span> pd.Series(y_train, name<span class="op">=</span><span class="st">"label"</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>train_pd <span class="op">=</span> pd.concat([x_train_pd, y_labels_pd], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>dice_data <span class="op">=</span> dice_ml.Data(dataframe<span class="op">=</span>train_pd, outcome_name<span class="op">=</span><span class="st">'label'</span>, continuous_features<span class="op">=</span>[<span class="st">"Feature 1"</span>, <span class="st">"Feature 2"</span>])</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>dice_model <span class="op">=</span> dice_ml.Model(model<span class="op">=</span>net, backend<span class="op">=</span><span class="st">"PYT"</span>)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>exp <span class="op">=</span> dice_ml.Dice(data_interface<span class="op">=</span>dice_data, model_interface<span class="op">=</span>dice_model, method<span class="op">=</span><span class="st">"gradient"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>e1 <span class="op">=</span> exp.generate_counterfactuals(instance_to_explain, </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                                  total_CFs<span class="op">=</span>number_of_counterfactuals,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                                  desired_class<span class="op">=</span><span class="st">"opposite"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                                  proximity_weight<span class="op">=</span>lambda_1,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                                  diversity_weight<span class="op">=</span>lambda_2,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                                )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 1/1 [01:34&lt;00:00, 94.97s/it]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Diverse Counterfactuals found! total time taken: 00 min 06 sec</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>e1.visualize_as_dataframe(show_only_changes<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Query instance (original outcome : 0)
+
+Diverse Counterfactual set (new outcome: 1.0)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Feature 1</th>
+<th data-quarto-table-cell-role="th">Feature 2</th>
+<th data-quarto-table-cell-role="th">label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>-0.447199</td>
+<td>10.876846</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Feature 1</th>
+<th data-quarto-table-cell-role="th">Feature 2</th>
+<th data-quarto-table-cell-role="th">label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>-0.000100</td>
+<td>0.188946</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.389938</td>
+<td>0.612188</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.634860</td>
+<td>1.000000</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Let’s plot the results comparing my implementation and DiCE one</p>
+<div id="counterfactual-dice" class="cell quarto-layout-panel" data-execution_count="26">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p><img src="2023-07-08-Distilling-DiverseCounterfactualExplanations_files/figure-html/counterfactual-dice-output-1.png" id="counterfactual-dice-1" class="img-fluid" alt="Initial data"></p>
+</div>
+<div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p><img src="2023-07-08-Distilling-DiverseCounterfactualExplanations_files/figure-html/counterfactual-dice-output-2.png" id="counterfactual-dice-2" class="img-fluid" alt="My implementation"></p>
+</div>
+<div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p><img src="2023-07-08-Distilling-DiverseCounterfactualExplanations_files/figure-html/counterfactual-dice-output-3.png" id="counterfactual-dice-3" class="img-fluid" alt="After DiCE"></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There can be many reasons for the DiCE results being different than the ones that I achieved, but they look close :) I suspect that could be tiny details in the post processing part that I might have missed</p>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>This concludes our journey to explain Diverse Counterfactuals Explanation algorithm, which is one of many model-specific explanation :)</p>
+
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-DPP" class="csl-entry" role="listitem">
+Kulesza, Alex, and Ben Taskar. 2012. <span>“Determinantal Point Processes for Machine Learning.”</span> <em>Foundations and Trends® in Machine Learning</em> 5 (2–3): 123–286. <a href="https://doi.org/10.1561/2200000044">https://doi.org/10.1561/2200000044</a>.
+</div>
+<div id="ref-SHAPPaper" class="csl-entry" role="listitem">
+Lundberg, Scott M, and Su-In Lee. 2017. <span>“A Unified Approach to Interpreting Model Predictions.”</span> In <em>Advances in Neural Information Processing Systems 30</em>, edited by I. Guyon, U. V. Luxburg, S. Bengio, H. Wallach, R. Fergus, S. Vishwanathan, and R. Garnett, 4765–74. Curran Associates, Inc. <a href="http://papers.nips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions.pdf">http://papers.nips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions.pdf</a>.
+</div>
+<div id="ref-dice" class="csl-entry" role="listitem">
+Mothilal, Ramaravind K, Amit Sharma, and Chenhao Tan. 2020. <span>“Explaining Machine Learning Classifiers Through Diverse Counterfactual Explanations.”</span> In <em>Proceedings of the 2020 Conference on Fairness, Accountability, and Transparency</em>, 607–17.
+</div>
+<div id="ref-LIMEPaper" class="csl-entry" role="listitem">
+Ribeiro, Marco Tulio, Sameer Singh, and Carlos Guestrin. 2016. <span>“"Why Should <span>I</span> Trust You?": Explaining the Predictions of Any Classifier.”</span> <em>CoRR</em> abs/1602.04938. <a href="http://arxiv.org/abs/1602.04938">http://arxiv.org/abs/1602.04938</a>.
+</div>
+<div id="ref-CounterFactualWatcher" class="csl-entry" role="listitem">
+Wachter, Sandra, Brent D. Mittelstadt, and Chris Russell. 2017. <span>“Counterfactual Explanations Without Opening the Black Box: Automated Decisions and the <span>GDPR</span>.”</span> <em>CoRR</em> abs/1711.00399. <a href="http://arxiv.org/abs/1711.00399">http://arxiv.org/abs/1711.00399</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>As always, ChatGPT is being a true “friend” when creating these boilerplate code :)<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

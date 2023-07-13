@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2023-07-08-annotated-diverse-cfe.html",
       "/posts/2023-06-24-annotated-anchors.html",
       "/posts/2021-02-21-downstream-bert-qa.html",
       "/posts/2020-09-19-distilling-bert.html"
