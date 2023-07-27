@@ -243,7 +243,13 @@ div.csl-indent {
   <li><a href="#issues-with-greedy-search" id="toc-issues-with-greedy-search" class="nav-link" data-scroll-target="#issues-with-greedy-search">Issues with Greedy Search</a></li>
   </ul></li>
   <li><a href="#beam-search" id="toc-beam-search" class="nav-link" data-scroll-target="#beam-search">Beam Search</a></li>
-  <li><a href="#show-me-the-real-example" id="toc-show-me-the-real-example" class="nav-link" data-scroll-target="#show-me-the-real-example">Show me the <del>real</del> example</a></li>
+  <li><a href="#show-me-the-real-example" id="toc-show-me-the-real-example" class="nav-link" data-scroll-target="#show-me-the-real-example">Show me the <del>real</del> example</a>
+  <ul class="collapse">
+  <li><a href="#a-real-example" id="toc-a-real-example" class="nav-link" data-scroll-target="#a-real-example">A real example</a>
+  <ul class="collapse">
+  <li><a href="#the-dataset-1" id="toc-the-dataset-1" class="nav-link" data-scroll-target="#the-dataset-1">The dataset</a></li>
+  </ul></li>
+  </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
@@ -398,7 +404,9 @@ Important
 </div>
 </div>
 <p>Also, I want to explain a single instance from <code>test</code> set. Let’s take the first element :)</p>
-<div class="cell" data-execution_count="2">
+<div>
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>instance_to_explain <span class="op">=</span> np.where(X<span class="op">==</span>X_test[<span class="dv">0</span>])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> (X[instance_to_explain]<span class="op">==</span>X_test[<span class="dv">0</span>]).<span class="bu">all</span>()</span>
@@ -426,8 +434,18 @@ Important
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Pass in the index of the row you want to highlight</span></span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>plot_dataset_with_instance(X, y, highlight_row<span class="op">=</span>instance_to_explain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="2023-06-24-Distilling-Anchors_files/figure-html/cell-3-output-1.png" class="img-fluid"></p>
+</details>
+<div class="cell quarto-layout-panel" data-execution_count="2">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div id="fig-dummy-dataset" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="2023-06-24-Distilling-Anchors_files/figure-html/fig-dummy-dataset-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Dummy dataset</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </div>
 </div>
 <p>Therefore, I want to provide an explaination through <code>Anchors</code> for the <code>green</code> point, which comes from the <code>test set</code>.</p>
@@ -436,7 +454,13 @@ Important
 <section id="identifying-candidates" class="level2">
 <h2 class="anchored" data-anchor-id="identifying-candidates">Identifying Candidates</h2>
 <p>We start by creating an ‘anchor’ <span class="math inline">\(A\)</span>, which we initially set up as an <em>empty rule</em> that can apply to every instance. As we iterate through our process, we come up with new potential rules that expand <span class="math inline">\(A\)</span> by adding another feature predicate, denoted as <span class="math inline">\(\{a_i\}\)</span>, to its definition. In other words, with each iteration, our set of potential rules looks like <span class="math inline">\(\{A \wedge a_i, A \wedge a_{i+1}, A \wedge a_{i+2}, \dots\}\)</span>, each one just adding a new feature predicate to the last.</p>
-<p>Mathematically, the algorithm is defined as follows (taken from the paper): <img src="images/annotated-anchor/generate_candidates.jpeg" title="Generate Anchor Candidates" class="img-fluid"></p>
+<p>Mathematically, the algorithm is defined as follows (taken from the paper):</p>
+<div id="fig-anchor-algo1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/annotated-anchor/generate_candidates.jpeg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Generate Anchor Candidates</figcaption>
+</figure>
+</div>
 <section id="show-me-the-code" class="level3">
 <h3 class="anchored" data-anchor-id="show-me-the-code">Show me the code!</h3>
 <p>Before that we have to define some intermediate functions that will help us to simplify things<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
@@ -643,7 +667,7 @@ Important
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>best_anchor <span class="op">=</span> best_cand(A_r, X_train, x, clf, <span class="fl">0.3</span>, num_samples<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:16&lt;00:00, 59.52it/s]</code></pre>
+<pre><code>Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:01&lt;00:00, 655.34it/s]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="9">
@@ -689,8 +713,8 @@ Found 150640 new anchors with coverage above 0.03571428571428571
 Found 0 new anchors with coverage above 0.10714285714285714</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Performing Epsilon Greedy approach:   2%|▏         | 21/1000 [00:00&lt;00:26, 37.42it/s]Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:17&lt;00:00, 57.46it/s]
-Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:12&lt;00:00, 78.39it/s]</code></pre>
+<pre><code>Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:01&lt;00:00, 654.68it/s]
+Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:01&lt;00:00, 557.12it/s]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="12">
@@ -698,9 +722,9 @@ Performing Epsilon Greedy approach: 100%|██████████| 1000/10
 <pre><code>Anchors final rule: x[0] &gt; -4.891804617458048AND x[1] &gt; 10.040820994425033</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="39">
+<div class="cell" data-execution_count="13">
 <div class="cell-output cell-output-stdout">
-<pre><code>Anchor coverage: 0.45714285714285713
+<pre><code>Anchor coverage: 0.10714285714285714
 Anchor precision: 1.0</code></pre>
 </div>
 </div>
@@ -768,8 +792,8 @@ Found 85680 new anchors with coverage above 0.45
 Found 0 new anchors with coverage above 0.45714285714285713</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Performing Epsilon Greedy approach:   6%|▋         | 63/1000 [00:00&lt;00:17, 54.71it/s]Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:13&lt;00:00, 73.41it/s]
-Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:14&lt;00:00, 71.40it/s]</code></pre>
+<pre><code>Performing Epsilon Greedy approach:   4%|▍         | 38/1000 [00:00&lt;00:10, 95.29it/s]Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:02&lt;00:00, 489.93it/s]
+Performing Epsilon Greedy approach: 100%|██████████| 1000/1000 [00:01&lt;00:00, 726.94it/s]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="17">
@@ -795,12 +819,12 @@ Performing Epsilon Greedy approach: 100%|██████████| 1000/10
 <section id="show-me-the-real-example" class="level1">
 <h1>Show me the <del>real</del> example</h1>
 <p>I could use a sample dataset for that, but this would increase the lenght of this post, but I will use a simple boilerplate code for alibi code such that it could be easily extensible for other datasets :)</p>
-<div class="cell" data-execution_count="29">
+<div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alibi.explainers <span class="im">import</span> AnchorTabular</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>explainer <span class="op">=</span> AnchorTabular(clf.predict, feature_names<span class="op">=</span>clf.feature_name_)</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>explainer.fit(X_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>AnchorTabular(meta={
   'name': 'AnchorTabular',
   'type': ['blackbox'],
@@ -811,7 +835,7 @@ Performing Epsilon Greedy approach: 100%|██████████| 1000/10
 </div>
 </div>
 <p>Some considerations: - <code>batch_size</code> is the size of sample size used, which was half of the dataset in our examples - <code>coverage_sample</code> is the number of times we repeat the sampling process for calculating coverage. We sampled just one for the entire dataset in our case</p>
-<div class="cell" data-execution_count="37">
+<div class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>explanation <span class="op">=</span> explainer.explain(x, threshold<span class="op">=</span><span class="fl">0.95</span>, batch_size<span class="op">=</span><span class="dv">100</span>, beam_size<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Anchors final rule: "</span> <span class="op">+</span> <span class="st">" AND "</span>.join(<span class="bu">str</span>(predicate) <span class="cf">for</span> predicate <span class="kw">in</span> explanation.anchor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -819,17 +843,305 @@ Performing Epsilon Greedy approach: 100%|██████████| 1000/10
 <pre><code>Anchors final rule: Column_1 &gt; 4.35 AND Column_0 &lt;= 1.94</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="40">
+<div class="cell" data-execution_count="22">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Anchor precision: </span><span class="sc">{</span>explanation<span class="sc">.</span>precision<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Anchor coverage: </span><span class="sc">{</span>explanation<span class="sc">.</span>coverage<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Anchor precision: 0.9748953974895398
-Anchor coverage: 0.4609</code></pre>
+<pre><code>Anchor precision: 0.9897959183673469
+Anchor coverage: 0.4639</code></pre>
 </div>
 </div>
+<section id="a-real-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-real-example">A real example</h2>
+<p>Thanks to my <a href="https://www.ime.usp.br/~ddm/">master’s advisor</a>, I got access to a simple dataset which could be used to mimic a real workd example. Let’s take a look at it</p>
+<section id="the-dataset-1" class="level3">
+<h3 class="anchored" data-anchor-id="the-dataset-1">The dataset</h3>
+<p>The dataset is straightforward. We have the following columns: - region, which is the geographic region of Brazil - UF, which is the state/county - City, the city itself - latitude and longitude - temperature and altitude</p>
+<div class="cell" data-execution_count="23">
+<div class="cell-output cell-output-display" data-execution_count="23">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">UF</th>
+<th data-quarto-table-cell-role="th">city</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">lon</th>
+<th data-quarto-table-cell-role="th">temperature</th>
+<th data-quarto-table-cell-role="th">altitude</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>SE</td>
+<td>RJ</td>
+<td>CAMPOS DOS GOYTACAZES - SAO TOME</td>
+<td>-22,04166666</td>
+<td>-41,05166666</td>
+<td>24.002001</td>
+<td>-41.051667</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>CO</td>
+<td>MT</td>
+<td>SAO FELIX DO ARAGUAIA</td>
+<td>-11,61888888</td>
+<td>-50,72777777</td>
+<td>26.947313</td>
+<td>-50.727778</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>N</td>
+<td>PA</td>
+<td>MARABA</td>
+<td>-5,366447</td>
+<td>-49,051166</td>
+<td>26.410281</td>
+<td>-49.051166</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>CO</td>
+<td>GO</td>
+<td>RIO VERDE</td>
+<td>-17,785303</td>
+<td>-50,964869</td>
+<td>27.305761</td>
+<td>-50.964869</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>S</td>
+<td>RS</td>
+<td>PORTO ALEGRE</td>
+<td>-30,05361111</td>
+<td>-51,17472221</td>
+<td>19.983030</td>
+<td>-51.174722</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Then, let’s try to predict a given region from Brazil. Using latitude, longitude, city and UF would be straightfoward (think about inference time, if you have the one of these four, it would be straitghfoward to compute the region). Therefore, let’s use the <code>temperature</code> and <code>altitude</code> to predict the region :)</p>
+<div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> {<span class="st">"SE"</span>: <span class="st">'red'</span>, <span class="st">"CO"</span>: <span class="st">'blue'</span>, <span class="st">"N"</span>: <span class="st">'green'</span>, <span class="st">"S"</span>: <span class="st">'orange'</span>, <span class="st">"NE"</span>: <span class="st">'purple'</span>}</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>FEATURE_COLUMNS <span class="op">=</span> [<span class="st">"altitude"</span>, <span class="st">"temperature"</span>]</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>LABEL_COLUMN <span class="op">=</span> <span class="st">"region"</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[FEATURE_COLUMNS<span class="op">+</span>[LABEL_COLUMN]]</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_data(df):</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> region <span class="kw">in</span> df[<span class="st">"region"</span>].unique():</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        plt.scatter(df[df[<span class="st">"region"</span>]<span class="op">==</span>region][<span class="st">"altitude"</span>],</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>                    df[df[<span class="st">"region"</span>]<span class="op">==</span>region][<span class="st">"temperature"</span>],</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                    color<span class="op">=</span>colors[region],</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                    label<span class="op">=</span>region)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Altitude'</span>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Temperature'</span>)</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Altitude vs Temperature'</span>)</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>    plt.legend(title<span class="op">=</span><span class="st">'Region'</span>)</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>    plt.grid(<span class="va">True</span>)</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>plot_data(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell quarto-layout-panel" data-execution_count="24">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div id="fig-geography-dataset" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="2023-06-24-Distilling-Anchors_files/figure-html/fig-geography-dataset-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: Brazilian regions with Altitude and Temperature</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>There is some clear decision boundary for some classes, e.g.&nbsp;</p>
+<ul>
+<li>if <span class="math inline">\(\text{tempertature} \leq 20\)</span> and <span class="math inline">\(-60 \leq \text{altitude} \leq -50\)</span> then there is a high chance that we are talking about <em>South</em> region (orange points).</li>
+<li>Similarly, if <span class="math inline">\(25 \leq \text{tempertature} \leq 30\)</span> and <span class="math inline">\(-70 \leq \text{altitude} \leq -60\)</span> then there is a high chance that we are talking about <em>North</em> region (green point).</li>
+</ul>
+<p>Let’s see if given a blackbox model we can learn anchros with similar patterns :)</p>
+<div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightgbm <span class="im">import</span> LGBMClassifier</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> LabelEncoder</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, StratifiedKFold, train_test_split</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> ConfusionMatrixDisplay</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> LabelEncoder()</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(df[FEATURE_COLUMNS], df[LABEL_COLUMN], test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>encoded_labels_train <span class="op">=</span> encoder.fit_transform(y_train)</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>encoded_labels_test <span class="op">=</span> encoder.transform(y_test)</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the LightGBM classifier</span></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> LGBMClassifier(random_state<span class="op">=</span><span class="dv">42</span>, class_weight<span class="op">=</span><span class="st">"balanced"</span>)</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross validation</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> StratifiedKFold(n_splits<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> cross_val_score(clf, X_train, y_train, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Cross-validation scores: '</span>, scores)</span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Average cross-validation score: '</span>, scores.mean())</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>clf.fit(X_train, y_train)</span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>disp <span class="op">=</span> ConfusionMatrixDisplay.from_estimator(</span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>    clf, X<span class="op">=</span>X_test,</span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>y_test, </span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>    normalize<span class="op">=</span><span class="st">'true'</span>, cmap<span class="op">=</span><span class="st">"Blues"</span>, xticks_rotation<span class="op">=</span><span class="st">"horizontal"</span>)</span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> disp.ax_.set_title(<span class="st">"Confusion Matrix for the Test Set"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell quarto-layout-panel" data-execution_count="25">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<pre><code>Cross-validation scores:  [0.8021978  0.85714286 0.7032967  0.76923077 0.84444444]
+Average cross-validation score:  0.7952625152625152</code></pre>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div id="fig-confusion-matrix-real-dataset" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="2023-06-24-Distilling-Anchors_files/figure-html/fig-confusion-matrix-real-dataset-output-2.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;4: Test Confusion Matrix for Geography Example</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>We got pretty good results for the test set, specially regarding <code>NE</code>, <code>S</code> and <code>N</code> regions. Let’s see some learnt Anchors for some examples.</p>
+<div class="cell" data-execution_count="26">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alibi.explainers <span class="im">import</span> AnchorTabular</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>north_south_sample_idx <span class="op">=</span> y_test[y_test.isin([<span class="st">'N'</span>,<span class="st">'S'</span>])].head().index.tolist()</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>explainer <span class="op">=</span> AnchorTabular(clf.predict, feature_names<span class="op">=</span>clf.feature_name_)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>explainer.fit(X_train.values, disc_perc<span class="op">=</span><span class="bu">tuple</span>(<span class="bu">sorted</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>,<span class="dv">100</span>,<span class="dv">5</span>)]<span class="op">+</span>[<span class="dv">99</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>AnchorTabular(meta={
+  'name': 'AnchorTabular',
+  'type': ['blackbox'],
+  'explanations': ['local'],
+  'params': {
+              'seed': None,
+              'disc_perc': (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 99)}
+            ,
+  'version': '0.9.3'}
+)</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Due to feature distribution, I also changed the <em>percentile dicretizer</em> to a higher value than default (that is (25, 50, 75))</p>
+</div>
+</div>
+<div class="cell" data-execution_count="27">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.max_colwidth'</span>, <span class="dv">100</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>anchors <span class="op">=</span> []</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> example_idx <span class="kw">in</span> north_south_sample_idx:</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    instance_to_analyze <span class="op">=</span> X_test.loc[example_idx,:].values.copy()</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    explanation <span class="op">=</span> explainer.explain(instance_to_analyze, threshold<span class="op">=</span><span class="fl">0.95</span>, batch_size<span class="op">=</span><span class="dv">100</span>, beam_size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    anchors_rule <span class="op">=</span> <span class="st">" AND "</span>.join(<span class="bu">str</span>(predicate) <span class="cf">for</span> predicate <span class="kw">in</span> explanation.anchor)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    anchor_instance <span class="op">=</span> {<span class="st">"Test index"</span>: example_idx, </span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Model prediction"</span>: clf.predict(instance_to_analyze.reshape(<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>)),</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Anchor precision"</span>: explanation.precision,</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"Anchor rules"</span>: anchors_rule</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>                       }</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    anchors.append(anchor_instance)</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(anchors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Test index</th>
+<th data-quarto-table-cell-role="th">Model prediction</th>
+<th data-quarto-table-cell-role="th">Anchor precision</th>
+<th data-quarto-table-cell-role="th">Anchor rules</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>208</td>
+<td>[S]</td>
+<td>0.954071</td>
+<td>temperature &lt;= 22.48 AND -58.77 &lt; altitude &lt;= -48.81</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>420</td>
+<td>[S]</td>
+<td>0.984615</td>
+<td>temperature &lt;= 20.84 AND altitude &lt;= -48.81</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>257</td>
+<td>[N]</td>
+<td>0.965649</td>
+<td>temperature &gt; 26.31 AND altitude &lt;= -58.77</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>556</td>
+<td>[N]</td>
+<td>0.963087</td>
+<td>26.00 &lt; temperature &lt;= 27.26 AND -50.36 &lt; altitude &lt;= -47.07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>185</td>
+<td>[N]</td>
+<td>0.954198</td>
+<td>26.00 &lt; temperature &lt;= 27.26 AND -50.36 &lt; altitude &lt;= -47.07</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The predictions seems preety reasonable and if we check the <a href="#fig-geography-dataset">Figure&nbsp;3</a> image again, the learnt rules are somehow aligned with our initial hypothesis, which is cool :)</p>
+</section>
+</section>
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
