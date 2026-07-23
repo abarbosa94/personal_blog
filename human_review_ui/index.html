@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Translation preference review</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div><p class="eyebrow">New task: 18 blinded A/B comparisons</p><h1>Human preference review</h1></div>
+      <div class="progress-block" aria-live="polite">
+        <strong id="progressLabel">Loading...</strong><span id="remainingLabel"></span>
+        <div class="progress-track"><span id="progressBar"></span></div>
+      </div>
+    </header>
+    <main class="app-shell">
+      <section class="mode-notice" aria-label="Current review task">
+        <strong>This is not the alignment review.</strong>
+        Choose whether Candidate A, Candidate B, or neither is the better translation. Model names and Kimi's answer stay hidden until you finish.
+      </section>
+      <section class="toolbar" aria-label="Review controls">
+        <div class="filters">
+          <label>Status<select id="statusFilter"><option value="pending">Unresolved</option><option value="all">All</option><option value="needs_review">Unreviewed</option><option value="defer">Deferred</option><option value="reviewed">Reviewed</option></select></label>
+          <label>Direction<select id="directionFilter"><option value="all">Both directions</option><option value="en -> pt-BR">English to Portuguese</option><option value="pt-BR -> en">Portuguese to English</option></select></label>
+        </div>
+        <div><button id="nextUnreviewed" class="button quiet">Next unresolved</button><button id="shortcutsButton" class="button quiet">Shortcuts</button></div>
+      </section>
+      <section id="emptyState" class="empty" hidden><h2>Nothing matches these filters.</h2><button id="clearFilters" class="button primary">Clear filters</button></section>
+      <article id="reviewCard" class="review-card" hidden>
+        <header class="item-header">
+          <div><div class="badges"><span id="sampleBadge" class="badge id"></span><span id="directionBadge" class="badge"></span><span id="statusBadge" class="badge"></span></div><h2>Which translation is better?</h2><p>Judge meaning, fluency, terminology, locale, style, and formatting. Treat the reference as evidence, not as unquestionable truth.</p></div>
+          <div class="position"><strong id="positionLabel"></strong><span>in current view</span></div>
+        </header>
+        <section class="context-grid">
+          <article class="text-panel source"><p class="eyebrow">Source</p><div id="sourceText" class="prose"></div></article>
+          <article class="text-panel reference"><p class="eyebrow">Human reference</p><div id="referenceText" class="prose"></div></article>
+        </section>
+        <section class="candidate-grid" aria-label="Blinded translation candidates">
+          <article id="candidateAPanel" class="candidate-panel"><header><span class="candidate-letter">A</span><h3>Candidate A</h3></header><div id="candidateA" class="prose"></div></article>
+          <article id="candidateBPanel" class="candidate-panel"><header><span class="candidate-letter">B</span><h3>Candidate B</h3></header><div id="candidateB" class="prose"></div></article>
+        </section>
+        <section class="feedback">
+          <fieldset><legend>Confidence <span>required</span></legend><div id="confidenceButtons" class="segmented"><button data-confidence="low">Low <kbd>L</kbd></button><button data-confidence="medium">Medium <kbd>M</kbd></button><button data-confidence="high">High <kbd>H</kbd></button></div></fieldset>
+          <details id="detailsPanel"><summary>Failure tags and notes <span id="tagCount"></span></summary>
+            <div id="failureTags" class="tag-grid"></div>
+            <div class="templates"><span>Quick notes</span><button data-template="Meaning error or omission.">Meaning error</button><button data-template="Terminology is not natural for the target locale.">Terminology</button><button data-template="The human reference appears questionable.">Reference issue</button></div>
+            <label class="note-field">Reviewer note<textarea id="note" rows="3" placeholder="Explain uncertainty or a reusable failure pattern."></textarea></label>
+            <label class="golden"><input id="addToGolden" type="checkbox"> Add this example to the CI golden set</label>
+          </details>
+          <p id="validationMessage" class="validation" role="alert" hidden></p>
+        </section>
+        <footer>
+          <div><button id="previousButton" class="button quiet">Previous</button><button id="nextButton" class="button quiet">Next</button><button id="undoButton" class="button quiet" disabled>Undo</button></div>
+          <div class="decisions"><button data-choice="A" class="choice a"><kbd>A</kbd> Prefer A</button><button data-choice="tie" class="choice tie"><kbd>T</kbd> Tie</button><button data-choice="B" class="choice b"><kbd>B</kbd> Prefer B</button><button id="deferButton" class="choice defer"><kbd>D</kbd> Defer</button></div>
+        </footer>
+      </article>
+    </main>
+    <div id="saveStatus" class="save-status" role="status">Loading review data...</div>
+    <dialog id="shortcutsDialog"><form method="dialog"><header><h2>Keyboard shortcuts</h2><button value="close" aria-label="Close">x</button></header><dl><div><dt>A / B / T</dt><dd>Prefer A, prefer B, or tie</dd></div><div><dt>L / M / H</dt><dd>Set confidence</dd></div><div><dt>D</dt><dd>Defer</dd></div><div><dt>N / P</dt><dd>Next / previous</dd></div><div><dt>U</dt><dd>Undo last decision</dd></div><div><dt>?</dt><dd>Show shortcuts</dd></div></dl></form></dialog>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

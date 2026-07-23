@@ -1,0 +1,10 @@
+{
+  "completed_items": 17,
+  "stable_judge_items": 14,
+  "unstable_judge_items": 3,
+  "raw_agreement": 0.7857142857142857,
+  "agreement_ci_low": 0.5714285714285714,
+  "agreement_ci_high": 1.0,
+  "cohen_kappa": 0.671875,
+  "passes_70_percent_gate": true
+}

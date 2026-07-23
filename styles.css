@@ -1,1 +1,24 @@
 /* css styles */
+
+.language-switcher {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 1rem;
+}
+
+.language-switcher a {
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.9rem;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  text-decoration: none;
+}
+
+.language-switcher a:hover,
+.language-switcher a:focus {
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: underline;
+}

@@ -1,0 +1,19 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel(R) Core(TM) Ultra 7 165H",
+  "python": "3.12.12",
+  "torch": "2.7.1+cpu",
+  "transformers": "4.53.2",
+  "device": "cpu",
+  "torch_threads": 16,
+  "historical_commit": "e78386012f37512a5ebd316a1389fabf9bf3b707",
+  "aligned_passages": 13,
+  "english_words": 698,
+  "portuguese_words": 703,
+  "model_revisions": {
+    "marian_en_pt_br": "9f2863d807ecf91a374bdbecb8d01e402e90622e",
+    "marian_pt_br_en": "e9ca9975e3972afd80732f08ce01d3a1339f47f8",
+    "nllb": "f8d333a098d19b4fd9a8b18f94170487ad3f821d",
+    "tower": "4d779ca939174189c0677d4a75642d36d6a33b66"
+  }
+}

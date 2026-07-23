@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Blog Draft"
+  short_description: "Iterative technical blog review workflow"
+  default_prompt: "Use $review-blog-draft to review my current technical blog draft without editing it."

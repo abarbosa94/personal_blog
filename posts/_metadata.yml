@@ -6,3 +6,7 @@ freeze: true
 
 # Enable banner style title blocks
 title-block-banner: true
+
+# Add a language switcher to posts that declare a `translation` target.
+filters:
+  - language-switch.lua

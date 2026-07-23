@@ -1,0 +1,73 @@
+direction,segment_id,model_pair,preferred_model,stable,orders_present
+en -> pt-BR,p01-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p01-a02,Marian OPUS-MT || Tower+ 2B,unstable,False,2
+en -> pt-BR,p01-a03,Marian OPUS-MT || Tower+ 2B,tie,True,2
+en -> pt-BR,p01-a04,Marian OPUS-MT || Tower+ 2B,tie,True,2
+en -> pt-BR,p01-a05,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p01-a06,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p02-a01,Marian OPUS-MT || Tower+ 2B,Marian OPUS-MT,True,2
+en -> pt-BR,p02-a02,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p02-a03,Marian OPUS-MT || Tower+ 2B,unstable,False,2
+en -> pt-BR,p02-a04,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p03-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p04-a01,Marian OPUS-MT || Tower+ 2B,tie,True,2
+en -> pt-BR,p04-a02,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p04-a03,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p05-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p05-a02,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p05-a03,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p05-a04,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p05-a05,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p05-a06,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p06-a01,Marian OPUS-MT || Tower+ 2B,Marian OPUS-MT,True,2
+en -> pt-BR,p06-a02,Marian OPUS-MT || Tower+ 2B,Marian OPUS-MT,True,2
+en -> pt-BR,p06-a03,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p07-a01,Marian OPUS-MT || Tower+ 2B,tie,True,2
+en -> pt-BR,p08-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p08-a02,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p08-a03,Marian OPUS-MT || Tower+ 2B,tie,True,2
+en -> pt-BR,p08-a04,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p08-a05,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p08-a06,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p10-a01,Marian OPUS-MT || Tower+ 2B,tie,True,2
+en -> pt-BR,p10-a02,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p10-a03,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p11-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p12-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+en -> pt-BR,p13-a01,Marian OPUS-MT || Tower+ 2B,Marian OPUS-MT,True,2
+pt-BR -> en,p01-a01,Marian OPUS-MT || Tower+ 2B,unstable,False,2
+pt-BR -> en,p01-a02,Marian OPUS-MT || Tower+ 2B,tie,True,2
+pt-BR -> en,p01-a03,Marian OPUS-MT || Tower+ 2B,Marian OPUS-MT,True,2
+pt-BR -> en,p01-a04,Marian OPUS-MT || Tower+ 2B,tie,True,2
+pt-BR -> en,p01-a05,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p01-a06,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p02-a01,Marian OPUS-MT || Tower+ 2B,tie,True,2
+pt-BR -> en,p02-a02,Marian OPUS-MT || Tower+ 2B,unstable,False,2
+pt-BR -> en,p02-a03,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p02-a04,Marian OPUS-MT || Tower+ 2B,unstable,False,2
+pt-BR -> en,p03-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p04-a01,Marian OPUS-MT || Tower+ 2B,tie,True,2
+pt-BR -> en,p04-a02,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p04-a03,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p05-a01,Marian OPUS-MT || Tower+ 2B,tie,True,2
+pt-BR -> en,p05-a02,Marian OPUS-MT || Tower+ 2B,tie,True,2
+pt-BR -> en,p05-a03,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p05-a04,Marian OPUS-MT || Tower+ 2B,unstable,False,2
+pt-BR -> en,p05-a05,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p05-a06,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p06-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p06-a02,Marian OPUS-MT || Tower+ 2B,unstable,False,2
+pt-BR -> en,p06-a03,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p07-a01,Marian OPUS-MT || Tower+ 2B,Marian OPUS-MT,True,2
+pt-BR -> en,p08-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p08-a02,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p08-a03,Marian OPUS-MT || Tower+ 2B,tie,True,2
+pt-BR -> en,p08-a04,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p08-a05,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p08-a06,Marian OPUS-MT || Tower+ 2B,tie,True,2
+pt-BR -> en,p10-a01,Marian OPUS-MT || Tower+ 2B,tie,True,2
+pt-BR -> en,p10-a02,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p10-a03,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p11-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p12-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2
+pt-BR -> en,p13-a01,Marian OPUS-MT || Tower+ 2B,Tower+ 2B,True,2

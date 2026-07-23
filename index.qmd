@@ -2,6 +2,8 @@
 title: "Andre's Personal Blog :)"
 listing:
   contents: posts
+  exclude:
+    language-version: translation
   sort: "date desc"
   type: default
   categories: true
