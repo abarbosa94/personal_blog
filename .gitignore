@@ -9,3 +9,5 @@ __pycache__/
 !.env.example
 
 **/*.quarto_ipynb
+/.reviews/
+/experiments/scaling-my-posts/artifacts/local-ci/

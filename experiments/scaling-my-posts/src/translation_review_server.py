@@ -394,7 +394,7 @@ def create_server(
 
 
 def main() -> None:
-    repo = Path(__file__).resolve().parents[1]
+    repo = Path(__file__).resolve().parents[3]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", choices=["alignment", "human"], default="alignment")
     parser.add_argument(
@@ -422,8 +422,8 @@ def main() -> None:
             if args.mode == "human"
             else "translation-eval-alignment-review.csv"
         )
-        assets_dir = args.assets or repo / (
-            "human_review_ui" if args.mode == "human" else "review_ui"
+        assets_dir = args.assets or Path(__file__).resolve().parents[1] / "ui" / (
+            "human" if args.mode == "human" else "alignment"
         )
         port = args.port if args.port is not None else (8766 if args.mode == "human" else 8765)
         server, store = create_server(

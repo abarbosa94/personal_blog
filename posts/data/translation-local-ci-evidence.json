@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "generated_at": "2026-07-24T22:06:36.260613+00:00",
+  "input": {
+    "notebook": "posts/2026-07-21-Scaling-MyPost-WithAIAgents.ipynb",
+    "notebook_sha256": "0dda9e2202d444591e45c2e4669816070f1562a02f3d0d6ab7f02f8171f76723"
+  },
+  "resource_envelope": {
+    "declared_cpu_limit": "4",
+    "cgroup_cpu_max": "400000 100000",
+    "declared_memory_limit_bytes": "17179869184",
+    "cgroup_memory_max": "17179869184",
+    "declared_disk_budget_bytes": "15032385536",
+    "disk_budget_enforced": false
+  },
+  "measurements": {
+    "elapsed_seconds": 786.984,
+    "repository_worktree_bytes_excluding_caches": 55423561,
+    "model_cache_bytes": 5263420093,
+    "peak_rss_self_kib": 5850600,
+    "peak_rss_children_kib": 837068
+  },
+  "stages": [
+    {
+      "name": "experiment-tests",
+      "status": "PASS",
+      "elapsed_seconds": 18.062
+    },
+    {
+      "name": "quarto-render",
+      "status": "PASS",
+      "elapsed_seconds": 734.54
+    }
+  ],
+  "model_smoke": {
+    "status": "PASS",
+    "model": "Unbabel/Tower-Plus-2B",
+    "revision": "4d779ca939174189c0677d4a75642d36d6a33b66",
+    "parameters": 2614341888,
+    "cases": [
+      {
+        "source_language": "en",
+        "target_language": "pt-BR",
+        "source": "The translation workflow runs locally before deployment.",
+        "prediction": "O fluxo de trabalho de tradução é executado localmente antes da implantação."
+      },
+      {
+        "source_language": "pt-BR",
+        "target_language": "en",
+        "source": "A tradução é revisada antes da publicação.",
+        "prediction": "The translation is reviewed before publication."
+      }
+    ]
+  },
+  "limitations": [
+    "This run does not exercise GitHub token permissions.",
+    "This run does not create a real branch, pull request, or Pages preview.",
+    "The 14 GB disk budget is reported but not enforced by Docker Compose.",
+    "A successful local run is evidence of runner compatibility, not proof of deployment."
+  ]
+}

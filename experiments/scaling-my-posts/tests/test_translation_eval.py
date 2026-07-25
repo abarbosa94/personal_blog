@@ -8,7 +8,8 @@ import pandas as pd
 import pytest
 
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+EXPERIMENT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(EXPERIMENT_ROOT / "src"))
 
 from translation_eval import (  # noqa: E402
     MQMError,
@@ -26,11 +27,8 @@ from translation_eval import (  # noqa: E402
     predict_segments,
     segment_markdown,
 )
-from translation_judges import (  # noqa: E402
-    KimiJudgeAdapter,
-    create_judge_adapter,
-    kimi_response_format,
-)
+from judge_factory import create_judge_adapter  # noqa: E402
+from judge_providers import KimiJudgeAdapter, kimi_response_format  # noqa: E402
 
 
 def test_markdown_segmentation_keeps_headings_and_abbreviations() -> None:

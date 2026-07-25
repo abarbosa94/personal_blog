@@ -12,8 +12,9 @@ from urllib.request import Request, urlopen
 import pytest
 
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REPO_ROOT / "scripts"))
+EXPERIMENT_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = EXPERIMENT_ROOT.parents[1]
+sys.path.insert(0, str(EXPERIMENT_ROOT / "src"))
 
 from translation_review_server import HumanReviewStore, ReviewStore, create_server  # noqa: E402
 
@@ -164,7 +165,7 @@ def test_human_store_requires_choice_and_confidence_then_persists(tmp_path: Path
 def test_human_review_api_uses_dedicated_assets_and_mode(tmp_path: Path) -> None:
     csv_path = write_human_review_csv(tmp_path / "human.csv")
     server, _store = create_server(
-        csv_path, REPO_ROOT / "human_review_ui", port=0, mode="human"
+        csv_path, EXPERIMENT_ROOT / "ui" / "human", port=0, mode="human"
     )
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
@@ -194,7 +195,9 @@ def request_json(url: str, *, method: str = "GET", payload: dict[str, str] | Non
 
 def test_http_api_loads_and_updates_review_data(tmp_path: Path) -> None:
     csv_path = write_review_csv(tmp_path / "review.csv")
-    server, _store = create_server(csv_path, REPO_ROOT / "review_ui", port=0)
+    server, _store = create_server(
+        csv_path, EXPERIMENT_ROOT / "ui" / "alignment", port=0
+    )
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     base_url = f"http://127.0.0.1:{server.server_address[1]}"
@@ -249,7 +252,9 @@ def test_browser_review_workflow(tmp_path: Path) -> None:
         pytest.skip("Chrome or Edge is required for the browser workflow test")
 
     csv_path = write_review_csv(tmp_path / "review.csv")
-    server, _store = create_server(csv_path, REPO_ROOT / "review_ui", port=0)
+    server, _store = create_server(
+        csv_path, EXPERIMENT_ROOT / "ui" / "alignment", port=0
+    )
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     base_url = f"http://127.0.0.1:{server.server_address[1]}"

@@ -1,87 +1,14 @@
-"""Provider adapters for the translation benchmark's LLM-as-judge stage."""
+"""Concrete provider adapters for the translation-quality judge."""
 
 from __future__ import annotations
 
+import json
 import os
-from abc import ABC, abstractmethod
-from dataclasses import dataclass
 from typing import Any
 
 from pydantic import BaseModel
 
-
-@dataclass(frozen=True)
-class JudgeConfiguration:
-    provider: str
-    provider_name: str
-    model: str
-    reasoning_effort: str
-    max_completion_tokens: int
-
-    def request_settings(self) -> dict[str, Any]:
-        return {
-            "reasoning_effort": self.reasoning_effort,
-            "max_completion_tokens": self.max_completion_tokens,
-        }
-
-
-@dataclass(frozen=True)
-class JudgeCompletion:
-    result: BaseModel
-    response_model: str | None
-    finish_reason: str | None
-    usage: dict[str, Any] | None
-    reasoning_content_omitted: bool
-    api_response: dict[str, Any]
-
-
-class JudgeAdapter(ABC):
-    provider: str
-    provider_name: str
-    default_model: str
-    allowed_reasoning_efforts: tuple[str, ...]
-    default_reasoning_effort: str
-    default_max_completion_tokens: int
-
-    def __init__(self, model: str | None = None) -> None:
-        self.model = model or self.default_model
-        self._client: Any = None
-
-    def configuration(
-        self,
-        reasoning_effort: str | None = None,
-        max_completion_tokens: int | None = None,
-    ) -> JudgeConfiguration:
-        effort = reasoning_effort or self.default_reasoning_effort
-        if effort not in self.allowed_reasoning_efforts:
-            allowed = ", ".join(self.allowed_reasoning_efforts)
-            raise ValueError(
-                f"{self.provider} reasoning effort must be one of: {allowed}"
-            )
-        token_limit = (
-            self.default_max_completion_tokens
-            if max_completion_tokens is None
-            else max_completion_tokens
-        )
-        if token_limit < 1:
-            raise ValueError("max_completion_tokens must be positive")
-        return JudgeConfiguration(
-            provider=self.provider,
-            provider_name=self.provider_name,
-            model=self.model,
-            reasoning_effort=effort,
-            max_completion_tokens=token_limit,
-        )
-
-    @abstractmethod
-    def judge(
-        self,
-        system_prompt: str,
-        payload: dict[str, str],
-        schema: type[BaseModel],
-        configuration: JudgeConfiguration,
-    ) -> JudgeCompletion:
-        raise NotImplementedError
+from judge_interface import JudgeAdapter, JudgeCompletion, JudgeConfiguration
 
 
 def _openai_sdk() -> Any:
@@ -110,10 +37,11 @@ def _inline_local_json_schema_refs(schema: dict[str, Any]) -> dict[str, Any]:
             if name not in definitions:
                 raise ValueError(f"Unknown JSON Schema definition: {name!r}")
             if name in trail:
-                raise ValueError(f"Recursive JSON Schema definition is unsupported: {name!r}")
+                raise ValueError(
+                    f"Recursive JSON Schema definition is unsupported: {name!r}"
+                )
             siblings = {key: item for key, item in value.items() if key != "$ref"}
-            merged = {**definitions[name], **siblings}
-            return expand(merged, (*trail, name))
+            return expand({**definitions[name], **siblings}, (*trail, name))
         return {
             key: expand(item, trail)
             for key, item in value.items()
@@ -177,8 +105,6 @@ class KimiJudgeAdapter(JudgeAdapter):
         schema: type[BaseModel],
         configuration: JudgeConfiguration,
     ) -> JudgeCompletion:
-        import json
-
         response = self._get_client().chat.completions.create(
             model=configuration.model,
             reasoning_effort=configuration.reasoning_effort,
@@ -237,8 +163,6 @@ class OpenAIJudgeAdapter(JudgeAdapter):
         schema: type[BaseModel],
         configuration: JudgeConfiguration,
     ) -> JudgeCompletion:
-        import json
-
         response = self._get_client().responses.parse(
             model=configuration.model,
             reasoning={"effort": configuration.reasoning_effort},
@@ -264,50 +188,7 @@ class OpenAIJudgeAdapter(JudgeAdapter):
         )
 
 
-class JudgeAdapterFactory:
-    _adapters: dict[str, type[JudgeAdapter]] = {}
-
-    @classmethod
-    def register(cls, adapter: type[JudgeAdapter]) -> None:
-        cls._adapters[adapter.provider] = adapter
-
-    @classmethod
-    def create(cls, provider: str, model: str | None = None) -> JudgeAdapter:
-        try:
-            adapter = cls._adapters[provider]
-        except KeyError as error:
-            available = ", ".join(cls.providers())
-            raise ValueError(
-                f"Unknown judge provider {provider!r}; choose one of: {available}"
-            ) from error
-        return adapter(model)
-
-    @classmethod
-    def providers(cls) -> tuple[str, ...]:
-        return tuple(sorted(cls._adapters))
-
-
-JudgeAdapterFactory.register(KimiJudgeAdapter)
-JudgeAdapterFactory.register(OpenAIJudgeAdapter)
-
-
-DEFAULT_JUDGE_PROVIDER = "kimi"
-
-
-def create_judge_adapter(provider: str, model: str | None = None) -> JudgeAdapter:
-    return JudgeAdapterFactory.create(provider, model)
-
-
-def available_judge_providers() -> tuple[str, ...]:
-    return JudgeAdapterFactory.providers()
-
-
-def resolve_judge_configuration(
-    provider: str = DEFAULT_JUDGE_PROVIDER,
-    model: str | None = None,
-    reasoning_effort: str | None = None,
-    max_completion_tokens: int | None = None,
-) -> JudgeConfiguration:
-    return create_judge_adapter(provider, model).configuration(
-        reasoning_effort, max_completion_tokens
-    )
+PROVIDER_ADAPTERS: tuple[type[JudgeAdapter], ...] = (
+    KimiJudgeAdapter,
+    OpenAIJudgeAdapter,
+)
