@@ -1,2 +1,14 @@
 /.quarto/
 /_site/
+/.venv-benchmark/
+/.venv-xcomet/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+**/*.quarto_ipynb
+/.reviews/
+/experiments/scaling-my-posts/artifacts/local-ci/
+*.tower-plus-progress.json

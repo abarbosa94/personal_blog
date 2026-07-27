@@ -1,0 +1,9 @@
+# xCOMET is a gated, 13.9 GB research checkpoint. Keep its heavier runtime
+# separate from the translation/alignment environment.
+huggingface-hub==0.33.4
+numpy==1.26.4
+pandas==2.3.1
+pydantic==2.12.5
+sacrebleu==2.5.1
+torch==2.7.1
+unbabel-comet==2.2.7

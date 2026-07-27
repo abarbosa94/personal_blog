@@ -1,0 +1,32 @@
+<script>
+(() => {
+  const placeLanguageSwitcher = () => {
+    const switcher = document.querySelector(".language-switcher");
+    const toc = document.querySelector("#quarto-margin-sidebar #TOC");
+    if (!switcher || !toc) return;
+
+    const origin = document.createComment("language-switcher-origin");
+    switcher.parentNode.insertBefore(origin, switcher);
+    const desktop = window.matchMedia("(min-width: 992px)");
+
+    const place = () => {
+      if (desktop.matches) {
+        toc.parentNode.insertBefore(switcher, toc);
+        switcher.classList.add("language-switcher--toc");
+      } else {
+        origin.parentNode.insertBefore(switcher, origin.nextSibling);
+        switcher.classList.remove("language-switcher--toc");
+      }
+    };
+
+    place();
+    desktop.addEventListener("change", place);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", placeLanguageSwitcher);
+  } else {
+    placeLanguageSwitcher();
+  }
+})();
+</script>

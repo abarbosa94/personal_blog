@@ -1,0 +1,15 @@
+torch==2.7.1
+transformers==4.53.2
+sentencepiece==0.2.0
+sacremoses==0.1.1
+sacrebleu==2.5.1
+pandas==2.3.1
+matplotlib==3.10.3
+nbclient==0.10.2
+ipykernel==6.29.5
+openai==2.15.0
+pydantic==2.12.5
+pytest==9.0.2
+pytest-bdd==8.1.0
+sentence-transformers==5.2.0
+tqdm==4.69.0

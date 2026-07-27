@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Bilingual alignment review</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">A↔A</div>
+        <div>
+          <p class="eyebrow">Translation benchmark</p>
+          <h1>Bilingual alignment review</h1>
+        </div>
+      </div>
+      <div class="progress-block" aria-live="polite">
+        <div class="progress-copy">
+          <strong id="progressLabel">Loading…</strong>
+          <span id="remainingLabel"></span>
+        </div>
+        <div class="progress-track" aria-hidden="true">
+          <span id="progressBar"></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="toolbar" aria-label="Review filters and navigation">
+        <div class="filter-group">
+          <label>
+            <span>Status</span>
+            <select id="statusFilter">
+              <option value="all">All items</option>
+              <option value="pending">Unresolved</option>
+              <option value="needs_review">Unreviewed</option>
+              <option value="defer">Deferred</option>
+              <option value="accept">Accepted</option>
+              <option value="localized">Localized</option>
+              <option value="exclude">Excluded</option>
+            </select>
+          </label>
+          <label>
+            <span>Priority</span>
+            <select id="priorityFilter">
+              <option value="all">All priorities</option>
+              <option value="high">High priority</option>
+              <option value="normal">Normal</option>
+            </select>
+          </label>
+          <label class="jump-label">
+            <span>Jump to ID</span>
+            <input id="jumpInput" list="alignmentIds" placeholder="p01-a01" autocomplete="off">
+            <datalist id="alignmentIds"></datalist>
+          </label>
+          <button id="jumpButton" class="button button-quiet" type="button">Jump</button>
+        </div>
+        <div class="toolbar-actions">
+          <button id="nextUnreviewedButton" class="button button-quiet" type="button">Next unreviewed</button>
+          <button id="shortcutsButton" class="button button-quiet" type="button" aria-haspopup="dialog">Shortcuts</button>
+        </div>
+      </section>
+
+      <section id="emptyState" class="empty-state" hidden>
+        <p class="eyebrow">Nothing to show</p>
+        <h2>No alignments match these filters.</h2>
+        <button id="clearFiltersButton" class="button button-primary" type="button">Clear filters</button>
+      </section>
+
+      <article id="reviewCard" class="review-card" hidden>
+        <header class="item-header">
+          <div>
+            <div class="badge-row">
+              <span id="alignmentBadge" class="badge badge-id"></span>
+              <span id="priorityBadge" class="badge"></span>
+              <span id="typeBadge" class="badge"></span>
+              <span id="similarityBadge" class="badge"></span>
+              <span id="statusBadge" class="badge"></span>
+            </div>
+            <h2 id="itemTitle">Alignment proposal</h2>
+            <p id="warningText" class="warning-text" hidden></p>
+          </div>
+          <div class="item-position">
+            <strong id="positionLabel"></strong>
+            <span>in current view</span>
+          </div>
+        </header>
+
+        <section class="language-grid" aria-label="English and Portuguese alignment">
+          <article class="language-panel language-en">
+            <header>
+              <div>
+                <p class="eyebrow">Original source</p>
+                <h3><span aria-hidden="true">🇬🇧</span> English</h3>
+              </div>
+              <span id="englishSentenceIds" class="sentence-ids"></span>
+            </header>
+            <div id="englishText" class="prose" lang="en"></div>
+            <label class="override-field">
+              <span>Reviewed English override <small>optional</small></span>
+              <textarea id="reviewedEnglish" rows="5" placeholder="Leave blank to use the original English text."></textarea>
+            </label>
+          </article>
+
+          <div class="alignment-arrow" aria-hidden="true">↔</div>
+
+          <article class="language-panel language-pt">
+            <header>
+              <div>
+                <p class="eyebrow">Human-authored counterpart</p>
+                <h3><span aria-hidden="true">🇧🇷</span> Portuguese</h3>
+              </div>
+              <span id="portugueseSentenceIds" class="sentence-ids"></span>
+            </header>
+            <div id="portugueseText" class="prose" lang="pt-BR"></div>
+            <label class="override-field">
+              <span>Reviewed Portuguese override <small>optional</small></span>
+              <textarea id="reviewedPortuguese" rows="5" placeholder="Leave blank to use the original Portuguese text."></textarea>
+            </label>
+          </article>
+        </section>
+
+        <section class="review-details">
+          <div class="notes-field">
+            <label for="reviewNote">
+              <span>Reviewer note <small id="noteHint">Explain corrections, exclusions, or uncertainty.</small></span>
+            </label>
+            <textarea id="reviewNote" rows="3" placeholder="What did you notice?" aria-describedby="noteHint validationMessage"></textarea>
+            <p id="validationMessage" class="validation-message" role="alert" hidden></p>
+          </div>
+
+          <details class="metadata-details">
+            <summary>Alignment metadata and decision guide</summary>
+            <div class="metadata-grid">
+              <div><span>Cell pair</span><strong id="cellPair"></strong></div>
+              <div><span>Pair ID</span><strong id="pairId"></strong></div>
+              <div><span>Transition score</span><strong id="transitionScore"></strong></div>
+              <div><span>LaBSE cosine</span><strong id="rawSimilarity"></strong></div>
+            </div>
+            <div class="decision-guide">
+              <p><strong>Accept</strong> when both sides express the same translation unit.</p>
+              <p><strong>Localized</strong> when the content is related but intentionally rewritten or replaced.</p>
+              <p><strong>Exclude</strong> for unmatched, navigational, malformed, or unsuitable material.</p>
+              <p><strong>Defer</strong> leaves the item unresolved so you can return later.</p>
+            </div>
+          </details>
+        </section>
+
+        <footer class="review-footer">
+          <div class="navigation-buttons">
+            <button id="previousButton" class="button button-quiet" type="button"><span aria-hidden="true">←</span> Previous</button>
+            <button id="nextButton" class="button button-quiet" type="button">Next <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="decision-buttons" role="group" aria-label="Alignment decision">
+            <button class="decision decision-accept" data-status="accept" type="button"><kbd>1</kbd> Accept</button>
+            <button class="decision decision-localized" data-status="localized" type="button"><kbd>2</kbd> Localized</button>
+            <button class="decision decision-exclude" data-status="exclude" type="button"><kbd>3</kbd> Exclude</button>
+            <button class="decision decision-defer" data-status="defer" type="button"><kbd>D</kbd> Defer</button>
+          </div>
+        </footer>
+      </article>
+    </main>
+
+    <div id="saveStatus" class="save-status" role="status" aria-live="polite">Loading review data…</div>
+
+    <dialog id="shortcutsDialog">
+      <form method="dialog">
+        <header>
+          <div>
+            <p class="eyebrow">Move quickly</p>
+            <h2>Keyboard shortcuts</h2>
+          </div>
+          <button class="dialog-close" value="close" aria-label="Close shortcuts">×</button>
+        </header>
+        <dl class="shortcut-list">
+          <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Previous or next alignment</dd></div>
+          <div><dt><kbd>P</kbd> <kbd>N</kbd></dt><dd>Previous or next alignment</dd></div>
+          <div><dt><kbd>1</kbd></dt><dd>Accept and continue</dd></div>
+          <div><dt><kbd>2</kbd></dt><dd>Mark localized and continue</dd></div>
+          <div><dt><kbd>3</kbd></dt><dd>Exclude and continue</dd></div>
+          <div><dt><kbd>D</kbd></dt><dd>Defer and continue</dd></div>
+          <div><dt><kbd>U</kbd></dt><dd>Undo the last decision</dd></div>
+          <div><dt><kbd>Ctrl/⌘</kbd> + <kbd>S</kbd></dt><dd>Save text edits</dd></div>
+          <div><dt><kbd>Ctrl/⌘</kbd> + <kbd>Enter</kbd></dt><dd>Save edits and continue</dd></div>
+          <div><dt><kbd>?</kbd></dt><dd>Open this guide</dd></div>
+        </dl>
+      </form>
+    </dialog>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>

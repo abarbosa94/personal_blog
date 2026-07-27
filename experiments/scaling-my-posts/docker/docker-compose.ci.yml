@@ -1,0 +1,27 @@
+services:
+  translation-ci:
+    build:
+      context: ../../..
+      dockerfile: experiments/scaling-my-posts/docker/Dockerfile.ci
+      args:
+        QUARTO_VERSION: "1.9.38"
+    cpus: 4
+    mem_limit: 16g
+    pids_limit: 1024
+    environment:
+      CI_CPU_LIMIT: "4"
+      CI_MEMORY_LIMIT_BYTES: "17179869184"
+      CI_DISK_BUDGET_BYTES: "15032385536"
+      HF_HOME: /model-cache
+      PYTHONPYCACHEPREFIX: /tmp/translation-ci-pycache
+    volumes:
+      - ../../..:/workspace
+      - translation-model-cache:/model-cache
+      - translation-quarto-cache:/workspace/.quarto
+    working_dir: /workspace
+
+volumes:
+  translation-model-cache:
+    name: scaling-posts-tower-cache-v1
+  translation-quarto-cache:
+    name: scaling-posts-quarto-cache-v1

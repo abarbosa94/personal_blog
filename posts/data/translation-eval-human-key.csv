@@ -1,0 +1,19 @@
+sample_id,segment_id,stratum,model_A,model_B,judge_choice,judge_stable
+human-01,p04-a03,clear,Marian OPUS-MT,Tower+ 2B,B,True
+human-02,p05-a06,clear,Marian OPUS-MT,Tower+ 2B,B,True
+human-03,p08-a05,clear,Marian OPUS-MT,Tower+ 2B,B,True
+human-04,p01-a03,borderline,Tower+ 2B,Marian OPUS-MT,tie,True
+human-05,p01-a04,borderline,Marian OPUS-MT,Tower+ 2B,tie,True
+human-06,p04-a01,borderline,Tower+ 2B,Marian OPUS-MT,tie,True
+human-07,p01-a02,disagreement,Tower+ 2B,Marian OPUS-MT,unstable,False
+human-08,p02-a03,disagreement,Marian OPUS-MT,Tower+ 2B,unstable,False
+human-09,p03-a01,disagreement,Tower+ 2B,Marian OPUS-MT,A,True
+human-10,p08-a01,clear,Tower+ 2B,Marian OPUS-MT,A,True
+human-11,p01-a06,clear,Tower+ 2B,Marian OPUS-MT,A,True
+human-12,p04-a02,clear,Tower+ 2B,Marian OPUS-MT,A,True
+human-13,p02-a01,borderline,Marian OPUS-MT,Tower+ 2B,tie,True
+human-14,p05-a01,borderline,Marian OPUS-MT,Tower+ 2B,tie,True
+human-15,p05-a02,borderline,Marian OPUS-MT,Tower+ 2B,tie,True
+human-16,p01-a05,disagreement,Tower+ 2B,Marian OPUS-MT,A,True
+human-17,p02-a04,disagreement,Tower+ 2B,Marian OPUS-MT,unstable,False
+human-18,p07-a01,disagreement,Marian OPUS-MT,Tower+ 2B,A,True
