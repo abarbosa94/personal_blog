@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://github.com/abarbosa94/personal_blog/about.html</loc>
-    <lastmod>2023-07-27T02:13:07.497Z</lastmod>
+    <loc>https://abarbosa94.github.io/personal_blog/posts/2026-07-23-Scaling-MyPost-WithAIAgents.html</loc>
+    <lastmod>2026-07-27T03:21:50.278Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/abarbosa94/personal_blog/posts/2023-07-08-annotated-diverse-cfe.html</loc>
-    <lastmod>2023-07-27T02:13:05.953Z</lastmod>
+    <loc>https://abarbosa94.github.io/personal_blog/posts/2023-06-24-annotated-anchors.html</loc>
+    <lastmod>2026-07-27T03:21:50.274Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/abarbosa94/personal_blog/posts/2023-06-24-annotated-anchors.html</loc>
-    <lastmod>2023-07-27T02:13:03.677Z</lastmod>
+    <loc>https://abarbosa94.github.io/personal_blog/posts/2020-09-19-distilling-bert.html</loc>
+    <lastmod>2026-07-27T03:21:50.273Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/abarbosa94/personal_blog/index.html</loc>
-    <lastmod>2023-07-27T02:13:01.601Z</lastmod>
+    <loc>https://abarbosa94.github.io/personal_blog/about.html</loc>
+    <lastmod>2026-07-27T03:21:50.270Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/abarbosa94/personal_blog/posts/2021-02-21-downstream-bert-qa.html</loc>
-    <lastmod>2023-07-27T02:13:04.165Z</lastmod>
+    <loc>https://abarbosa94.github.io/personal_blog/index.html</loc>
+    <lastmod>2026-07-27T03:21:50.272Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/abarbosa94/personal_blog/posts/2020-09-19-distilling-bert.html</loc>
-    <lastmod>2023-07-27T02:13:07.117Z</lastmod>
+    <loc>https://abarbosa94.github.io/personal_blog/posts/2021-02-21-downstream-bert-qa.html</loc>
+    <lastmod>2026-07-27T03:21:50.273Z</lastmod>
+  </url>
+  <url>
+    <loc>https://abarbosa94.github.io/personal_blog/posts/2023-07-08-annotated-diverse-cfe.html</loc>
+    <lastmod>2026-07-27T03:21:50.277Z</lastmod>
   </url>
 </urlset>
