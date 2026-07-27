@@ -309,7 +309,7 @@ window.Quarto = {
 <section id="architecture-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="architecture-at-a-glance">Architecture at a Glance</h2>
 <p>At a high level, the pipeline will look like this:</p>
-<p><img src="images\scaling-translation-posts\architeture-automate-translation-v2.png" class="img-fluid"></p>
+<p><img src="images/scaling-translation-posts/architeture-automate-translation-v2.png" class="img-fluid"></p>
 <p><em>This diagram was created with the help of ChatGPT Sol using high reasoning effort.</em></p>
 <p>The intended workflow starts only after the source post has been reviewed and its PR has been merged. The resulting push to <code>main</code> triggers a GitHub Actions job that translates the post and opens a separate translation PR. The CI environment therefore needs a model that is inexpensive and can run on CPU. It also builds and publishes a temporary preview so I can review the translated page before merging the translation PR. When that PR is closed, the temporary preview is removed.</p>
 <p>The challenge? Find a reliable model</p>
@@ -487,7 +487,7 @@ Note
 <section id="from-sentence-pairs-to-a-trusted-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="from-sentence-pairs-to-a-trusted-dataset">From Sentence Pairs to a Trusted Dataset</h2>
 <p>Before evaluating model outputs, I needed to validate the bilingual dataset itself. I asked Codex to create a review interface following guidance from the <a href="https://www.oreilly.com/library/view/evals-for-ai/9798341660717/"><em>Evals for AI Engineers</em> book</a>. A screenshot of the interface appears below:</p>
-<p><img src="images\scaling-translation-posts\ui-review-translate.jpg" class="img-fluid"></p>
+<p><img src="images/scaling-translation-posts/ui-review-translate.jpg" class="img-fluid"></p>
 <p>The idea is simple: given the candidate pairs proposed by LaBSE and dynamic programming, do I agree with each alignment?</p>
 <p>The interface shows an English segment and its proposed Portuguese counterpart. I could override either side when a documented correction was necessary, then choose <code>Accept</code> when the segments were well aligned, <code>Localize</code> when one side intentionally paraphrased the other, <code>Exclude</code> when the pair was unsuitable, or <code>Defer</code> when I was uncertain. After this review, I had a trustworthy evaluation dataset containing <a href="https://github.com/abarbosa94/personal_blog/blob/main/posts/data/translation-eval-segments.csv">36 accepted pairs</a>—enough for an initial minimum viable product (MVP).</p>
 </section>
