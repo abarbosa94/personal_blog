@@ -15,6 +15,7 @@ sys.path.insert(0, str(SRC))
 from translate_notebook import (  # noqa: E402
     portuguese_frontmatter,
     protect,
+    remove_model_code_fence_wrapper,
     restore,
     translate_around_protected,
 )
@@ -203,6 +204,70 @@ def original_link_is_retained(
 @then("no new Markdown heading is introduced")
 def no_heading_is_introduced(context: dict[str, Any]) -> None:
     assert "\n#" not in context["result"]
+
+
+@given("an English prose block contains no Markdown code fence")
+def prose_without_code_fence(context: dict[str, Any]) -> None:
+    context["source"] = "This workflow translates a notebook after merge."
+
+
+@given("Tower+ returns the translated prose inside an outer Markdown code fence")
+def translated_prose_with_outer_wrapper(context: dict[str, Any]) -> None:
+    context["translation"] = (
+        "```markdown\n"
+        "Este fluxo traduz um notebook após o merge.\n"
+        "```"
+    )
+
+
+@when("the generator normalizes the translated block against its source")
+def normalize_translated_block(context: dict[str, Any]) -> None:
+    context["result"] = remove_model_code_fence_wrapper(
+        context["source"],
+        context["translation"],
+    )
+
+
+@then("the Portuguese prose remains in the result")
+def portuguese_prose_remains(context: dict[str, Any]) -> None:
+    assert context["result"] == "Este fluxo traduz um notebook após o merge."
+
+
+@then("the model-added outer code fence is removed")
+def outer_code_fence_is_removed(context: dict[str, Any]) -> None:
+    assert "```" not in context["result"]
+
+
+@given("Tower+ inserts an invented code example inside the translated prose")
+def translation_with_invented_inner_fence(context: dict[str, Any]) -> None:
+    context["translation"] = (
+        "Este fluxo traduz um notebook.\n"
+        "```python\n"
+        "print('invented')\n"
+        "```"
+    )
+
+
+@when("the generator validates the translated block against its source")
+def validate_translated_block(context: dict[str, Any]) -> None:
+    try:
+        remove_model_code_fence_wrapper(
+            context["source"],
+            context["translation"],
+        )
+    except ValueError as error:
+        context["error"] = error
+        context["result"] = None
+
+
+@then("the structurally unsafe translation is rejected")
+def unsafe_translation_is_rejected(context: dict[str, Any]) -> None:
+    assert "invented a code fence" in str(context["error"])
+
+
+@then("the invented code cannot reach the generated notebook")
+def invented_code_is_not_emitted(context: dict[str, Any]) -> None:
+    assert context["result"] is None
 
 
 @given("source metadata describes a published English notebook")

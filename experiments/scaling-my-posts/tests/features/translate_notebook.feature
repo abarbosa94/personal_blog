@@ -29,6 +29,20 @@ Feature: Generate a Portuguese notebook that is safe for an author to review
     And the original link "[English](https://example.com)" is retained
     And no new Markdown heading is introduced
 
+  Scenario: An outer code-fence wrapper added by Tower+ is removed safely
+    Given an English prose block contains no Markdown code fence
+    And Tower+ returns the translated prose inside an outer Markdown code fence
+    When the generator normalizes the translated block against its source
+    Then the Portuguese prose remains in the result
+    And the model-added outer code fence is removed
+
+  Scenario: A code fence invented inside translated prose blocks generation
+    Given an English prose block contains no Markdown code fence
+    And Tower+ inserts an invented code example inside the translated prose
+    When the generator validates the translated block against its source
+    Then the structurally unsafe translation is rejected
+    And the invented code cannot reach the generated notebook
+
   Scenario: A generated Portuguese notebook remains paired and unpublished
     Given source metadata describes a published English notebook
     When Portuguese metadata is generated for the source file "post.ipynb"
