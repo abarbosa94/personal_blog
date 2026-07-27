@@ -1026,7 +1026,7 @@ Loss converged at: 0.0008479952812194824, stop criteria reached</code></pre>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    counterfactual_instances_scaled_back.append(std_features.inverse_transform(single_counterfactual.detach().numpy())[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>plot_dataset_with_instance(X, y, highlight_row<span class="op">=</span>reference_instance, counterfactual_instance_list<span class="op">=</span>counterfactual_instances_scaled_back, title<span class="op">=</span><span class="st">"Initial Dataset"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="cell-fig-counterfactual-instances" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="18">
+<div id="cell-fig-counterfactual-instances" class="cell quarto-layout-panel" data-execution_count="18" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <div id="fig-counterfactual-instances" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1341,7 +1341,7 @@ Note
 <span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[FEATURE_COLUMNS<span class="op">+</span>[LABEL_COLUMN]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="cell-fig-geography-dataset" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="177">
+<div id="cell-fig-geography-dataset" class="cell quarto-layout-panel" data-execution_count="177" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <div id="fig-geography-dataset" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1434,7 +1434,7 @@ epoch: 20000, loss = 0.16802458465099335</code></pre>
 <span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix for the Test Set"</span>)</span>
 <span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div id="cell-fig-confusion-matrix-real-dataset" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="119">
+<div id="cell-fig-confusion-matrix-real-dataset" class="cell quarto-layout-panel" data-execution_count="119" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <div id="fig-confusion-matrix-real-dataset" class="quarto-float quarto-figure quarto-figure-center anchored">
