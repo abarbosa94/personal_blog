@@ -16,6 +16,7 @@ from translate_notebook import (  # noqa: E402
     is_structural_block,
     materialize_translation,
     protect,
+    remove_model_code_fence_wrapper,
     source_frontmatter,
     split_markdown,
     translate_around_protected,
@@ -40,6 +41,30 @@ def test_materialize_accepts_an_already_reconstructed_fallback() -> None:
     protected = {"ZXQPROTECTED0000QXZ": "[the article](https://example.com)"}
     translated = "Leia [o artigo](https://example.com)."
     assert materialize_translation(translated, protected) == translated
+
+
+def test_model_added_markdown_wrapper_is_removed() -> None:
+    source = "## A heading\n\nA paragraph."
+    translated = "```markdown\n## Um título\n\nUm parágrafo.\n```"
+    assert remove_model_code_fence_wrapper(source, translated) == (
+        "## Um título\n\nUm parágrafo."
+    )
+
+
+def test_unclosed_model_added_markdown_wrapper_is_removed() -> None:
+    source = "## A heading\n\nA paragraph."
+    translated = "```markdown\n## Um título\n\nUm parágrafo."
+    assert remove_model_code_fence_wrapper(source, translated) == (
+        "## Um título\n\nUm parágrafo."
+    )
+
+
+def test_model_added_inner_fence_is_rejected() -> None:
+    with pytest.raises(ValueError, match="invented a code fence"):
+        remove_model_code_fence_wrapper(
+            "A paragraph.",
+            "Um parágrafo.\n```python\nprint('invented')\n```",
+        )
 
 
 def test_source_frontmatter_adds_an_idempotent_reciprocal_pair() -> None:

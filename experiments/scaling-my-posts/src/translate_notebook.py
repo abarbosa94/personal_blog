@@ -29,6 +29,7 @@ PROTECTED = re.compile(
     r"|https?://[^\s)>]+"
 )
 CALLOUT_TITLE = re.compile(r'(title=")([^"]+)(")')
+FENCE_LINE = re.compile(r"^\s*(`{3,}|~{3,})(?:markdown|md)?\s*$", re.IGNORECASE)
 
 
 def split_markdown(text: str) -> list[str]:
@@ -153,6 +154,29 @@ def materialize_translation(text: str, protected: dict[str, str]) -> str:
     if not protected or PLACEHOLDER_PREFIX not in text:
         return text
     return restore(text, protected)
+
+
+def remove_model_code_fence_wrapper(source: str, translation: str) -> str:
+    """Remove only an outer Markdown fence invented by the translation model."""
+    if re.search(r"^(`{3,}|~{3,})", source, flags=re.MULTILINE):
+        return translation
+    lines = translation.splitlines()
+    nonempty = [index for index, line in enumerate(lines) if line.strip()]
+    if nonempty:
+        first = nonempty[0]
+        opening = FENCE_LINE.fullmatch(lines[first])
+        if opening:
+            del lines[first]
+            nonempty = [index for index, line in enumerate(lines) if line.strip()]
+            if nonempty:
+                last = nonempty[-1]
+                closing = FENCE_LINE.fullmatch(lines[last])
+                if closing and closing.group(1)[0] == opening.group(1)[0]:
+                    del lines[last]
+    result = "\n".join(lines).strip()
+    if re.search(r"^(`{3,}|~{3,})", result, flags=re.MULTILINE):
+        raise ValueError("Tower+ invented a code fence inside translated prose")
+    return result
 
 
 def translation_cache_key(text: str, protected: dict[str, str]) -> str:
@@ -328,7 +352,8 @@ class TowerMarkdownTranslator:
             instruction = (
                 "Translate the following technical blog Markdown from English to "
                 "Brazilian Portuguese. Preserve every Markdown marker, line break, "
-                "table column, and Quarto directive exactly. "
+                "table column, and Quarto directive exactly. Do not wrap the "
+                "translation in a Markdown code fence. "
             )
             if preserve_placeholders:
                 instruction += (
@@ -465,9 +490,13 @@ def translate_notebook(
         tasks, translations, strict=True
     ):
         assert translation is not None
-        cell_parts[cell_index][part_index] = materialize_translation(
-            translation,
-            protected,
+        source_part = cell_parts[cell_index][part_index]
+        cell_parts[cell_index][part_index] = remove_model_code_fence_wrapper(
+            source_part,
+            materialize_translation(
+                translation,
+                protected,
+            ),
         )
 
     for cell_index, parts in cell_parts.items():
