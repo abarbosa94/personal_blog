@@ -89,6 +89,13 @@ Run the experiment tests without invoking paid providers:
 .venv-benchmark\Scripts\python.exe -m pytest -q experiments/scaling-my-posts/tests
 ```
 
+The notebook-generation acceptance criteria are written in Gherkin at
+`tests/features/translate_notebook.feature`. These scenarios describe the
+Markdown-preservation, fallback-reconstruction, and bilingual-metadata behavior
+in reviewer-facing language. Their pytest step definitions live in
+`tests/test_translate_notebook_bdd.py`; low-level parsing cases remain in
+`tests/test_translate_notebook.py`.
+
 ## NLLB screening criterion
 
 NLLB was screened out of the paid LLM-judge stage after the sentence-level pilot.
@@ -194,3 +201,29 @@ commands work in a clean, resource-constrained Linux container. It does **not** 
 GitHub token permissions, branch creation, pull-request creation, GitHub Pages
 previews, or preview cleanup. Those boundaries require a later GitHub Actions smoke
 test with deliberately limited permissions.
+
+## Translation PR guardrails
+
+The source-post PR contains the English post and reusable translation machinery, but
+not a generated Portuguese notebook or reciprocal pairing metadata. After that PR is
+merged, a push to `main` should start a separate workflow with these phases:
+
+1. Generate the Portuguese notebook on a new branch.
+2. Add reciprocal `translation` metadata to the English and Portuguese notebooks.
+3. Run deterministic blockers before opening the translation PR:
+   - notebook and Markdown structure remain valid;
+   - heading hierarchy, URLs, citations, images, code cells, model revisions, numbers,
+     and percentages retain source parity;
+   - link labels cannot expand into multiline or heading-like content;
+   - both notebooks render, and each language switcher resolves to rendered HTML;
+   - the generated page remains excluded from the home-page listing.
+4. Open the translation PR with `draft: true` and the machine-translation warning.
+   Human review owns fluency, terminology, tone, and semantic equivalence.
+5. After the reviewer applies a future `translation-reviewed` label, an automation
+   step removes the warning, changes the Portuguese document to `draft: false`, reruns
+   every guardrail, and updates the same PR. The PR is merged only after those checks
+   pass.
+
+The workflow itself is intentionally deferred until the local source-PR rehearsal is
+green. This keeps GitHub permissions, branch creation, and PR mutation out of the
+initial infrastructure change.

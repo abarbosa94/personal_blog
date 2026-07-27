@@ -24,12 +24,14 @@ except ImportError:  # pragma: no cover - Windows development host
 
 
 EXPERIMENT = Path("experiments/scaling-my-posts")
-DEFAULT_NOTEBOOK = Path("posts/2026-07-21-Scaling-MyPost-WithAIAgents.ipynb")
+DEFAULT_NOTEBOOK = Path("posts/2026-07-23-Scaling-MyPost-WithAIAgents.ipynb")
 DEFAULT_OUTPUT = EXPERIMENT / "artifacts/local-ci/execution-evidence.json"
 TOWER_MODEL = "Unbabel/Tower-Plus-2B"
 TOWER_REVISION = "4d779ca939174189c0677d4a75642d36d6a33b66"
 DEPLOYMENT_TESTS = (
     EXPERIMENT / "tests/test_local_ci.py",
+    EXPERIMENT / "tests/test_translate_notebook.py",
+    EXPERIMENT / "tests/test_translate_notebook_bdd.py",
     EXPERIMENT / "tests/test_translation_eval.py",
 )
 

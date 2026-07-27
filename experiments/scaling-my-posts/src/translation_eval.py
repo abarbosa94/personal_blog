@@ -274,6 +274,7 @@ def segment_markdown(value: str, language_prefix: str) -> list[Sentence]:
 
 
 def joined_text(sentences: list[Sentence], start: int, count: int) -> str:
+    """Join one consecutive sentence group into the text scored as a unit."""
     return " ".join(sentence.text for sentence in sentences[start : start + count])
 
 
@@ -284,6 +285,7 @@ def _transition_score(
     portuguese_count: int,
     similarity: float,
 ) -> float:
+    """Combine semantic similarity with penalties for merging and length mismatch."""
     merge_penalty = 0.08 * ((english_count - 1) + (portuguese_count - 1))
     length_ratio = (len(english_text) + 1) / (len(portuguese_text) + 1)
     length_penalty = 0.08 * abs(math.log(length_ratio))

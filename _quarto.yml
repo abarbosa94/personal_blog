@@ -1,5 +1,8 @@
 project:
   type: website
+  render:
+    - "*.qmd"
+    - "posts/*.ipynb"
 
 website:
   title: "Andre Personal Blog :)"
@@ -14,6 +17,7 @@ format:
   html:
     theme: cosmo
     css: styles.css
+    include-after-body: language-switch.html
 execute:
   freeze: auto
 

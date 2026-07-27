@@ -49,7 +49,12 @@ def test_directory_size_does_not_double_count_symlinks(tmp_path: Path) -> None:
 def test_deployment_tests_exclude_screening_artifacts() -> None:
     selected = {path.name for path in DEPLOYMENT_TESTS}
 
-    assert selected == {"test_local_ci.py", "test_translation_eval.py"}
+    assert selected == {
+        "test_local_ci.py",
+        "test_translate_notebook.py",
+        "test_translate_notebook_bdd.py",
+        "test_translation_eval.py",
+    }
     assert "test_screening.py" not in selected
 
 

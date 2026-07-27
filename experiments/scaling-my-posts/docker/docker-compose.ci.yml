@@ -13,11 +13,15 @@ services:
       CI_MEMORY_LIMIT_BYTES: "17179869184"
       CI_DISK_BUDGET_BYTES: "15032385536"
       HF_HOME: /model-cache
+      PYTHONPYCACHEPREFIX: /tmp/translation-ci-pycache
     volumes:
       - ../../..:/workspace
       - translation-model-cache:/model-cache
+      - translation-quarto-cache:/workspace/.quarto
     working_dir: /workspace
 
 volumes:
   translation-model-cache:
     name: scaling-posts-tower-cache-v1
+  translation-quarto-cache:
+    name: scaling-posts-quarto-cache-v1

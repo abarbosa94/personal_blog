@@ -39,11 +39,29 @@ The language switcher is added automatically to both pages. Only the version
 without `language-version: translation` appears in the home-page listing. Move
 that field to the English document when Portuguese should be the listed version.
 
-The repository currently supports paired documents and the language switcher.
-Automatic generation of the secondary document in CI is the next implementation
-step; the translation benchmark under
-`experiments/scaling-my-posts/src/translation_benchmark.py` provides the initial
-model-selection evidence for that workflow.
+To generate a reviewable Portuguese notebook locally with the pinned Tower+ 2B
+model, run:
+
+```powershell
+docker compose -f experiments/scaling-my-posts/docker/docker-compose.ci.yml run --rm `
+  --entrypoint python translation-ci `
+  experiments/scaling-my-posts/src/translate_notebook.py `
+  posts/2026-07-23-Scaling-MyPost-WithAIAgents.ipynb `
+  posts/2026-07-23-Scaling-MyPost-WithAIAgents-pt-BR.ipynb
+```
+
+The generated notebook remains a draft and includes a machine-translation
+warning. Review its language and technical meaning before publishing it.
+
+To test both pages and their language switcher locally, include drafts in the
+preview:
+
+```powershell
+quarto preview -M draft:false
+```
+
+Open the English or Portuguese post and use the language link at the top of the
+article. Quarto converts each notebook to HTML as part of the preview.
 
 The intended automation runs only after the source-content PR has been reviewed
 and merged. The resulting push to `main` triggers translation, validation, and a

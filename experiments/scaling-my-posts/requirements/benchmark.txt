@@ -10,5 +10,6 @@ ipykernel==6.29.5
 openai==2.15.0
 pydantic==2.12.5
 pytest==9.0.2
+pytest-bdd==8.1.0
 sentence-transformers==5.2.0
 tqdm==4.69.0
