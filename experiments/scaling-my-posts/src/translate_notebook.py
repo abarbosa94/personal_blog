@@ -256,6 +256,46 @@ def portuguese_frontmatter(source: str, english_name: str) -> str:
     return "\n".join(result)
 
 
+def source_frontmatter(source: str, translation_name: str) -> str:
+    """Add or update the reciprocal translation link in source front matter."""
+    lines = source.splitlines()
+    result: list[str] = []
+    inserted_pairing = False
+    found_lang = False
+    for line in lines:
+        key = line.split(":", 1)[0].strip() if ":" in line else ""
+        if key == "language-version":
+            continue
+        if key == "translation":
+            if not inserted_pairing:
+                result.append(f"translation: {translation_name}")
+                inserted_pairing = True
+            continue
+        result.append(line)
+        if key == "lang":
+            found_lang = True
+            if not inserted_pairing:
+                result.append(f"translation: {translation_name}")
+                inserted_pairing = True
+    if not found_lang:
+        raise ValueError("Notebook front matter must contain a lang field")
+    return "\n".join(result)
+
+
+def pair_source_notebook(source: Path, translation_name: str) -> None:
+    """Persist the English side of a reciprocal notebook translation pair."""
+    notebook = json.loads(source.read_text(encoding="utf-8"))
+    first_cell = notebook["cells"][0]
+    raw = "".join(first_cell["source"])
+    first_cell["source"] = source_frontmatter(
+        raw, translation_name
+    ).splitlines(keepends=True)
+    source.write_text(
+        json.dumps(notebook, ensure_ascii=False, indent=1) + "\n",
+        encoding="utf-8",
+    )
+
+
 class TowerMarkdownTranslator:
     def __init__(self) -> None:
         import torch
@@ -342,7 +382,12 @@ class TowerMarkdownTranslator:
         ]
 
 
-def translate_notebook(source: Path, output: Path) -> None:
+def translate_notebook(
+    source: Path,
+    output: Path,
+    *,
+    pair_source: bool = False,
+) -> None:
     source_text = source.read_text(encoding="utf-8")
     source_notebook = json.loads(source_text)
     notebook = json.loads(source_text)
@@ -455,6 +500,8 @@ def translate_notebook(source: Path, output: Path) -> None:
         json.dumps(notebook, ensure_ascii=False, indent=1) + "\n",
         encoding="utf-8",
     )
+    if pair_source:
+        pair_source_notebook(source, output.name)
     progress_path.unlink(missing_ok=True)
 
 
@@ -462,9 +509,14 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("source", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument(
+        "--pair-source",
+        action="store_true",
+        help="Add the reciprocal translation metadata to the source notebook.",
+    )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
-    translate_notebook(args.source, args.output)
+    translate_notebook(args.source, args.output, pair_source=args.pair_source)

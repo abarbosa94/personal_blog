@@ -16,6 +16,7 @@ from translate_notebook import (  # noqa: E402
     is_structural_block,
     materialize_translation,
     protect,
+    source_frontmatter,
     split_markdown,
     translate_around_protected,
     validate_heading_parity,
@@ -39,6 +40,29 @@ def test_materialize_accepts_an_already_reconstructed_fallback() -> None:
     protected = {"ZXQPROTECTED0000QXZ": "[the article](https://example.com)"}
     translated = "Leia [o artigo](https://example.com)."
     assert materialize_translation(translated, protected) == translated
+
+
+def test_source_frontmatter_adds_an_idempotent_reciprocal_pair() -> None:
+    source = "---\ntitle: Example\nlang: en\n---"
+    paired = source_frontmatter(source, "example-pt-BR.ipynb")
+    assert paired.count("translation: example-pt-BR.ipynb") == 1
+    assert "language-version:" not in paired
+    assert source_frontmatter(paired, "example-pt-BR.ipynb") == paired
+
+
+def test_published_notebook_image_paths_are_portable() -> None:
+    posts = ROOT / "posts"
+    for notebook_path in posts.glob("*.ipynb"):
+        notebook = json.loads(notebook_path.read_text(encoding="utf-8"))
+        markdown = "".join(
+            "".join(cell.get("source", []))
+            for cell in notebook["cells"]
+            if cell["cell_type"] == "markdown"
+        )
+        assert "](" not in markdown or not any(
+            "\\" in destination.split(")", 1)[0]
+            for destination in markdown.split("](")[1:]
+        ), f"{notebook_path.name} contains a Windows-style Markdown link"
 
 
 def test_folded_notebook_code_matches_the_experiment_sources() -> None:

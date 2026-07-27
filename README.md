@@ -65,8 +65,14 @@ article. Quarto converts each notebook to HTML as part of the preview.
 
 The intended automation runs only after the source-content PR has been reviewed
 and merged. The resulting push to `main` triggers translation, validation, and a
-temporary preview, then opens a separate translation PR. Human review and merging
-of that translation PR remain distinct from the original source review.
+temporary rendered artifact, then opens a separate translation PR. Human review
+and merging of that translation PR remain distinct from the original source
+review.
+
+The workflow can also be started manually from **Actions → Create translation
+PR → Run workflow**. Supply the English notebook path under `posts/`; this is
+useful for a source post that reached `main` before the workflow was installed.
+The generated pull request is a draft and includes the publication checklist.
 
 ## Reproducing the translation evaluation
 

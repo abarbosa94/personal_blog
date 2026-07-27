@@ -1,0 +1,143 @@
+name: Create translation PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      notebook:
+        description: English source notebook under posts/
+        required: true
+        default: posts/2026-07-23-Scaling-MyPost-WithAIAgents.ipynb
+        type: string
+  push:
+    branches:
+      - main
+    paths:
+      - "posts/*.ipynb"
+
+concurrency:
+  group: translation-${{ github.event.inputs.notebook || github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.sources.outputs.matrix }}
+      has-sources: ${{ steps.sources.outputs.has-sources }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: sources
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          MANUAL_SOURCE: ${{ github.event.inputs.notebook }}
+        run: |
+          if [[ -n "$MANUAL_SOURCE" ]]; then
+            matrix="$(python experiments/scaling-my-posts/src/translation_workflow.py \
+              --manual-source "$MANUAL_SOURCE")"
+          else
+            matrix="$(python experiments/scaling-my-posts/src/translation_workflow.py \
+              --before "$BEFORE" --after "$AFTER")"
+          fi
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          if [[ "$matrix" == '{"source":[]}' ]]; then
+            echo "has-sources=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-sources=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  translate:
+    needs: select
+    if: needs.select.outputs.has-sources == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions:
+      contents: write
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.select.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache the pinned Tower+ model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: tower-plus-2b-4d779ca939174189c0677d4a75642d36d6a33b66
+
+      - name: Build the runner-compatible image
+        run: >-
+          docker compose
+          -f experiments/scaling-my-posts/docker/docker-compose.ci.yml
+          build translation-ci
+
+      - name: Generate and pair the PT-BR notebook
+        env:
+          SOURCE: ${{ matrix.source }}
+        run: |
+          target="${SOURCE%.ipynb}-pt-BR.ipynb"
+          docker compose \
+            -f experiments/scaling-my-posts/docker/docker-compose.ci.yml \
+            run --rm \
+            -v "$HOME/.cache/huggingface:/model-cache" \
+            --entrypoint python translation-ci \
+            experiments/scaling-my-posts/src/translate_notebook.py \
+            "$SOURCE" "$target" --pair-source
+          echo "TARGET=$target" >> "$GITHUB_ENV"
+
+      - name: Run deployment-focused tests
+        run: >-
+          docker compose
+          -f experiments/scaling-my-posts/docker/docker-compose.ci.yml
+          run --rm translation-ci --notebook "${{ matrix.source }}" --skip-render
+
+      - name: Render both language versions
+        env:
+          SOURCE: ${{ matrix.source }}
+        run: |
+          docker compose \
+            -f experiments/scaling-my-posts/docker/docker-compose.ci.yml \
+            run --rm --entrypoint quarto translation-ci \
+            render "$SOURCE" --to html -M draft:false
+          docker compose \
+            -f experiments/scaling-my-posts/docker/docker-compose.ci.yml \
+            run --rm --entrypoint quarto translation-ci \
+            render "$TARGET" --to html -M draft:false
+
+      - name: Upload the rendered review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: translation-preview-${{ strategy.job-index }}
+          path: _site
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Open a separate translation PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE: ${{ matrix.source }}
+        run: |
+          stem="$(basename "${SOURCE%.ipynb}")"
+          branch="translation/${stem}-${GITHUB_SHA:0:8}"
+          git switch -c "$branch"
+          git add "$SOURCE" "$TARGET"
+          if git diff --cached --quiet; then
+            echo "No translation changes were produced."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Add PT-BR translation for ${stem}"
+          git push origin "$branch"
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --draft \
+            --title "Add PT-BR translation for ${stem}" \
+            --body-file experiments/scaling-my-posts/templates/translation-pr.md
