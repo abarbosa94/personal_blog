@@ -6,6 +6,7 @@ project:
 
 website:
   title: "Andre Personal Blog :)"
+  draft-mode: unlinked
   navbar:
     right:
       - about.qmd

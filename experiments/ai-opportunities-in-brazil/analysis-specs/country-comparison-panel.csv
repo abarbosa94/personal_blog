@@ -1,0 +1,17 @@
+country_code,country_name,comparison_group,focus,version
+BR,Brazil,focus,true,1
+US,United States,ai_frontier,false,1
+CN,China,ai_frontier,false,1
+AR,Argentina,latin_america,false,1
+CL,Chile,latin_america,false,1
+CO,Colombia,latin_america,false,1
+MX,Mexico,latin_america,false,1
+IN,India,structural_peer,false,1
+ID,Indonesia,structural_peer,false,1
+ZA,South Africa,structural_peer,false,1
+TR,Turkey,structural_peer,false,1
+AE,United Arab Emirates,emerging_ai_investment,false,1
+CA,Canada,developed_reference,false,1
+GB,United Kingdom,developed_reference,false,1
+FR,France,developed_reference,false,1
+DE,Germany,developed_reference,false,1

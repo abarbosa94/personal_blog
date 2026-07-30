@@ -1,0 +1,47 @@
+[
+  {
+    "name": "hyphenated country",
+    "text": "1 University College London, London, United King-\ndom 2 CEREA, Institut Polytechnique de Paris, France.\nCorrespondence to: author@example.org\nProceedings, Vancouver, Canada.",
+    "expected": ["FR", "GB"]
+  },
+  {
+    "name": "multinational affiliations",
+    "text": "1 KAIST, South Korea 2 University of Alberta, Canada 3 Auburn University, USA.\nCorrespondence to: author@example.org",
+    "expected": ["CA", "KR", "US"]
+  },
+  {
+    "name": "wrapped Chinese institutions",
+    "text": "1 School of Artificial Intelligence, University of Chinese Academy of Sciences 2 Institute of Automation, Chi-\nnese Academy of Sciences, China.\nCorrespondence to: author@example.org",
+    "expected": ["CN"]
+  },
+  {
+    "name": "European institutions",
+    "text": "1 University of Münster, Germany 2 Caltech, USA 3 LSCE/IPSL, France 4 University of Copenhagen, Denmark.\nCorrespondence to: author@example.org",
+    "expected": ["DE", "DK", "FR", "US"]
+  },
+  {
+    "name": "correspondence and venue excluded",
+    "text": "1 Politecnico di Milano, Milan, Italy.\nCorrespondence to: author@example.org\nProceedings of ICML, Vancouver, Canada.",
+    "expected": ["IT"]
+  },
+  {
+    "name": "company with explicit location",
+    "text": "Qualcomm AI Research, San Diego, USA.\nCorrespondence to: author@example.org",
+    "expected": ["US"]
+  },
+  {
+    "name": "Colombian university with explicit country",
+    "text": "1 Universidad de los Andes, Colombia 2 California State University, Long Beach.\nCorrespondence to: author@example.org",
+    "expected": ["CO"]
+  },
+  {
+    "name": "Austrian institute identified by city",
+    "text": "1 ELLIS Unit, Institute for Machine Learning, JKU Linz 2 United Kingdom Atomic Energy Authority, United Kingdom.\nCorrespondence to: author@example.org",
+    "expected": ["AT", "GB"]
+  },
+  {
+    "name": "US companies identified by cities",
+    "text": "1 OpenAI, San Francisco 2 Upwork, Palo Alto 3 Meta, Menlo Park 4 Google, New York.\nCorrespondence to: author@example.org",
+    "expected": ["US"]
+  }
+]

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Conference reconciliation review</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <p class="eyebrow">AI opportunities in Brazil</p>
+      <h1>Reconciliation review</h1>
+      <p class="subtitle">Compare the official paper, OpenAlex match, and affiliation evidence.</p>
+    </div>
+    <div class="progress">
+      <strong id="progressText">Loading…</strong>
+      <div class="bar"><span id="progressBar"></span></div>
+      <small id="saveStatus">Starting</small>
+    </div>
+  </header>
+
+  <nav class="filters">
+    <label>Status <select id="statusFilter">
+      <option value="open">Open + deferred</option><option value="all">All</option>
+      <option value="needs_review">Needs review</option><option value="defer">Deferred</option>
+      <option value="pass">Pass</option><option value="fail">Fail</option>
+    </select></label>
+    <label>Venue <select id="venueFilter"><option value="all">All</option></select></label>
+    <label>Signal <select id="signalFilter"><option value="all">All</option></select></label>
+    <button id="previous">← Previous</button><button id="next">Next →</button>
+  </nav>
+
+  <main>
+    <section id="empty" class="card" hidden>No records match the selected filters.</section>
+    <div id="review" hidden>
+      <section class="card hero">
+        <div class="badges">
+          <span id="venueBadge"></span><span id="trackBadge"></span>
+          <span id="priorityBadge"></span><span id="statusBadge"></span>
+        </div>
+        <h2 id="title"></h2>
+        <p id="authors"></p>
+        <div class="links">
+          <a id="officialLink" target="_blank" rel="noreferrer">Official page</a>
+          <a id="pdfLink" target="_blank" rel="noreferrer">PDF</a>
+          <a id="openalexLink" target="_blank" rel="noreferrer">OpenAlex</a>
+        </div>
+      </section>
+
+      <section class="evidence">
+        <article class="card">
+          <h3>Automatic decision</h3>
+          <dl>
+            <dt>Method</dt><dd id="method"></dd>
+            <dt>Signal</dt><dd id="signal"></dd>
+            <dt>Why prioritized</dt><dd id="reason"></dd>
+            <dt>Paper ID</dt><dd id="paperId"></dd>
+          </dl>
+        </article>
+        <article class="card">
+          <h3>Recorded affiliations</h3>
+          <div id="affiliations"></div>
+        </article>
+      </section>
+
+      <section class="card decision">
+        <h3>Human decision</h3>
+        <p class="hint">Use Defer when the evidence is insufficient. Past decisions remain editable.</p>
+        <div class="primary-actions">
+          <button data-status="pass" class="pass">Pass <kbd>P</kbd></button>
+          <button data-status="fail" class="fail">Fail <kbd>F</kbd></button>
+          <button data-status="defer" class="defer">Defer <kbd>D</kbd></button>
+        </div>
+        <div id="details">
+          <fieldset>
+            <legend>Confidence</legend>
+            <label><input type="radio" name="confidence" value="high"> High</label>
+            <label><input type="radio" name="confidence" value="medium"> Medium</label>
+            <label><input type="radio" name="confidence" value="low"> Low</label>
+          </fieldset>
+          <fieldset id="failureFieldset">
+            <legend>Failure codes</legend>
+            <div id="failureCodes" class="tag-grid"></div>
+          </fieldset>
+          <label class="note">Reviewer note
+            <textarea id="note" rows="4" placeholder="Cite the evidence and explain the discrepancy or uncertainty."></textarea>
+          </label>
+          <label><input id="regression" type="checkbox"> Add this pattern to the regression set</label>
+          <div id="validation" class="validation" hidden></div>
+          <button id="save">Save and next <kbd>S</kbd></button>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
