@@ -132,14 +132,14 @@ somente entre observações semanticamente equivalentes.
 Para TOP500, serão preservadas as observações de junho e novembro de 2025. O
 resumo anual usará novembro; junho permanecerá disponível para mostrar variação.
 
-## Pendências antes da coleta por país
+## Checklist de fechamento
 
 - [x] Baixar os arquivos do AI Index 2026 relevantes para economia.
-- [ ] Resolver e registrar os IDs OpenAlex de cada conferência.
+- [x] Resolver e registrar os IDs OpenAlex de cada conferência.
 - [x] Registrar como adiada a extensão de Responsible AI após falha do gate
   independente; ela não bloqueia o baseline inicial.
-- [ ] Fixar a data de indexação e medir a cobertura de afiliações.
-- [ ] Fixar o universo de modelos e as categorias organizacionais do Epoch.
-- [ ] Definir os grupos de comparação.
-- [ ] Registrar data de corte, URL, licença e SHA-256 de cada arquivo.
-- [ ] Verificar cobertura antes de calcular resultados.
+- [x] Fixar a data de indexação e medir a cobertura de afiliações.
+- [x] Fixar o universo de modelos e as categorias organizacionais do Epoch.
+- [x] Definir os grupos de comparação.
+- [x] Registrar data de corte, URL, licença e SHA-256 dos arquivos publicados.
+- [x] Verificar cobertura antes de calcular resultados.

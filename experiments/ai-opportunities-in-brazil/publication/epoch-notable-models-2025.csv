@@ -1,0 +1,65 @@
+period_start,period_end,country_code,country_name,comparison_group,indicator,sector,model_count,country_total,sector_share
+2025-01-01,2025-12-31,BR,Brazil,focus,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,BR,Brazil,focus,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,BR,Brazil,focus,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,BR,Brazil,focus,notable_ai_models,other,0,0,
+2025-01-01,2025-12-31,US,United States,ai_frontier,notable_ai_models,industry,55,60,0.9166666667
+2025-01-01,2025-12-31,US,United States,ai_frontier,notable_ai_models,academia,2,60,0.0333333333
+2025-01-01,2025-12-31,US,United States,ai_frontier,notable_ai_models,mixed,2,60,0.0333333333
+2025-01-01,2025-12-31,US,United States,ai_frontier,notable_ai_models,other,1,60,0.0166666667
+2025-01-01,2025-12-31,CN,China,ai_frontier,notable_ai_models,industry,30,35,0.8571428571
+2025-01-01,2025-12-31,CN,China,ai_frontier,notable_ai_models,academia,3,35,0.0857142857
+2025-01-01,2025-12-31,CN,China,ai_frontier,notable_ai_models,mixed,2,35,0.0571428571
+2025-01-01,2025-12-31,CN,China,ai_frontier,notable_ai_models,other,0,35,0.0
+2025-01-01,2025-12-31,AR,Argentina,latin_america,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,AR,Argentina,latin_america,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,AR,Argentina,latin_america,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,AR,Argentina,latin_america,notable_ai_models,other,0,0,
+2025-01-01,2025-12-31,CL,Chile,latin_america,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,CL,Chile,latin_america,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,CL,Chile,latin_america,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,CL,Chile,latin_america,notable_ai_models,other,0,0,
+2025-01-01,2025-12-31,CO,Colombia,latin_america,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,CO,Colombia,latin_america,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,CO,Colombia,latin_america,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,CO,Colombia,latin_america,notable_ai_models,other,0,0,
+2025-01-01,2025-12-31,MX,Mexico,latin_america,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,MX,Mexico,latin_america,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,MX,Mexico,latin_america,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,MX,Mexico,latin_america,notable_ai_models,other,0,0,
+2025-01-01,2025-12-31,IN,India,structural_peer,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,IN,India,structural_peer,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,IN,India,structural_peer,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,IN,India,structural_peer,notable_ai_models,other,0,0,
+2025-01-01,2025-12-31,ID,Indonesia,structural_peer,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,ID,Indonesia,structural_peer,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,ID,Indonesia,structural_peer,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,ID,Indonesia,structural_peer,notable_ai_models,other,0,0,
+2025-01-01,2025-12-31,ZA,South Africa,structural_peer,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,ZA,South Africa,structural_peer,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,ZA,South Africa,structural_peer,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,ZA,South Africa,structural_peer,notable_ai_models,other,0,0,
+2025-01-01,2025-12-31,TR,Turkey,structural_peer,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,TR,Turkey,structural_peer,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,TR,Turkey,structural_peer,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,TR,Turkey,structural_peer,notable_ai_models,other,0,0,
+2025-01-01,2025-12-31,AE,United Arab Emirates,emerging_ai_investment,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,AE,United Arab Emirates,emerging_ai_investment,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,AE,United Arab Emirates,emerging_ai_investment,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,AE,United Arab Emirates,emerging_ai_investment,notable_ai_models,other,0,0,
+2025-01-01,2025-12-31,CA,Canada,developed_reference,notable_ai_models,industry,0,1,0.0
+2025-01-01,2025-12-31,CA,Canada,developed_reference,notable_ai_models,academia,1,1,1.0
+2025-01-01,2025-12-31,CA,Canada,developed_reference,notable_ai_models,mixed,0,1,0.0
+2025-01-01,2025-12-31,CA,Canada,developed_reference,notable_ai_models,other,0,1,0.0
+2025-01-01,2025-12-31,GB,United Kingdom,developed_reference,notable_ai_models,industry,1,1,1.0
+2025-01-01,2025-12-31,GB,United Kingdom,developed_reference,notable_ai_models,academia,0,1,0.0
+2025-01-01,2025-12-31,GB,United Kingdom,developed_reference,notable_ai_models,mixed,0,1,0.0
+2025-01-01,2025-12-31,GB,United Kingdom,developed_reference,notable_ai_models,other,0,1,0.0
+2025-01-01,2025-12-31,FR,France,developed_reference,notable_ai_models,industry,1,1,1.0
+2025-01-01,2025-12-31,FR,France,developed_reference,notable_ai_models,academia,0,1,0.0
+2025-01-01,2025-12-31,FR,France,developed_reference,notable_ai_models,mixed,0,1,0.0
+2025-01-01,2025-12-31,FR,France,developed_reference,notable_ai_models,other,0,1,0.0
+2025-01-01,2025-12-31,DE,Germany,developed_reference,notable_ai_models,industry,0,0,
+2025-01-01,2025-12-31,DE,Germany,developed_reference,notable_ai_models,academia,0,0,
+2025-01-01,2025-12-31,DE,Germany,developed_reference,notable_ai_models,mixed,0,0,
+2025-01-01,2025-12-31,DE,Germany,developed_reference,notable_ai_models,other,0,0,

@@ -133,16 +133,17 @@ inconclusivas.
 
 ## Fase 5 — Conversão e síntese
 
-- [ ] Mapear transições entre insumos, pesquisa, infraestrutura, aplicações,
+- [x] Mapear transições entre insumos, pesquisa, infraestrutura, aplicações,
   empresas, produtividade e captura de valor.
-- [ ] Usar AI Models do Epoch para testar presença em modelos notáveis ou de
+- [x] Usar AI Models do Epoch para testar presença em modelos notáveis ou de
   fronteira, sem interpretar ausência de registro como ausência de capacidade.
 - [x] Registrar a Maritaca como hipótese de conversão e especialização
   linguística, sem tratá-la como evidência conclusiva.
-- [ ] Testar `H-CONV-001`.
-- [ ] Sintetizar as hipóteses filhas sem criar um score arbitrário.
-- [ ] Classificar `H-MAIN-001`.
-- [ ] Registrar explicações alternativas e incertezas remanescentes.
+- [x] Testar `H-CONV-001`; a evidência permaneceu inconclusiva para identificar
+  a conexão entre as etapas como o principal gargalo.
+- [x] Sintetizar as hipóteses filhas sem criar um score arbitrário.
+- [x] Classificar `H-MAIN-001`.
+- [x] Registrar explicações alternativas e incertezas remanescentes.
 
 ## Fase 6 — Publicação reproduzível
 
@@ -156,22 +157,27 @@ inconclusivas.
 - [x] Mostrar resultados favoráveis, contrários e mistos.
 - [x] Revisar se a conclusão responde à pergunta inicial.
 - [x] Executar a revisão técnica e editorial do post.
+- [x] Publicar um pacote compacto e verificável dos resultados finais.
+- [ ] Incorporar as correções priorizadas pela revisão antes de retirar
+  `draft: true`.
 
 ## Fechamento do plano staged 1–9 — 2026-07-30
 
 1. [x] Matriz dos sete indicadores congelada.
 2. [x] Contrato de decisão e triangulação congelado.
-3. [x] Tabelas e três figuras reproduzíveis geradas e inspecionadas.
+3. [x] Tabelas e cinco figuras reproduzíveis geradas e inspecionadas.
 4. [x] Baseline incorporado ao notebook na voz existente.
 5. [x] P&D, ciência e infraestrutura testados; resultados misto,
    inconclusivo e misto, respectivamente.
 6. [x] Demanda e casos de finanças, jurídico e português avaliados como
    candidatos, sem promovê-los a vantagens demonstradas.
-7. [x] Cadeia de conversão analisada; suporte provisório, não causal.
+7. [x] Cadeia de conversão analisada; a evidência não identificou um único
+   gargalo principal.
 8. [x] Hipótese central classificada como inconclusiva e `H-BASE-001`
    contestada, sem score agregado.
-9. [x] Notebook concluído, `draft: false`, fontes e limitações revisadas,
-   122 testes aprovados e renderização Quarto validada.
+9. [x] Notebook analiticamente concluído, fontes e limitações revisadas,
+   124 testes aprovados e renderização Quarto validada. O post permanece com
+   `draft: true` até incorporar as correções editoriais priorizadas.
 
 Os itens amplos ainda não executados nas fases 2–5 são extensões futuras.
 Resultados inconclusivos representam testes concluídos com evidência

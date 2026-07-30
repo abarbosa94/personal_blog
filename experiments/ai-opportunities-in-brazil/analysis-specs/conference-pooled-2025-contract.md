@@ -112,17 +112,23 @@ cannot be treated as comparably observed under the frozen gate. It does not
 prove that affiliation missingness is statistically random. The post must
 retain that distinction.
 
-## Current status
+## Current status — completed 2026-07-29
 
 | Venue | Enumeration | Country recovery | Gate |
 | --- | --- | --- | --- |
 | AAAI | complete | 91.48% | coverage passes |
-| ACL | complete | 59.93% | recovery required |
-| ICML | complete | 65.98% | recovery required |
-| NeurIPS | complete | 41.65% | recovery required |
-| EMNLP | complete: 1,809 research papers | base census complete | pending |
-| ICLR | complete: 3,703 accepted papers | base census running | pending |
+| ACL | complete | 96.19% | coverage passes |
+| ICML | complete | 95.56% | coverage passes |
+| NeurIPS | complete | 91.38% | coverage passes |
+| EMNLP | complete: 1,809 research papers | 92.65% | coverage passes |
+| ICLR | 3,702 of 3,703 accepted papers enumerated | 97.38% | coverage passes |
 | KDD ADS | complete: 155 papers (92 February; 63 August) | 149 with country (96.13%) | coverage passes |
+
+The official universe contains 19,908 papers. The final dataset contains
+19,907 records because one accepted ICLR paper was deliberately left
+unresolved; this omission is 0.027% of the ICLR universe. Every venue passes
+the 90% floor, and the 6.00 percentage-point coverage spread passes the
+15-point limit.
 
 ACL Anthology lists 1,810 entries for `2025.emnlp-main`; the enumerated research
 universe is 1,809 after excluding the `.0` proceedings front matter. The raw
@@ -134,10 +140,7 @@ The ICLR raw dataset is `data/raw/iclr-2025.jsonl`, SHA-256
 The KDD ADS raw dataset is `data/raw/kdd-ads-2025.jsonl`, SHA-256
 `bec3f202a20f1b557316206b5afcf64004bdb86c401af18ca8425028d21b7cb8`.
 
-The next implementation order is:
-
-1. finish the running ICLR census and validate its official universe;
-2. enumerate both cycles of the official KDD 2025 ADS paper list;
-3. improve ACL, ICML and NeurIPS recovery to the frozen coverage gate using V9;
-4. run EMNLP, ICLR and KDD ADS recovery using V9;
-5. generate the two pooled estimators and leave-one-venue-out sensitivity.
+The compact final outputs, coverage metadata, sensitivity results and
+checksums are tracked in [`../publication`](../publication). Large raw,
+processed and cache files remain local and are not required to inspect the
+published estimates.

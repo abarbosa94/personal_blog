@@ -1,0 +1,49 @@
+country_code,country_name,indicator_code,indicator,value,year,observation_status
+BR,Brazil,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,1.1938,2023,observed
+US,United States,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,3.44716,2023,observed
+CN,China,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,2.57729,2023,observed
+AR,Argentina,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,0.60111,2023,observed
+CL,Chile,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,0.39205,2022,observed
+CO,Colombia,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,0.2894,2020,observed
+MX,Mexico,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,0.25372,2024,observed
+IN,India,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,0.64558,2020,observed
+ID,Indonesia,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,0.28068,2020,observed
+ZA,South Africa,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,0.61479,2022,observed
+TR,Turkey,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,1.42224,2023,observed
+AE,United Arab Emirates,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,1.49469,2021,observed
+CA,Canada,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,1.7908,2024,observed
+GB,United Kingdom,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,2.67614,2023,observed
+FR,France,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,2.17832,2023,observed
+DE,Germany,GB.XPD.RSDV.GD.ZS,research_and_development_expenditure_percent_gdp,3.1539,2023,observed
+BR,Brazil,SP.POP.TOTL,population,212812405,2025,observed
+US,United States,SP.POP.TOTL,population,341784857,2025,observed
+CN,China,SP.POP.TOTL,population,1406585000,2025,observed
+AR,Argentina,SP.POP.TOTL,population,45851378,2025,observed
+CL,Chile,SP.POP.TOTL,population,19859921,2025,observed
+CO,Colombia,SP.POP.TOTL,population,53425635,2025,observed
+MX,Mexico,SP.POP.TOTL,population,131946900,2025,observed
+IN,India,SP.POP.TOTL,population,1463865525,2025,observed
+ID,Indonesia,SP.POP.TOTL,population,285721236,2025,observed
+ZA,South Africa,SP.POP.TOTL,population,64747319,2025,observed
+TR,Turkey,SP.POP.TOTL,population,85878556,2025,observed
+AE,United Arab Emirates,SP.POP.TOTL,population,11513149,2025,observed
+CA,Canada,SP.POP.TOTL,population,41651653,2025,observed
+GB,United Kingdom,SP.POP.TOTL,population,69487000,2025,observed
+FR,France,SP.POP.TOTL,population,68720337,2025,observed
+DE,Germany,SP.POP.TOTL,population,83491249,2025,observed
+BR,Brazil,NY.GDP.MKTP.CD,gdp_current_usd,2279920092492.13,2025,observed
+US,United States,NY.GDP.MKTP.CD,gdp_current_usd,30769700000000,2025,observed
+CN,China,NY.GDP.MKTP.CD,gdp_current_usd,19498039388042.6,2025,observed
+AR,Argentina,NY.GDP.MKTP.CD,gdp_current_usd,683097891618.597,2025,observed
+CL,Chile,NY.GDP.MKTP.CD,gdp_current_usd,357371159574.862,2025,observed
+CO,Colombia,NY.GDP.MKTP.CD,gdp_current_usd,457410034202.523,2025,observed
+MX,Mexico,NY.GDP.MKTP.CD,gdp_current_usd,1832641364775.52,2025,observed
+IN,India,NY.GDP.MKTP.CD,gdp_current_usd,3956067115771.63,2025,observed
+ID,Indonesia,NY.GDP.MKTP.CD,gdp_current_usd,1445642584163.81,2025,observed
+ZA,South Africa,NY.GDP.MKTP.CD,gdp_current_usd,427184325997.307,2025,observed
+TR,Turkey,NY.GDP.MKTP.CD,gdp_current_usd,1597293229287,2025,observed
+AE,United Arab Emirates,NY.GDP.MKTP.CD,gdp_current_usd,552324919095.872,2024,observed
+CA,Canada,NY.GDP.MKTP.CD,gdp_current_usd,2319899772425.92,2025,observed
+GB,United Kingdom,NY.GDP.MKTP.CD,gdp_current_usd,4002587541846.01,2025,observed
+FR,France,NY.GDP.MKTP.CD,gdp_current_usd,3366315927447.33,2025,observed
+DE,Germany,NY.GDP.MKTP.CD,gdp_current_usd,5050922925047.05,2025,observed

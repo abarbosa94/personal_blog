@@ -1,0 +1,257 @@
+scenario,estimator,country_code,country_name,comparison_group,venue_count,venues,estimate,rank_in_panel
+all_venues,equal_venue_fractional_share,BR,Brazil,focus,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0006402475,10
+all_venues,equal_venue_fractional_share,US,United States,ai_frontier,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.2720770694,2
+all_venues,equal_venue_fractional_share,CN,China,ai_frontier,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.3496098078,1
+all_venues,equal_venue_fractional_share,AR,Argentina,latin_america,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0004653747,12
+all_venues,equal_venue_fractional_share,CL,Chile,latin_america,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0003584674,15
+all_venues,equal_venue_fractional_share,CO,Colombia,latin_america,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0001768604,16
+all_venues,equal_venue_fractional_share,MX,Mexico,latin_america,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0007949277,9
+all_venues,equal_venue_fractional_share,IN,India,structural_peer,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.012708204,7
+all_venues,equal_venue_fractional_share,ID,Indonesia,structural_peer,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0005522216,11
+all_venues,equal_venue_fractional_share,ZA,South Africa,structural_peer,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0004363464,13
+all_venues,equal_venue_fractional_share,TR,Turkey,structural_peer,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0004039124,14
+all_venues,equal_venue_fractional_share,AE,United Arab Emirates,emerging_ai_investment,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0063207991,8
+all_venues,equal_venue_fractional_share,CA,Canada,developed_reference,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0278559497,5
+all_venues,equal_venue_fractional_share,GB,United Kingdom,developed_reference,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0474763191,3
+all_venues,equal_venue_fractional_share,FR,France,developed_reference,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0153149014,6
+all_venues,equal_venue_fractional_share,DE,Germany,developed_reference,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0316043203,4
+all_venues,paper_weighted_fractional_share,BR,Brazil,focus,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0007378924,10
+all_venues,paper_weighted_fractional_share,US,United States,ai_frontier,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.2825164118,2
+all_venues,paper_weighted_fractional_share,CN,China,ai_frontier,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.3189358046,1
+all_venues,paper_weighted_fractional_share,AR,Argentina,latin_america,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0001268038,16
+all_venues,paper_weighted_fractional_share,CL,Chile,latin_america,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0004018431,13
+all_venues,paper_weighted_fractional_share,CO,Colombia,latin_america,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0003080797,15
+all_venues,paper_weighted_fractional_share,MX,Mexico,latin_america,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0008947707,9
+all_venues,paper_weighted_fractional_share,IN,India,structural_peer,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0098282216,7
+all_venues,paper_weighted_fractional_share,ID,Indonesia,structural_peer,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0003679097,14
+all_venues,paper_weighted_fractional_share,ZA,South Africa,structural_peer,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0004630764,12
+all_venues,paper_weighted_fractional_share,TR,Turkey,structural_peer,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0005134662,11
+all_venues,paper_weighted_fractional_share,AE,United Arab Emirates,emerging_ai_investment,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.00676235,8
+all_venues,paper_weighted_fractional_share,CA,Canada,developed_reference,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0287085974,5
+all_venues,paper_weighted_fractional_share,GB,United Kingdom,developed_reference,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.051964662,3
+all_venues,paper_weighted_fractional_share,FR,France,developed_reference,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.0154011798,6
+all_venues,paper_weighted_fractional_share,DE,Germany,developed_reference,7,aaai|acl|emnlp|iclr|icml|kdd-ads|neurips,0.034304805,4
+leave_out_aaai,equal_venue_fractional_share,BR,Brazil,focus,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0005727455,10
+leave_out_aaai,equal_venue_fractional_share,US,United States,ai_frontier,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.2870845835,2
+leave_out_aaai,equal_venue_fractional_share,CN,China,ai_frontier,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.3306534479,1
+leave_out_aaai,equal_venue_fractional_share,AR,Argentina,latin_america,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0005429372,11
+leave_out_aaai,equal_venue_fractional_share,CL,Chile,latin_america,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0001307656,16
+leave_out_aaai,equal_venue_fractional_share,CO,Colombia,latin_america,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0001671399,14
+leave_out_aaai,equal_venue_fractional_share,MX,Mexico,latin_america,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0001373735,15
+leave_out_aaai,equal_venue_fractional_share,IN,India,structural_peer,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0123881696,7
+leave_out_aaai,equal_venue_fractional_share,ID,Indonesia,structural_peer,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0006007061,9
+leave_out_aaai,equal_venue_fractional_share,ZA,South Africa,structural_peer,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0004829393,12
+leave_out_aaai,equal_venue_fractional_share,TR,Turkey,structural_peer,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0004407444,13
+leave_out_aaai,equal_venue_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0069413539,8
+leave_out_aaai,equal_venue_fractional_share,CA,Canada,developed_reference,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.028665989,5
+leave_out_aaai,equal_venue_fractional_share,GB,United Kingdom,developed_reference,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0482403333,3
+leave_out_aaai,equal_venue_fractional_share,FR,France,developed_reference,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0163238848,6
+leave_out_aaai,equal_venue_fractional_share,DE,Germany,developed_reference,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0333666027,4
+leave_out_aaai,paper_weighted_fractional_share,BR,Brazil,focus,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0006745519,9
+leave_out_aaai,paper_weighted_fractional_share,US,United States,ai_frontier,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.3032236711,1
+leave_out_aaai,paper_weighted_fractional_share,CN,China,ai_frontier,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.2891761674,2
+leave_out_aaai,paper_weighted_fractional_share,AR,Argentina,latin_america,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0001529348,14
+leave_out_aaai,paper_weighted_fractional_share,CL,Chile,latin_america,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0001292407,15
+leave_out_aaai,paper_weighted_fractional_share,CO,Colombia,latin_america,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0003231018,13
+leave_out_aaai,paper_weighted_fractional_share,MX,Mexico,latin_america,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0001023156,16
+leave_out_aaai,paper_weighted_fractional_share,IN,India,structural_peer,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0088390261,7
+leave_out_aaai,paper_weighted_fractional_share,ID,Indonesia,structural_peer,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0003898761,12
+leave_out_aaai,paper_weighted_fractional_share,ZA,South Africa,structural_peer,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0005261943,11
+leave_out_aaai,paper_weighted_fractional_share,TR,Turkey,structural_peer,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0005815832,10
+leave_out_aaai,paper_weighted_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0076206247,8
+leave_out_aaai,paper_weighted_fractional_share,CA,Canada,developed_reference,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0298858758,5
+leave_out_aaai,paper_weighted_fractional_share,GB,United Kingdom,developed_reference,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0538342565,3
+leave_out_aaai,paper_weighted_fractional_share,FR,France,developed_reference,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0166665128,6
+leave_out_aaai,paper_weighted_fractional_share,DE,Germany,developed_reference,6,acl|emnlp|iclr|icml|kdd-ads|neurips,0.0370402723,4
+leave_out_acl,equal_venue_fractional_share,BR,Brazil,focus,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.000692878,10
+leave_out_acl,equal_venue_fractional_share,US,United States,ai_frontier,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.2835697408,2
+leave_out_acl,equal_venue_fractional_share,CN,China,ai_frontier,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.3450040735,1
+leave_out_acl,equal_venue_fractional_share,AR,Argentina,latin_america,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0005429372,11
+leave_out_acl,equal_venue_fractional_share,CL,Chile,latin_america,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.000418212,12
+leave_out_acl,equal_venue_fractional_share,CO,Colombia,latin_america,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0002063372,16
+leave_out_acl,equal_venue_fractional_share,MX,Mexico,latin_america,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0008462995,9
+leave_out_acl,equal_venue_fractional_share,IN,India,structural_peer,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0123927532,7
+leave_out_acl,equal_venue_fractional_share,ID,Indonesia,structural_peer,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0003378197,14
+leave_out_acl,equal_venue_fractional_share,ZA,South Africa,structural_peer,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0002232329,15
+leave_out_acl,equal_venue_fractional_share,TR,Turkey,structural_peer,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0004171537,13
+leave_out_acl,equal_venue_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0058582948,8
+leave_out_acl,equal_venue_fractional_share,CA,Canada,developed_reference,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0289753341,5
+leave_out_acl,equal_venue_fractional_share,GB,United Kingdom,developed_reference,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0467049748,3
+leave_out_acl,equal_venue_fractional_share,FR,France,developed_reference,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0160017134,6
+leave_out_acl,equal_venue_fractional_share,DE,Germany,developed_reference,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0310357214,4
+leave_out_acl,paper_weighted_fractional_share,BR,Brazil,focus,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0007750992,10
+leave_out_acl,paper_weighted_fractional_share,US,United States,ai_frontier,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.2896616706,2
+leave_out_acl,paper_weighted_fractional_share,CN,China,ai_frontier,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.3136882862,1
+leave_out_acl,paper_weighted_fractional_share,AR,Argentina,latin_america,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0001382157,16
+leave_out_acl,paper_weighted_fractional_share,CL,Chile,latin_america,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0004380074,12
+leave_out_acl,paper_weighted_fractional_share,CO,Colombia,latin_america,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0003358056,14
+leave_out_acl,paper_weighted_fractional_share,MX,Mexico,latin_america,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0009314956,9
+leave_out_acl,paper_weighted_fractional_share,IN,India,structural_peer,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0093986993,7
+leave_out_acl,paper_weighted_fractional_share,ID,Indonesia,structural_peer,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0002355506,15
+leave_out_acl,paper_weighted_fractional_share,ZA,South Africa,structural_peer,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0003504059,13
+leave_out_acl,paper_weighted_fractional_share,TR,Turkey,structural_peer,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0005304756,11
+leave_out_acl,paper_weighted_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0065523467,8
+leave_out_acl,paper_weighted_fractional_share,CA,Canada,developed_reference,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0293897723,5
+leave_out_acl,paper_weighted_fractional_share,GB,United Kingdom,developed_reference,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0519520876,3
+leave_out_acl,paper_weighted_fractional_share,FR,France,developed_reference,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0157798061,6
+leave_out_acl,paper_weighted_fractional_share,DE,Germany,developed_reference,6,aaai|emnlp|iclr|icml|kdd-ads|neurips,0.0342408081,4
+leave_out_emnlp,equal_venue_fractional_share,BR,Brazil,focus,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0006143646,10
+leave_out_emnlp,equal_venue_fractional_share,US,United States,ai_frontier,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.2739879141,2
+leave_out_emnlp,equal_venue_fractional_share,CN,China,ai_frontier,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.3570378148,1
+leave_out_emnlp,equal_venue_fractional_share,AR,Argentina,latin_america,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0003937725,12
+leave_out_emnlp,equal_venue_fractional_share,CL,Chile,latin_america,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0003187689,15
+leave_out_emnlp,equal_venue_fractional_share,CO,Colombia,latin_america,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0002063372,16
+leave_out_emnlp,equal_venue_fractional_share,MX,Mexico,latin_america,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0008942679,9
+leave_out_emnlp,equal_venue_fractional_share,IN,India,structural_peer,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0115280412,7
+leave_out_emnlp,equal_venue_fractional_share,ID,Indonesia,structural_peer,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.00037079,14
+leave_out_emnlp,equal_venue_fractional_share,ZA,South Africa,structural_peer,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0005090708,11
+leave_out_emnlp,equal_venue_fractional_share,TR,Turkey,structural_peer,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.000371788,13
+leave_out_emnlp,equal_venue_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0053214756,8
+leave_out_emnlp,equal_venue_fractional_share,CA,Canada,developed_reference,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0281586262,5
+leave_out_emnlp,equal_venue_fractional_share,GB,United Kingdom,developed_reference,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0450410354,3
+leave_out_emnlp,equal_venue_fractional_share,FR,France,developed_reference,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0156488564,6
+leave_out_emnlp,equal_venue_fractional_share,DE,Germany,developed_reference,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0296005209,4
+leave_out_emnlp,paper_weighted_fractional_share,BR,Brazil,focus,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0007322045,10
+leave_out_emnlp,paper_weighted_fractional_share,US,United States,ai_frontier,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.2846774544,2
+leave_out_emnlp,paper_weighted_fractional_share,CN,China,ai_frontier,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.3203065609,1
+leave_out_emnlp,paper_weighted_fractional_share,AR,Argentina,latin_america,6,aaai|acl|iclr|icml|kdd-ads|neurips,5.10164e-05,16
+leave_out_emnlp,paper_weighted_fractional_share,CL,Chile,latin_america,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.000382623,13
+leave_out_emnlp,paper_weighted_fractional_share,CO,Colombia,latin_america,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0003384742,14
+leave_out_emnlp,paper_weighted_fractional_share,MX,Mexico,latin_america,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0009634252,9
+leave_out_emnlp,paper_weighted_fractional_share,IN,India,structural_peer,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0088454946,7
+leave_out_emnlp,paper_weighted_fractional_share,ID,Indonesia,structural_peer,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0002423279,15
+leave_out_emnlp,paper_weighted_fractional_share,ZA,South Africa,structural_peer,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0005087625,11
+leave_out_emnlp,paper_weighted_fractional_share,TR,Turkey,structural_peer,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0005052586,12
+leave_out_emnlp,paper_weighted_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0062143656,8
+leave_out_emnlp,paper_weighted_fractional_share,CA,Canada,developed_reference,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0289718863,5
+leave_out_emnlp,paper_weighted_fractional_share,GB,United Kingdom,developed_reference,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0509659129,3
+leave_out_emnlp,paper_weighted_fractional_share,FR,France,developed_reference,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0156073755,6
+leave_out_emnlp,paper_weighted_fractional_share,DE,Germany,developed_reference,6,aaai|acl|iclr|icml|kdd-ads|neurips,0.0333850856,4
+leave_out_iclr,equal_venue_fractional_share,BR,Brazil,focus,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0006793598,10
+leave_out_iclr,equal_venue_fractional_share,US,United States,ai_frontier,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.2564548385,2
+leave_out_iclr,equal_venue_fractional_share,CN,China,ai_frontier,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.370689704,1
+leave_out_iclr,equal_venue_fractional_share,AR,Argentina,latin_america,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0005429372,12
+leave_out_iclr,equal_venue_fractional_share,CL,Chile,latin_america,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.000418212,14
+leave_out_iclr,equal_venue_fractional_share,CO,Colombia,latin_america,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0002063372,16
+leave_out_iclr,equal_venue_fractional_share,MX,Mexico,latin_america,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.000904306,9
+leave_out_iclr,equal_venue_fractional_share,IN,India,structural_peer,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0137554642,7
+leave_out_iclr,equal_venue_fractional_share,ID,Indonesia,structural_peer,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0006234599,11
+leave_out_iclr,equal_venue_fractional_share,ZA,South Africa,structural_peer,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0004320387,13
+leave_out_iclr,equal_venue_fractional_share,TR,Turkey,structural_peer,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0003633861,15
+leave_out_iclr,equal_venue_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0058573659,8
+leave_out_iclr,equal_venue_fractional_share,CA,Canada,developed_reference,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0266602071,5
+leave_out_iclr,equal_venue_fractional_share,GB,United Kingdom,developed_reference,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0477672897,3
+leave_out_iclr,equal_venue_fractional_share,FR,France,developed_reference,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0152989145,6
+leave_out_iclr,equal_venue_fractional_share,DE,Germany,developed_reference,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0303281322,4
+leave_out_iclr,paper_weighted_fractional_share,BR,Brazil,focus,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.000817474,10
+leave_out_iclr,paper_weighted_fractional_share,US,United States,ai_frontier,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.2625696513,2
+leave_out_iclr,paper_weighted_fractional_share,CN,China,ai_frontier,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.3418787039,1
+leave_out_iclr,paper_weighted_fractional_share,AR,Argentina,latin_america,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0001571701,16
+leave_out_iclr,paper_weighted_fractional_share,CL,Chile,latin_america,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0004980741,11
+leave_out_iclr,paper_weighted_fractional_share,CO,Colombia,latin_america,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0003818568,15
+leave_out_iclr,paper_weighted_fractional_share,MX,Mexico,latin_america,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0010758401,9
+leave_out_iclr,paper_weighted_fractional_share,IN,India,structural_peer,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0106432904,7
+leave_out_iclr,paper_weighted_fractional_share,ID,Indonesia,structural_peer,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0004261301,14
+leave_out_iclr,paper_weighted_fractional_share,ZA,South Africa,structural_peer,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.000463288,13
+leave_out_iclr,paper_weighted_fractional_share,TR,Turkey,structural_peer,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0004814716,12
+leave_out_iclr,paper_weighted_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0062022086,8
+leave_out_iclr,paper_weighted_fractional_share,CA,Canada,developed_reference,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0271946885,5
+leave_out_iclr,paper_weighted_fractional_share,GB,United Kingdom,developed_reference,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0534575831,3
+leave_out_iclr,paper_weighted_fractional_share,FR,France,developed_reference,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0153988704,6
+leave_out_iclr,paper_weighted_fractional_share,DE,Germany,developed_reference,6,aaai|acl|emnlp|icml|kdd-ads|neurips,0.0331178175,4
+leave_out_icml,equal_venue_fractional_share,BR,Brazil,focus,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0005112546,12
+leave_out_icml,equal_venue_fractional_share,US,United States,ai_frontier,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.2618292816,2
+leave_out_icml,equal_venue_fractional_share,CN,China,ai_frontier,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.3615044098,1
+leave_out_icml,equal_venue_fractional_share,AR,Argentina,latin_america,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0005324616,11
+leave_out_icml,equal_venue_fractional_share,CL,Chile,latin_america,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.000418212,15
+leave_out_icml,equal_venue_fractional_share,CO,Colombia,latin_america,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0001801482,16
+leave_out_icml,equal_venue_fractional_share,MX,Mexico,latin_america,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0009274157,9
+leave_out_icml,equal_venue_fractional_share,IN,India,structural_peer,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0135604373,7
+leave_out_icml,equal_venue_fractional_share,ID,Indonesia,structural_peer,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0006442586,10
+leave_out_icml,equal_venue_fractional_share,ZA,South Africa,structural_peer,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0005090708,13
+leave_out_icml,equal_venue_fractional_share,TR,Turkey,structural_peer,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0004275828,14
+leave_out_icml,equal_venue_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0066889874,8
+leave_out_icml,equal_venue_fractional_share,CA,Canada,developed_reference,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0272477176,5
+leave_out_icml,equal_venue_fractional_share,GB,United Kingdom,developed_reference,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0456999894,3
+leave_out_icml,equal_venue_fractional_share,FR,France,developed_reference,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.014606857,6
+leave_out_icml,equal_venue_fractional_share,DE,Germany,developed_reference,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0305383388,4
+leave_out_icml,paper_weighted_fractional_share,BR,Brazil,focus,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0005988906,10
+leave_out_icml,paper_weighted_fractional_share,US,United States,ai_frontier,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.2720246938,2
+leave_out_icml,paper_weighted_fractional_share,CN,China,ai_frontier,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.3272995214,1
+leave_out_icml,paper_weighted_fractional_share,AR,Argentina,latin_america,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0001399475,16
+leave_out_icml,paper_weighted_fractional_share,CL,Chile,latin_america,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0004844335,13
+leave_out_icml,paper_weighted_fractional_share,CO,Colombia,latin_america,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0003391035,15
+leave_out_icml,paper_weighted_fractional_share,MX,Mexico,latin_america,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.001078672,9
+leave_out_icml,paper_weighted_fractional_share,IN,India,structural_peer,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0102872537,7
+leave_out_icml,paper_weighted_fractional_share,ID,Indonesia,structural_peer,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0004435258,14
+leave_out_icml,paper_weighted_fractional_share,ZA,South Africa,structural_peer,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.000558252,12
+leave_out_icml,paper_weighted_fractional_share,TR,Turkey,structural_peer,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0005651725,11
+leave_out_icml,paper_weighted_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0073071416,8
+leave_out_icml,paper_weighted_fractional_share,CA,Canada,developed_reference,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0281337852,5
+leave_out_icml,paper_weighted_fractional_share,GB,United Kingdom,developed_reference,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0506966231,3
+leave_out_icml,paper_weighted_fractional_share,FR,France,developed_reference,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0145457705,6
+leave_out_icml,paper_weighted_fractional_share,DE,Germany,developed_reference,6,aaai|acl|emnlp|iclr|kdd-ads|neurips,0.0335452922,4
+leave_out_kdd-ads,equal_venue_fractional_share,BR,Brazil,focus,6,aaai|acl|emnlp|iclr|icml|neurips,0.0007469554,10
+leave_out_kdd-ads,equal_venue_fractional_share,US,United States,ai_frontier,6,aaai|acl|emnlp|iclr|icml|neurips,0.2718415921,2
+leave_out_kdd-ads,equal_venue_fractional_share,CN,China,ai_frontier,6,aaai|acl|emnlp|iclr|icml|neurips,0.3251972739,1
+leave_out_kdd-ads,equal_venue_fractional_share,AR,Argentina,latin_america,6,aaai|acl|emnlp|iclr|icml|neurips,0.0001700811,16
+leave_out_kdd-ads,equal_venue_fractional_share,CL,Chile,latin_america,6,aaai|acl|emnlp|iclr|icml|neurips,0.000418212,14
+leave_out_kdd-ads,equal_venue_fractional_share,CO,Colombia,latin_america,6,aaai|acl|emnlp|iclr|icml|neurips,0.0002063372,15
+leave_out_kdd-ads,equal_venue_fractional_share,MX,Mexico,latin_america,6,aaai|acl|emnlp|iclr|icml|neurips,0.0009274157,9
+leave_out_kdd-ads,equal_venue_fractional_share,IN,India,structural_peer,6,aaai|acl|emnlp|iclr|icml|neurips,0.0114705333,7
+leave_out_kdd-ads,equal_venue_fractional_share,ID,Indonesia,structural_peer,6,aaai|acl|emnlp|iclr|icml|neurips,0.0006442586,11
+leave_out_kdd-ads,equal_venue_fractional_share,ZA,South Africa,structural_peer,6,aaai|acl|emnlp|iclr|icml|neurips,0.0005090708,12
+leave_out_kdd-ads,equal_venue_fractional_share,TR,Turkey,structural_peer,6,aaai|acl|emnlp|iclr|icml|neurips,0.0004712311,13
+leave_out_kdd-ads,equal_venue_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|acl|emnlp|iclr|icml|neurips,0.0073742657,8
+leave_out_kdd-ads,equal_venue_fractional_share,CA,Canada,developed_reference,6,aaai|acl|emnlp|iclr|icml|neurips,0.027651479,5
+leave_out_kdd-ads,equal_venue_fractional_share,GB,United Kingdom,developed_reference,6,aaai|acl|emnlp|iclr|icml|neurips,0.0527790464,3
+leave_out_kdd-ads,equal_venue_fractional_share,FR,France,developed_reference,6,aaai|acl|emnlp|iclr|icml|neurips,0.0145116803,6
+leave_out_kdd-ads,equal_venue_fractional_share,DE,Germany,developed_reference,6,aaai|acl|emnlp|iclr|icml|neurips,0.0351938547,4
+leave_out_kdd-ads,paper_weighted_fractional_share,BR,Brazil,focus,6,aaai|acl|emnlp|iclr|icml|neurips,0.0007438306,10
+leave_out_kdd-ads,paper_weighted_fractional_share,US,United States,ai_frontier,6,aaai|acl|emnlp|iclr|icml|neurips,0.2825890526,2
+leave_out_kdd-ads,paper_weighted_fractional_share,CN,China,ai_frontier,6,aaai|acl|emnlp|iclr|icml|neurips,0.3175101912,1
+leave_out_kdd-ads,paper_weighted_fractional_share,AR,Argentina,latin_america,6,aaai|acl|emnlp|iclr|icml|neurips,0.0001098209,16
+leave_out_kdd-ads,paper_weighted_fractional_share,CL,Chile,latin_america,6,aaai|acl|emnlp|iclr|icml|neurips,0.000405077,13
+leave_out_kdd-ads,paper_weighted_fractional_share,CO,Colombia,latin_america,6,aaai|acl|emnlp|iclr|icml|neurips,0.000310559,15
+leave_out_kdd-ads,paper_weighted_fractional_share,MX,Mexico,latin_america,6,aaai|acl|emnlp|iclr|icml|neurips,0.0009019714,9
+leave_out_kdd-ads,paper_weighted_fractional_share,IN,India,structural_peer,6,aaai|acl|emnlp|iclr|icml|neurips,0.0097452837,7
+leave_out_kdd-ads,paper_weighted_fractional_share,ID,Indonesia,structural_peer,6,aaai|acl|emnlp|iclr|icml|neurips,0.0003708705,14
+leave_out_kdd-ads,paper_weighted_fractional_share,ZA,South Africa,structural_peer,6,aaai|acl|emnlp|iclr|icml|neurips,0.000466803,12
+leave_out_kdd-ads,paper_weighted_fractional_share,TR,Turkey,structural_peer,6,aaai|acl|emnlp|iclr|icml|neurips,0.0005175983,11
+leave_out_kdd-ads,paper_weighted_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|acl|emnlp|iclr|icml|neurips,0.0068167702,8
+leave_out_kdd-ads,paper_weighted_fractional_share,CA,Canada,developed_reference,6,aaai|acl|emnlp|iclr|icml|neurips,0.0287055862,5
+leave_out_kdd-ads,paper_weighted_fractional_share,GB,United Kingdom,developed_reference,6,aaai|acl|emnlp|iclr|icml|neurips,0.0522568252,3
+leave_out_kdd-ads,paper_weighted_fractional_share,FR,France,developed_reference,6,aaai|acl|emnlp|iclr|icml|neurips,0.0153630904,6
+leave_out_kdd-ads,paper_weighted_fractional_share,DE,Germany,developed_reference,6,aaai|acl|emnlp|iclr|icml|neurips,0.0344998585,4
+leave_out_neurips,equal_venue_fractional_share,BR,Brazil,focus,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0006641747,10
+leave_out_neurips,equal_venue_fractional_share,US,United States,ai_frontier,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.2697715352,2
+leave_out_neurips,equal_venue_fractional_share,CN,China,ai_frontier,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.3571819307,1
+leave_out_neurips,equal_venue_fractional_share,AR,Argentina,latin_america,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0005324963,12
+leave_out_neurips,equal_venue_fractional_share,CL,Chile,latin_america,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0003868895,14
+leave_out_neurips,equal_venue_fractional_share,CO,Colombia,latin_america,6,aaai|acl|emnlp|iclr|icml|kdd-ads,6.53862e-05,16
+leave_out_neurips,equal_venue_fractional_share,MX,Mexico,latin_america,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0009274157,9
+leave_out_neurips,equal_venue_fractional_share,IN,India,structural_peer,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0138620291,7
+leave_out_neurips,equal_venue_fractional_share,ID,Indonesia,structural_peer,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0006442586,11
+leave_out_neurips,equal_venue_fractional_share,ZA,South Africa,structural_peer,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0003890015,13
+leave_out_neurips,equal_venue_fractional_share,TR,Turkey,structural_peer,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0003355005,15
+leave_out_neurips,equal_venue_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0062038508,8
+leave_out_neurips,equal_venue_fractional_share,CA,Canada,developed_reference,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0276322952,5
+leave_out_neurips,equal_venue_fractional_share,GB,United Kingdom,developed_reference,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0461015646,3
+leave_out_neurips,equal_venue_fractional_share,FR,France,developed_reference,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0148124037,6
+leave_out_neurips,equal_venue_fractional_share,DE,Germany,developed_reference,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0311670716,4
+leave_out_neurips,paper_weighted_fractional_share,BR,Brazil,focus,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0008340828,10
+leave_out_neurips,paper_weighted_fractional_share,US,United States,ai_frontier,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.2811629872,2
+leave_out_neurips,paper_weighted_fractional_share,CN,China,ai_frontier,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.3248213795,1
+leave_out_neurips,paper_weighted_fractional_share,AR,Argentina,latin_america,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0001523895,15
+leave_out_neurips,paper_weighted_fractional_share,CL,Chile,latin_america,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0004871468,12
+leave_out_neurips,paper_weighted_fractional_share,CO,Colombia,latin_america,6,aaai|acl|emnlp|iclr|icml|kdd-ads,9.36821e-05,16
+leave_out_neurips,paper_weighted_fractional_share,MX,Mexico,latin_america,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0012515926,9
+leave_out_neurips,paper_weighted_fractional_share,IN,India,structural_peer,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0114405003,7
+leave_out_neurips,paper_weighted_fractional_share,ID,Indonesia,structural_peer,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0005146269,11
+leave_out_neurips,paper_weighted_fractional_share,ZA,South Africa,structural_peer,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.000360453,14
+leave_out_neurips,paper_weighted_fractional_share,TR,Turkey,structural_peer,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0003934647,13
+leave_out_neurips,paper_weighted_fractional_share,AE,United Arab Emirates,emerging_ai_investment,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.00665861,8
+leave_out_neurips,paper_weighted_fractional_share,CA,Canada,developed_reference,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0285134795,5
+leave_out_neurips,paper_weighted_fractional_share,GB,United Kingdom,developed_reference,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0504651538,3
+leave_out_neurips,paper_weighted_fractional_share,FR,France,developed_reference,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0142332523,6
+leave_out_neurips,paper_weighted_fractional_share,DE,Germany,developed_reference,6,aaai|acl|emnlp|iclr|icml|kdd-ads,0.0343355085,4

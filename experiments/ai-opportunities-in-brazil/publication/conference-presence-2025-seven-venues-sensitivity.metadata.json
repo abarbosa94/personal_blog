@@ -1,0 +1,60 @@
+{
+  "venues": {
+    "aaai": {
+      "paper_universe": 3486,
+      "papers_with_country": 3189,
+      "papers_missing_country": 297,
+      "country_coverage": 0.9148020654044751,
+      "coverage_warning": false
+    },
+    "acl": {
+      "paper_universe": 1602,
+      "papers_with_country": 1541,
+      "papers_missing_country": 61,
+      "country_coverage": 0.9619225967540574,
+      "coverage_warning": false
+    },
+    "emnlp": {
+      "paper_universe": 1809,
+      "papers_with_country": 1676,
+      "papers_missing_country": 133,
+      "country_coverage": 0.9264787175234936,
+      "coverage_warning": false
+    },
+    "iclr": {
+      "paper_universe": 3702,
+      "papers_with_country": 3606,
+      "papers_missing_country": 96,
+      "country_coverage": 0.9740680713128039,
+      "coverage_warning": false
+    },
+    "icml": {
+      "paper_universe": 3330,
+      "papers_with_country": 3182,
+      "papers_missing_country": 148,
+      "country_coverage": 0.9555555555555556,
+      "coverage_warning": false
+    },
+    "kdd-ads": {
+      "paper_universe": 155,
+      "papers_with_country": 149,
+      "papers_missing_country": 6,
+      "country_coverage": 0.9612903225806452,
+      "coverage_warning": false
+    },
+    "neurips": {
+      "paper_universe": 5823,
+      "papers_with_country": 5321,
+      "papers_missing_country": 502,
+      "country_coverage": 0.9137901425382106,
+      "coverage_warning": false
+    }
+  },
+  "assumptions": {
+    "observed_shares": "Denominator is papers with at least one resolved country.",
+    "mar_estimate": "Missing papers have the same country distribution as observed papers.",
+    "lower_bound": "No missing paper belongs to the country.",
+    "upper_bound": "Every missing paper belongs to the country.",
+    "rank_scope": "Frozen 16-country comparison panel only."
+  }
+}

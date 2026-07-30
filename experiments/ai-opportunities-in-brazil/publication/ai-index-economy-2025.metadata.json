@@ -1,0 +1,9 @@
+{
+  "year": 2025,
+  "source": "2026 AI Index report / Quid 2025",
+  "investment_figure": "4.2.8",
+  "new_companies_figure": "4.2.9",
+  "reporting_rule": "top-15 absence is censored, not zero",
+  "investment_top15_floor_billions_usd": 0.969507505,
+  "new_companies_top15_floor": 33.0
+}
