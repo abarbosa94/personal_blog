@@ -4,6 +4,7 @@
 /.venv-xcomet/
 __pycache__/
 *.py[cod]
+*.egg-info/
 .env
 .env.*
 !.env.example
@@ -11,4 +12,8 @@ __pycache__/
 **/*.quarto_ipynb
 /.reviews/
 /experiments/scaling-my-posts/artifacts/local-ci/
+/experiments/ai-opportunities-in-brazil/data/raw/
+/experiments/ai-opportunities-in-brazil/data/processed/
+/experiments/ai-opportunities-in-brazil/artifacts/
+/experiments/ai-opportunities-in-brazil/.venv/
 *.tower-plus-progress.json

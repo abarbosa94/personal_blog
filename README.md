@@ -6,6 +6,17 @@ https://abarbosa94.github.io/personal_blog/
 
 # My Blog
 
+## Estudo reproduzível sobre IA no Brasil
+
+O post
+[`Vantagens Competitivas do Brasil em IA`](posts/2026-07-27-VantagensCompetitivas-Brasil-IA.ipynb)
+é acompanhado pelo experimento em
+[`experiments/ai-opportunities-in-brazil`](experiments/ai-opportunities-in-brazil).
+O diretório preserva contratos de decisão, fontes, checkpoints, scripts,
+matrizes de evidência e testes. O fechamento inicial usa sete indicadores,
+mantém Responsible AI fora da análise após a falha do gate cego e não calcula
+um score agregado.
+
 
 _powered by [Quarto](https://quarto.org/)_
 

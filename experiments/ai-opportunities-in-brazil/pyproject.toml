@@ -1,0 +1,35 @@
+[project]
+name = "ai-opportunities-in-brazil"
+version = "0.1.0"
+description = "Reproducible evidence collection for the AI opportunities in Brazil study"
+requires-python = ">=3.11"
+dependencies = [
+  "pypdf>=5",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8,<9",
+  "pytest-bdd>=8",
+]
+ner = [
+  "spacy>=3.8,<4",
+]
+ml = [
+  "lightgbm>=4.5,<5",
+  "scikit-learn>=1.5,<2",
+]
+viz = [
+  "matplotlib>=3.9,<4",
+]
+mcp = [
+  "httpx>=0.27,<1",
+  "mcp[cli]>=1.2,<2",
+]
+
+[project.scripts]
+affiliation-search-mcp = "conference_pipeline.affiliation_search_mcp:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -p no:cacheprovider"
