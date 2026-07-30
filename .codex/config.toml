@@ -1,0 +1,14 @@
+[mcp_servers.affiliation_evidence_search]
+command = "C:\\Users\\andrebarbosa\\workspace\\personal_blog\\experiments\\ai-opportunities-in-brazil\\.venv\\Scripts\\affiliation-search-mcp.exe"
+cwd = "C:\\Users\\andrebarbosa\\workspace\\personal_blog\\experiments\\ai-opportunities-in-brazil"
+env_vars = ["TAVILY_API_KEY", "BRAVE_SEARCH_API_KEY", "AFFILIATION_SEARCH_PROVIDER"]
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+enabled = true
+required = false
+enabled_tools = ["search_web", "search_affiliation_evidence"]
+default_tools_approval_mode = "auto"
+
+[mcp_servers.affiliation_evidence_search.env]
+AFFILIATION_SEARCH_CACHE = "C:\\Users\\andrebarbosa\\workspace\\personal_blog\\experiments\\ai-opportunities-in-brazil\\artifacts\\affiliation-search\\search-cache.sqlite3"
+AFFILIATION_SEARCH_CACHE_DAYS = "30"

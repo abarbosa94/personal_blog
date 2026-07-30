@@ -1,0 +1,22 @@
+{
+  "retrieved_on": "2026-07-30",
+  "source": "World Bank Indicators API",
+  "files": [
+    {
+      "path": "data\\raw\\external\\world-bank\\2026-07-30\\GB.XPD.RSDV.GD.ZS.json",
+      "sha256": "ad41b4d915730d88d325a8fc9725d1f03ea26d090fa6e738517232d0eeb81c26",
+      "url": "https://api.worldbank.org/v2/country/BR;US;CN;AR;CL;CO;MX;IN;ID;ZA;TR;AE;CA;GB;FR;DE/indicator/GB.XPD.RSDV.GD.ZS?format=json&per_page=20000&date=2018%3A2025"
+    },
+    {
+      "path": "data\\raw\\external\\world-bank\\2026-07-30\\SP.POP.TOTL.json",
+      "sha256": "62dabad835be666bea9e4d6210073e488c45a2cceb8c8669065b357d36566e67",
+      "url": "https://api.worldbank.org/v2/country/BR;US;CN;AR;CL;CO;MX;IN;ID;ZA;TR;AE;CA;GB;FR;DE/indicator/SP.POP.TOTL?format=json&per_page=20000&date=2018%3A2025"
+    },
+    {
+      "path": "data\\raw\\external\\world-bank\\2026-07-30\\NY.GDP.MKTP.CD.json",
+      "sha256": "e02d9e28fdd3e202313888d52dabbf76a5b15ad1bc74635607b423401879d8aa",
+      "url": "https://api.worldbank.org/v2/country/BR;US;CN;AR;CL;CO;MX;IN;ID;ZA;TR;AE;CA;GB;FR;DE/indicator/NY.GDP.MKTP.CD?format=json&per_page=20000&date=2018%3A2025"
+    }
+  ],
+  "processed_output": "artifacts\\analysis\\world-bank-factor-context.csv"
+}

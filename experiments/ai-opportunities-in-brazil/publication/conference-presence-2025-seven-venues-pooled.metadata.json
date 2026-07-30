@@ -1,0 +1,66 @@
+{
+  "contract_version": "3.0",
+  "venues": {
+    "aaai": {
+      "official_total": 3486,
+      "enumerated_records": 3486,
+      "papers_with_country": 3189,
+      "papers_without_country": 297,
+      "country_coverage": 0.9148020654044751,
+      "passes_90_percent": true
+    },
+    "acl": {
+      "official_total": 1602,
+      "enumerated_records": 1602,
+      "papers_with_country": 1541,
+      "papers_without_country": 61,
+      "country_coverage": 0.9619225967540574,
+      "passes_90_percent": true
+    },
+    "emnlp": {
+      "official_total": 1809,
+      "enumerated_records": 1809,
+      "papers_with_country": 1676,
+      "papers_without_country": 133,
+      "country_coverage": 0.9264787175234936,
+      "passes_90_percent": true
+    },
+    "iclr": {
+      "official_total": 3703,
+      "enumerated_records": 3702,
+      "papers_with_country": 3606,
+      "papers_without_country": 97,
+      "country_coverage": 0.9738050229543613,
+      "passes_90_percent": true
+    },
+    "icml": {
+      "official_total": 3330,
+      "enumerated_records": 3330,
+      "papers_with_country": 3182,
+      "papers_without_country": 148,
+      "country_coverage": 0.9555555555555556,
+      "passes_90_percent": true
+    },
+    "kdd-ads": {
+      "official_total": 155,
+      "enumerated_records": 155,
+      "papers_with_country": 149,
+      "papers_without_country": 6,
+      "country_coverage": 0.9612903225806452,
+      "passes_90_percent": true
+    },
+    "neurips": {
+      "official_total": 5823,
+      "enumerated_records": 5823,
+      "papers_with_country": 5321,
+      "papers_without_country": 502,
+      "country_coverage": 0.9137901425382106,
+      "passes_90_percent": true
+    }
+  },
+  "coverage_floor": 0.9,
+  "coverage_spread": 0.06001488041615077,
+  "coverage_spread_limit": 0.15,
+  "all_venues_pass_coverage": true,
+  "passes_coverage_spread": true
+}

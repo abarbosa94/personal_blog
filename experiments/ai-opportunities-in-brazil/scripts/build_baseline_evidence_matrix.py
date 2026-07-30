@@ -118,7 +118,7 @@ def main() -> None:
             "panel_position": "outside published global top 15",
             "evidence_direction": "challenges",
             "interpretation": "The published aggregate does not show investment scale near the leading markets.",
-            "limitation": "Censored upper bound; the value is not zero and cannot be precisely ranked.",
+            "limitation": "Published top-15 upper bound; the value is not zero and cannot be precisely ranked.",
             "source_artifact": "ai-index-economy-2025.csv",
         },
         {
@@ -129,7 +129,7 @@ def main() -> None:
             "panel_position": "outside published global top 15",
             "evidence_direction": "challenges",
             "interpretation": "The published aggregate does not show broad first-funding conversion at leading-market scale.",
-            "limitation": "Censored upper bound; private-company coverage and the definition of AI company remain source-dependent.",
+            "limitation": "Published top-15 upper bound; private-company coverage and the definition of AI company remain source-dependent.",
             "source_artifact": "ai-index-economy-2025.csv",
         },
     ]

@@ -1,0 +1,8 @@
+{
+  "period_start": "2026-01-01",
+  "period_end": "2026-07-29",
+  "eligible_notable_models": 45,
+  "eligible_models_without_mapped_country": 2,
+  "country_attribution": "full count; one presence per model-country",
+  "sector_rule": "industry, academia, mixed, or other among organizations paired to that country"
+}

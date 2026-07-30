@@ -84,10 +84,10 @@ def main() -> None:
         },
         {
             "hypothesis_id": "H-CONV-001",
-            "classification": "provisionally_supported",
+            "classification": "inconclusive",
             "claim": "O gargalo central está na conversão de insumos em produtos e valor local.",
-            "evidence": "P&D e HPC intermediários coexistem com zero modelos notáveis observados, pequena presença nas conferências e ausência do top 15 econômico.",
-            "limitation": "Associação descritiva; fontes têm universos distintos e não identificam causalmente as transições.",
+            "evidence": "P&D e HPC intermediários coexistem com resultados modestos em outras dimensões, mas a evidência não separa escala inicial, adequação e acesso aos recursos e conexão entre as etapas da cadeia.",
+            "limitation": "As fontes têm universos distintos e não identificam causalmente as transições nem um gargalo principal.",
         },
         {
             "hypothesis_id": "H-MAIN-001",

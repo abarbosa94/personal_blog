@@ -1,0 +1,17 @@
+snapshot,country_code,country_name,comparison_group,systems,rmax_pflops
+2025-11,BR,Brazil,focus,10,124.52
+2025-11,US,United States,ai_frontier,171,6961.3
+2025-11,CN,China,ai_frontier,40,204.91
+2025-11,AR,Argentina,latin_america,1,5.39
+2025-11,CL,Chile,latin_america,0,0.0
+2025-11,CO,Colombia,latin_america,0,0.0
+2025-11,MX,Mexico,latin_america,0,0.0
+2025-11,IN,India,structural_peer,6,113.49
+2025-11,ID,Indonesia,structural_peer,0,0.0
+2025-11,ZA,South Africa,structural_peer,0,0.0
+2025-11,TR,Turkey,structural_peer,2,15.09
+2025-11,AE,United Arab Emirates,emerging_ai_investment,5,141.76
+2025-11,CA,Canada,developed_reference,19,158.21
+2025-11,GB,United Kingdom,developed_reference,9,378.12
+2025-11,FR,France,developed_reference,23,334.65
+2025-11,DE,Germany,developed_reference,40,1396.14

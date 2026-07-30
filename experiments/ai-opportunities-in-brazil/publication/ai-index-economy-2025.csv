@@ -1,0 +1,33 @@
+year,country_code,country_name,comparison_group,indicator,unit,value,observation_status,upper_bound_if_unreported,rank_among_reported_panel
+2025,BR,Brazil,focus,total_ai_private_investment,billions_current_usd,,not_reported_top15,0.969507505,
+2025,US,United States,ai_frontier,total_ai_private_investment,billions_current_usd,285.875311074,reported_top15,,1
+2025,CN,China,ai_frontier,total_ai_private_investment,billions_current_usd,12.412093488,reported_top15,,2
+2025,AR,Argentina,latin_america,total_ai_private_investment,billions_current_usd,,not_reported_top15,0.969507505,
+2025,CL,Chile,latin_america,total_ai_private_investment,billions_current_usd,,not_reported_top15,0.969507505,
+2025,CO,Colombia,latin_america,total_ai_private_investment,billions_current_usd,,not_reported_top15,0.969507505,
+2025,MX,Mexico,latin_america,total_ai_private_investment,billions_current_usd,,not_reported_top15,0.969507505,
+2025,IN,India,structural_peer,total_ai_private_investment,billions_current_usd,4.093183877,reported_top15,,6
+2025,ID,Indonesia,structural_peer,total_ai_private_investment,billions_current_usd,,not_reported_top15,0.969507505,
+2025,ZA,South Africa,structural_peer,total_ai_private_investment,billions_current_usd,,not_reported_top15,0.969507505,
+2025,TR,Turkey,structural_peer,total_ai_private_investment,billions_current_usd,,not_reported_top15,0.969507505,
+2025,AE,United Arab Emirates,emerging_ai_investment,total_ai_private_investment,billions_current_usd,,not_reported_top15,0.969507505,
+2025,CA,Canada,developed_reference,total_ai_private_investment,billions_current_usd,4.280609883,reported_top15,,5
+2025,GB,United Kingdom,developed_reference,total_ai_private_investment,billions_current_usd,5.899064837,reported_top15,,3
+2025,FR,France,developed_reference,total_ai_private_investment,billions_current_usd,4.364053412,reported_top15,,4
+2025,DE,Germany,developed_reference,total_ai_private_investment,billions_current_usd,3.885044997,reported_top15,,7
+2025,BR,Brazil,focus,newly_funded_ai_companies,companies,,not_reported_top15,33.0,
+2025,US,United States,ai_frontier,newly_funded_ai_companies,companies,1953.0,reported_top15,,1
+2025,CN,China,ai_frontier,newly_funded_ai_companies,companies,161.0,reported_top15,,3
+2025,AR,Argentina,latin_america,newly_funded_ai_companies,companies,,not_reported_top15,33.0,
+2025,CL,Chile,latin_america,newly_funded_ai_companies,companies,,not_reported_top15,33.0,
+2025,CO,Colombia,latin_america,newly_funded_ai_companies,companies,,not_reported_top15,33.0,
+2025,MX,Mexico,latin_america,newly_funded_ai_companies,companies,,not_reported_top15,33.0,
+2025,IN,India,structural_peer,newly_funded_ai_companies,companies,108.0,reported_top15,,4
+2025,ID,Indonesia,structural_peer,newly_funded_ai_companies,companies,,not_reported_top15,33.0,
+2025,ZA,South Africa,structural_peer,newly_funded_ai_companies,companies,,not_reported_top15,33.0,
+2025,TR,Turkey,structural_peer,newly_funded_ai_companies,companies,,not_reported_top15,33.0,
+2025,AE,United Arab Emirates,emerging_ai_investment,newly_funded_ai_companies,companies,,not_reported_top15,33.0,
+2025,CA,Canada,developed_reference,newly_funded_ai_companies,companies,79.0,reported_top15,,7
+2025,GB,United Kingdom,developed_reference,newly_funded_ai_companies,companies,172.0,reported_top15,,2
+2025,FR,France,developed_reference,newly_funded_ai_companies,companies,84.0,reported_top15,,6
+2025,DE,Germany,developed_reference,newly_funded_ai_companies,companies,92.0,reported_top15,,5

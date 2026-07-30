@@ -10,19 +10,25 @@ O notebook original foi continuado e passou pelo gate de publicação:
 - P&D e infraestrutura foram classificados como mistos, ciência e demanda
   como inconclusivas;
 - finanças, jurídico e modelos em português permaneceram vantagens candidatas;
-- `H-CONV-001` recebeu suporte provisório e descritivo;
+- `H-CONV-001` permaneceu inconclusiva: a evidência não separa a escala
+  inicial dos recursos, sua adequação e acesso e a conexão entre as etapas da
+  cadeia;
 - `H-MAIN-001` permanece inconclusiva porque nenhum caso demonstrou,
   simultaneamente, diferenciação, resultado e captura local comparável;
 - Responsible AI continua fora da análise inicial;
-- três figuras foram inspecionadas, 122 testes passaram e o notebook foi
+- cinco figuras foram inspecionadas, 124 testes passaram e o notebook foi
   renderizado com Quarto 1.9.38;
-- o post está com `draft: false`.
+- o post permanece com `draft: true` durante a incorporação iterativa da
+  revisão técnica e editorial.
 
-Os artefatos de fechamento estão em
-`artifacts/analysis/baseline-seven-indicator-evidence-matrix.*`,
-`artifacts/analysis/world-bank-factor-context.*` e
-`artifacts/analysis/hypothesis-assessments.*`. Extensões futuras não alteram
-esse fechamento sem um novo contrato e uma nova versão do post.
+Os resultados finais compactos, metadados, proveniência e checksums estão
+versionados em `publication/`. Os artefatos completos continuam localmente em
+`artifacts/analysis/`; extensões futuras não alteram esse fechamento sem um
+novo contrato e uma nova versão do post.
+
+> Este resumo e `publication/README.md` são o estado autoritativo. Referências
+> posteriores a jobs, PIDs e “próximos passos” preservam o histórico
+> operacional e não indicam processos ainda ativos.
 
 ## Checkpoint atual do baseline pós-conferências
 
