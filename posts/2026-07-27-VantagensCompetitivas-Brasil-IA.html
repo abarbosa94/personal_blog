@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andre Barbosa">
+<meta name="description" content="Uma análise exploratória das vantagens competitivas do Brasil no cenário global de inteligência artificial">
+
+<title>Vantagens Competitivas do Brasil em IA – Andre Personal Blog :)</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6ac2aec46ad7f46b16024ee4409aa65c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<meta name="quarto:status" content="draft">
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Rascunho</div>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Andre Personal Blog :)</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Procurar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Alternar de navegação" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/abarbosa94"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/barbosaandre"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Vantagens Competitivas do Brasil em IA</h1>
+                  <div>
+        <div class="description">
+          Uma análise exploratória das vantagens competitivas do Brasil no cenário global de inteligência artificial
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">data-analysis</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Autor</div>
+      <div class="quarto-title-meta-contents">
+               <p>Andre Barbosa </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Data de Publicação</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">27 de julho de 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#qual-a-nossa-vantagem-competitiva" id="toc-qual-a-nossa-vantagem-competitiva" class="nav-link active" data-scroll-target="#qual-a-nossa-vantagem-competitiva">Qual a nossa vantagem competitiva?</a>
+  <ul class="collapse">
+  <li><a href="#o-que-é-vantagem-competitiva" id="toc-o-que-é-vantagem-competitiva" class="nav-link" data-scroll-target="#o-que-é-vantagem-competitiva">O que é Vantagem Competitiva?</a></li>
+  <li><a href="#medindo-inovação" id="toc-medindo-inovação" class="nav-link" data-scroll-target="#medindo-inovação">Medindo Inovação</a></li>
+  </ul></li>
+  <li><a href="#um-baseline" id="toc-um-baseline" class="nav-link" data-scroll-target="#um-baseline">Um baseline</a>
+  <ul class="collapse">
+  <li><a href="#antes-de-comparar-precisamos-escolher-o-que-comparar" id="toc-antes-de-comparar-precisamos-escolher-o-que-comparar" class="nav-link" data-scroll-target="#antes-de-comparar-precisamos-escolher-o-que-comparar">Antes de comparar, precisamos escolher o que comparar</a></li>
+  <li><a href="#o-primeiro-retrato" id="toc-o-primeiro-retrato" class="nav-link" data-scroll-target="#o-primeiro-retrato">O primeiro retrato</a></li>
+  <li><a href="#e-a-conversão-econômica" id="toc-e-a-conversão-econômica" class="nav-link" data-scroll-target="#e-a-conversão-econômica">E a conversão econômica?</a></li>
+  </ul></li>
+  <li><a href="#então-onde-pode-estar-a-vantagem" id="toc-então-onde-pode-estar-a-vantagem" class="nav-link" data-scroll-target="#então-onde-pode-estar-a-vantagem">Então onde pode estar a vantagem?</a>
+  <ul class="collapse">
+  <li><a href="#pd-pouco-para-a-fronteira-mas-não-pouco-entre-os-pares" id="toc-pd-pouco-para-a-fronteira-mas-não-pouco-entre-os-pares" class="nav-link" data-scroll-target="#pd-pouco-para-a-fronteira-mas-não-pouco-entre-os-pares">P&amp;D: pouco para a fronteira, mas não pouco entre os pares</a></li>
+  <li><a href="#ciência-e-infraestrutura-duas-lacunas-diferentes" id="toc-ciência-e-infraestrutura-duas-lacunas-diferentes" class="nav-link" data-scroll-target="#ciência-e-infraestrutura-duas-lacunas-diferentes">Ciência e infraestrutura: duas lacunas diferentes</a></li>
+  <li><a href="#demanda-e-setores-três-hipóteses-que-valem-continuar-testando" id="toc-demanda-e-setores-três-hipóteses-que-valem-continuar-testando" class="nav-link" data-scroll-target="#demanda-e-setores-três-hipóteses-que-valem-continuar-testando">Demanda e setores: três hipóteses que valem continuar testando</a></li>
+  </ul></li>
+  <li><a href="#o-principal-sinal-está-nas-conexões" id="toc-o-principal-sinal-está-nas-conexões" class="nav-link" data-scroll-target="#o-principal-sinal-está-nas-conexões">O principal sinal está nas conexões</a>
+  <ul class="collapse">
+  <li><a href="#limitações-e-próximos-testes" id="toc-limitações-e-próximos-testes" class="nav-link" data-scroll-target="#limitações-e-próximos-testes">Limitações e próximos testes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="qual-a-nossa-vantagem-competitiva" class="level1">
+<h1>Qual a nossa vantagem competitiva?</h1>
+<p>Fui convidado para apresentar um painel no <a href="https://www.sympla.com.br/evento/usp-angels-day-ai-first/3478117">USP Angels Day</a> em que a ideia é comentar sobre as vantagens competitivas do Brasil no campo de IA <strong>em relação ao mundo</strong>.</p>
+<p>O contexto é <em>bastante</em> desafiador e amplo. Então, quis dar um passo pra trás e tentar responder a seguinte pergunta:</p>
+<blockquote class="blockquote">
+<p>Hoje, ao avaliarmos o Brasil no cenário de competitividade global de IA?</p>
+</blockquote>
+<p>Ou seja, para podermos falar da vantagem competitiva, primeiro precisamos fazer uma análise para saber em que pé estamos. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<section id="o-que-é-vantagem-competitiva" class="level2">
+<h2 class="anchored" data-anchor-id="o-que-é-vantagem-competitiva">O que é Vantagem Competitiva?</h2>
+<p>Para entendermos algo, primeiro precisamos defini-lo. <a href="https://hbr.org/1990/03/the-competitive-advantage-of-nations">Em um artigo da HBR</a>, Michael E. Porter argumenta que a prosperidade nacional é criada, e não herdada. Ela depende da capacidade das indústrias de um país de inovar e aprimorar continuamente sua competitividade.</p>
+<p>Um aspecto particularmente interessante do artigo é a definição de quatro pilares que determinam a vantagem competitiva de uma nação:</p>
+<ol type="1">
+<li><p><strong>Condições dos fatores</strong>: a posição do país em relação aos fatores de produção, como mão de obra qualificada e infraestrutura, necessários para competir em determinado setor.</p></li>
+<li><p><strong>Condições da demanda</strong>: as características da demanda do mercado interno pelos produtos ou serviços daquele setor.</p></li>
+<li><p><strong>Setores relacionados e de apoio</strong> : a presença ou ausência, no país, de fornecedores e de outros setores relacionados que sejam competitivos internacionalmente.</p></li>
+<li><p><strong>Estratégia, estrutura e rivalidade das empresas</strong>: as condições existentes no país que influenciam a criação, a organização e a gestão das empresas, assim como a natureza da concorrência no mercado interno.</p></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>É interessante como um artigo escrito nos anos 90 envelheceu tão bem :)</p>
+</div>
+</div>
+</div>
+<p>Dito isso, pode-se traçar dois critérios para pautar parte da nossa definição:</p>
+<ul>
+<li>Para sermos competitivos, não dependemos apenas dos recursos disponíveis, mas também da capacidade de criar oportunidades a partir deles.</li>
+<li>Precisamos transformar essas oportunidades em maior capacidade produtiva para o país.</li>
+</ul>
+</section>
+<section id="medindo-inovação" class="level2">
+<h2 class="anchored" data-anchor-id="medindo-inovação">Medindo Inovação</h2>
+<p>Medir inovação me parece ser um conceito bastante subjetivo, mas durante as minhas pesquisas, eu encontrei o <a href="https://www.wipo.int/web-publications/global-innovation-index-2025/en/appendix-i-conceptual-and-measurement-framework-of-the-global-innovation-index.html">Índice Global de Inovação da WIPO</a>. Ele separa os insumos que viabilizam a inovação dos resultados produzidos por uma economia, o que está bastante alinhado com o que eu quero apresentar aqui. Consegui transportar a lógica desse índice para o seguinte grafo:</p>
+<div id="fig-competitive-advantage-flow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-competitive-advantage-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/competitive-advantage-ai/dag-competitive-advantage-brazil.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-competitive-advantage-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Dos recursos disponíveis à captura de valor pelo Brasil. Imagem criada com a ajuda do GPT Sol 5.6.
+</figcaption>
+</figure>
+</div>
+<p>Assim, quantidade de pesquisadores seria um <strong>insumo</strong>. Publicações, empresas, produtos, exportações, adoção empresarial ou produtividade <strong>seriam resultados possíveis</strong>. Para o Brasil ter uma vantagem competitiva, então, precisamos atingir <strong>resultados possíveis de IA</strong>. A última etapa do grafo é mais difícil de se medir (novamente, subjetividade), mas o terceiro é bem fácil.</p>
+<p>Assim, a quantidade de pesquisadores seria um <strong>insumo</strong>. Publicações, empresas, produtos, exportações, adoção empresarial e ganhos de produtividade seriam resultados possíveis. Para falarmos de vantagem competitiva, porém, não basta que o Brasil produza esses resultados: precisamos observar alguma diferenciação em relação a outros países e, idealmente, capacidade de transformar essa diferença em valor para o país.</p>
+<p>A última etapa do grafo (i.e.&nbsp;a captura de valor) é mais difícil de medir (novamente, temos alguma subjetividade aqui). Já os resultados intermediários são um pouco mais fáceis de observar.</p>
+</section>
+</section>
+<section id="um-baseline" class="level1">
+<h1>Um baseline</h1>
+<p>Para termos algum ponto de partida, encontrei o <a href="https://hai.stanford.edu/ai-index/global-vibrancy-tool">Vibrancy Tool do HAI, de Stanford</a>, que consolida métricas e permite comparar países. Com isso, nós conseguimos ter uma noção inicial de onde o Brasil está hoje quando falamos de IA com uma metodologia bastante direta.</p>
+<section id="antes-de-comparar-precisamos-escolher-o-que-comparar" class="level2">
+<h2 class="anchored" data-anchor-id="antes-de-comparar-precisamos-escolher-o-que-comparar">Antes de comparar, precisamos escolher o que comparar</h2>
+<p>O Vibrancy Tool é um ótimo começo, mas existe uma armadilha aqui: juntar dezenas de métricas em uma nota pode esconder justamente a parte que queremos entender. <strong>Um país pode ter pesquisadores e infraestrutura, mas não convertê-los em empresas</strong>. Pode também ter um mercado enorme, mas capturar pouco do valor gerado.</p>
+<p>Por isso, em vez de criar um ranking novo, fixei quatro famílias de evidências e olhei para elas separadamente:</p>
+<ol type="1">
+<li><strong>produção na fronteira</strong>, por meio dos modelos notáveis catalogados pelo <a href="https://epoch.ai/data/ai-models">Epoch AI</a>;</li>
+<li><strong>presença científica</strong>, usando trabalhos aceitos em sete conferências selecionadas de IA em 2025;</li>
+<li><strong>infraestrutura</strong>, com sistemas e capacidade Rmax do <a href="https://top500.org/lists/top500/">TOP500</a>;</li>
+<li><strong>conversão econômica</strong>, com investimento privado e empresas de IA financiadas pela primeira vez no <a href="https://hai.stanford.edu/ai-index/2026-ai-index-report/economy">AI Index 2026</a>.</li>
+</ol>
+<p>O grupo de comparação também foi definido antes de olharmos os resultados: 16 países, incluindo a fronteira de IA (EUA e China), referências desenvolvidas (preencher), América Latina (Mexico, etc) e emergentes com alguma semelhança estrutural (que semelhança?). E não há uma nota final. Se duas métricas contam histórias diferentes, essa divergência é um resultado — não um problema a ser apagado por uma média.</p>
+<p>O grupo de comparação também foi definido antes de olharmos os resultados. Selecionamos 16 países:</p>
+<ul>
+<li>Estados Unidos e China, como referências da fronteira de IA;</li>
+<li>Canadá, Reino Unido, França e Alemanha, como economias desenvolvidas de referência;</li>
+<li>Argentina, Chile, Colômbia e México, para situar o Brasil na América Latina.</li>
+</ul>
+<p>Incluímos ainda Índia, Indonésia, África do Sul e Turquia como comparadores estruturais. Assim como o Brasil, são economias do G20 que não estão na fronteira global de IA, mas possuem mercados relevantes, sistemas produtivos e instituições de pesquisa já estabelecidos. A comparação ajuda a verificar se o desempenho brasileiro é apenas uma característica regional ou se ele se diferencia de outras grandes economias emergentes. Por fim, também incluí os Emirados Árabes Unidos entram como referência de uma estratégia recente baseada em investimento intensivo em IA.</p>
+<p>Esses países não são idênticos ao Brasil (e nem deveriam ser tratados assim, rs). Como queremos trazer o posicionamento <code>vs o resto do mundo</code>, o objetivo aqui é oferecer diferentes pontos de referência.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Um oitavo indicador compararia a participação dos países em publicações sobre Responsible AI (RAI). Para isso, desenvolvemos um classificador que identificava trabalhos como pertencentes à categoria de RAI a partir de seus títulos e resumos. Ele parecia funcionar em um <code>dev set</code>, mas não funcionou no conjunto de teste: obteve 60,0% de precisão e 65,5% de recall. Como o método apresentou <code>overfitting</code>, preferi retirar o indicador deste primeiro estudo a produzir uma comparação entre países que não poderíamos confiar.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="o-primeiro-retrato" class="level2">
+<h2 class="anchored" data-anchor-id="o-primeiro-retrato">O primeiro retrato</h2>
+<p>Vamos começar pela produção científica. Reconstruímos o universo de trabalhos aceitos em AAAI, ACL, ICML, NeurIPS, EMNLP, ICLR e no track Applied Data Science da KDD em 2025. Para evitar que uma conferência muito grande dominasse o resultado, o indicador principal é a média da participação ponderada do país, dando o mesmo peso a cada venue.</p>
+<div id="fig-conference-baseline" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-conference-baseline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/competitive-advantage-ai/baseline-conference-presence-2025.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-conference-baseline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2: Participação fracionária média por país nas sete conferências. Cada venue recebe o mesmo peso.
+</figcaption>
+</figure>
+</div>
+<p>O Brasil aparece em <strong>10º de 16 países</strong>, com <strong>0,0640%</strong> da participação fracionária média. É uma presença pequena, embora seja a segunda maior entre os países latino-americanos deste painel.</p>
+<p>É importante sermos precisos: isso <strong>não</strong> mede toda a ciência brasileira em IA. Não inclui todos os periódicos, conferências regionais, impacto por citações, liderança de autoria ou especializações. Contudo, o resultado contesta a ideia de uma presença ampla <strong>nestas conferências</strong>, mas não encerra a hipótese sobre qualidade ou eficiência científica.</p>
+<p>Quando olhamos para modelos e infraestrutura, a história fica mais interessante — e também mais difícil de resumir em dois números:</p>
+<div id="fig-frontier-infrastructure" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-frontier-infrastructure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/competitive-advantage-ai/baseline-frontier-infrastructure.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-frontier-infrastructure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3: Modelos notáveis atribuídos a organizações do país em 2025 e capacidade Rmax no TOP500 de junho de 2026.
+</figcaption>
+</figure>
+</div>
+<p>No snapshot do Epoch, há 103 modelos notáveis em 2025 e nenhum deles é atribuído a uma organização brasileira. O mesmo continua verdadeiro no recorte de 2026 até a data da coleta. Isso é evidência contrária à presença brasileira <strong>dentro da fronteira observada pelo Epoch</strong> — não uma prova de que o país não produza modelos relevantes.</p>
+<p>O <a href="https://www.maritaca.ai/post/sabia-4">Sabiá 4, da Maritaca</a>, ajuda a entender essa diferença. Ele não aparece no catálogo do Epoch, mas foi desenvolvido com foco em português e em contextos brasileiros. Na <a href="https://docs.maritaca.ai/pt/introducao">avaliação publicada pela própria empresa</a>, o Sabiá 4 Thinking apresenta resultados próximos ou superiores ao Opus 4.8 em algumas tarefas brasileiras, além de um custo menor para executar a suíte avaliada. Parte desses benchmarks, porém, foi construída internamente. O caso é uma evidência promissora de especialização local, mas ainda não permite concluir que o Brasil esteja competindo de forma ampla na fronteira global.</p>
+<p>Também temos o <a href="https://arxiv.org/abs/2603.03543">Tucano 2</a>, um modelo voltado ao português brasileiro e, entre os casos discutidos aqui, o único totalmente aberto. O projeto foi liderado pelo pesquisador brasileiro Nicholas Kluge Corrêa na <a href="https://www.uni-bonn.de/en/university/press-and-communications/publications/forsch/forsch-2025-02-english/forsch-content-2025-02/ki-chatbots-fuer-alle-sprachen">Universidade de Bonn, na Alemanha</a>. Podemos considerá-lo um modelo brasileiro pelo idioma e pelo problema que procura resolver, mas seu desenvolvimento também revela nossa dependência: o treinamento foi viabilizado por uma universidade e por infraestrutura localizadas fora do Brasil.</p>
+<p>Já no TOP500, o Brasil tinha <strong>10 sistemas e 124,52 PFlop/s</strong> em novembro de 2025; em junho de 2026, continuava com 10 sistemas e passou a <strong>143,12 PFlop/s</strong>. É uma posição intermediária no painel, bem diferente do zero observado em modelos notáveis.</p>
+<p>A existência desses sistemas importa. Ela mostra que algumas organizações brasileiras conseguiram investir e operar infraestrutura pertencente a um grupo relativamente seleto. Mas capacidade instalada e capacidade acessível não são a mesma coisa. O TOP500 não informa quem pode utilizar esses computadores, por quanto tempo, a que custo ou para quais tipos de projeto.</p>
+<p>Essa diferença fica ainda mais clara quando olhamos para a nuvem. A <a href="https://docs.magalu.cloud/docs/computing/virtual-machine/instance-types-and-pricing/instance-types">Magalu Cloud</a> oferece instâncias com GPUs L40 e L40S em infraestrutura nacional. São equipamentos bastante capazes para executar modelos, ajustar modelos menores e desenvolver aplicações. Já a <a href="https://aws.amazon.com/about-aws/whats-new/2025/08/amazon-p5-single-gpu-instances-now-available/">H100 oferecida pela AWS</a> inclusive em São Paulo foi projetada para o treinamento pesado de IA.</p>
+<p>Para termos uma noção da diferença sem precisarmos virar especialistas em hardware: uma H100 possui cerca de <strong>1,7 vez a memória</strong>, movimenta esses dados quase <strong>quatro vezes mais rápido</strong> e pode entregar mais de <strong>cinco vezes</strong> o processamento especializado de uma L40 em determinadas operações usadas por modelos de IA. Mais importante do que comparar uma placa com outra, porém, é observar quantas delas podem trabalhar juntas. Uma empresa pode alugar uma ou algumas GPUs em uma nuvem nacional. Laboratórios na fronteira projetam supercomputadores inteiros ao redor delas.</p>
+<p>A escala da OpenAI ajuda a visualizar esse abismo. Em 2025, a empresa informou ter aproximadamente <strong>1,9 gigawatt de compute disponível</strong>. O Stargate, sua plataforma de infraestrutura, já descreve supercomputadores com <strong>mais de 100 mil GPUs</strong> conectadas e projetos de expansão medidos em milhões de chips. Esses números misturam capacidade operacional e projetos em desenvolvimento, portanto não representam uma contagem simples de GPUs que a empresa possa usar hoje. Ainda assim, mostram que a competição na fronteira ocorre na escala de data centers, energia e redes — não apenas na compra de uma placa mais rápida.</p>
+<p>Usar um provedor global pode ampliar o acesso à melhor infraestrutura disponível. Ao mesmo tempo, transfere parte do controle para uma empresa estrangeira. É aqui que a discussão deixa de ser apenas sobre capacidade e passa a incluir <strong>soberania computacional</strong>: onde os dados são processados, qual legislação se aplica, quem opera a infraestrutura e quantos fornecedores podem ser substituídos.</p>
+<p>A Europa oferece um contraponto interessante. Ela não precisa produzir internamente todos os componentes da cadeia para buscar maior autonomia. Um <a href="https://www.linkedin.com/posts/syrjala_it-sounds-like-a-geopolitical-joke-european-share-7487853204421021696-0kYl/">post de Jarkko Syrjälä no LinkedIn</a> resume essa aparente contradição usando um modelo chinês executado por uma empresa europeia em infraestrutura localizada na Finlândia:</p>
+<div id="fig-linkedin-ai-sovereignty" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-linkedin-ai-sovereignty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/competitive-advantage-ai/linkedin-ai-sovereignty-finland.jpg" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-linkedin-ai-sovereignty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4: Publicação de Jarkko Syrjälä sobre soberania europeia em IA. Captura fornecida pelo autor deste post.
+</figcaption>
+</figure>
+</div>
+<p>O exemplo é informal, mas a distinção é útil: soberania não significa autarquia tecnológica. Significa preservar opções sobre onde os modelos são executados, onde os dados permanecem e de quais fornecedores dependemos. A própria <a href="https://docs.tokenfactory.nebius.com/data-lab/data-processing">Nebius documenta processamento de dados em seu data center na Finlândia</a>, enquanto a <a href="https://digital-strategy.ec.europa.eu/en/policies/ai-factories">União Europeia investe em uma rede de <em>AI Factories</em></a> aberta a pesquisadores, startups e empresas.</p>
+<p>Então, a infraestrutura brasileira continua sendo uma evidência <strong>mista</strong>. Temos sinais de investimento concentrado, modelos locais especializados e alguma oferta nacional de nuvem. Ainda não demonstramos, porém, que essa capacidade seja suficientemente avançada, distribuída e acessível para sustentar inovação em escala.</p>
+</section>
+<section id="e-a-conversão-econômica" class="level2">
+<h2 class="anchored" data-anchor-id="e-a-conversão-econômica">E a conversão econômica?</h2>
+<p>O <a href="https://hai.stanford.edu/ai-index/2026-ai-index-report">AI Index 2026</a> publica os 15 primeiros países em investimento privado em IA e em empresas financiadas pela primeira vez em 2025. O Brasil não aparece em nenhuma das duas listas. Como a fonte não publica o valor brasileiro, o resultado correto não é zero: ele é <strong>censurado</strong>.</p>
+<div id="fig-economic-conversion" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-economic-conversion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/competitive-advantage-ai/baseline-economic-conversion-2025.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-economic-conversion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5: A linha azul representa o intervalo possível para o Brasil; a seta marca o limite superior para que o país permanecesse fora do top 15 publicado.
+</figcaption>
+</figure>
+</div>
+<p>Isso nos permite afirmar apenas que o investimento foi inferior a <strong>US$ 0,970 bilhão</strong> e que foram financiadas pela primeira vez <strong>menos de 33 empresas</strong>. É suficiente para contestar uma posição econômica globalmente destacada em 2025, mas não para estimar quanto foi investido no Brasil — e muito menos para atribuir esse valor a setores específicos.</p>
+<p>O baseline, então, fica assim:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Família</th>
+<th style="text-align: right;">Resultado brasileiro</th>
+<th>Leitura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Modelos notáveis</td>
+<td style="text-align: right;">0 em 2025 e 0 em 2026 YTD</td>
+<td>contrária à presença observada na fronteira</td>
+</tr>
+<tr class="even">
+<td>Conferências selecionadas</td>
+<td style="text-align: right;">0,0640%; 10º/16</td>
+<td>contrária à liderança científica ampla</td>
+</tr>
+<tr class="odd">
+<td>TOP500</td>
+<td style="text-align: right;">10 sistemas; 143,12 PFlop/s em jun. 2026</td>
+<td>mista</td>
+</tr>
+<tr class="even">
+<td>Investimento privado</td>
+<td style="text-align: right;">&lt; US$ 0,970 bi em 2025</td>
+<td>contrária à liderança econômica ampla</td>
+</tr>
+<tr class="odd">
+<td>Novas empresas financiadas</td>
+<td style="text-align: right;">&lt; 33 em 2025</td>
+<td>contrária à conversão ampla</td>
+</tr>
+</tbody>
+</table>
+<p>A hipótese de que o desempenho brasileiro seria superior ao esperado entre emergentes semelhantes fica <strong>contestada</strong> neste baseline. A conclusão não depende de uma nota agregada: produção na fronteira, ciência selecionada e conversão econômica não mostram superioridade robusta; infraestrutura é a exceção parcial, mas ainda sem evidência de acesso e uso.</p>
+</section>
+</section>
+<section id="então-onde-pode-estar-a-vantagem" class="level1">
+<h1>Então onde pode estar a vantagem?</h1>
+<p>A ausência de uma liderança ampla não responde à pergunta original por completo. Porter não diz que um país precisa vencer em tudo; a vantagem pode aparecer na combinação entre fatores, demanda e setores específicos. O próximo passo é procurar mecanismos que sejam plausíveis <strong>e</strong> mensuráveis, sem transformar bons exemplos em conclusão nacional.</p>
+<section id="pd-pouco-para-a-fronteira-mas-não-pouco-entre-os-pares" class="level2">
+<h2 class="anchored" data-anchor-id="pd-pouco-para-a-fronteira-mas-não-pouco-entre-os-pares">P&amp;D: pouco para a fronteira, mas não pouco entre os pares</h2>
+<p>Segundo o <a href="https://data.worldbank.org/indicator/GB.XPD.RSDV.GD.ZS?locations=BR">World Development Indicators</a>, o Brasil investiu <strong>1,19% do PIB em P&amp;D em 2023</strong>. No nosso painel, isso o coloca em 9º de 16: abaixo de Estados Unidos, China e das referências desenvolvidas, mas acima dos demais países latino-americanos observados e de Índia, África do Sul e Indonésia. A Turquia, com 1,42%, está à frente.</p>
+<p>Ou seja, chamar o investimento brasileiro simplesmente de baixo seria esconder metade da história. Ele é limitado diante da fronteira, mas relativamente forte entre vários pares. Ao mesmo tempo, esse insumo intermediário convive com resultados modestos nas conferências, zero modelos notáveis observados e conversão econômica fora do top 15.</p>
+<p>Isso torna a hipótese de P&amp;D <strong>mista</strong> e fortalece outra pergunta: nosso problema é somente colocar mais recursos, ou também conectá-los melhor? Ainda não conseguimos separar P&amp;D público e empresarial comparável nem identificar a parcela específica de IA. Os anos disponíveis também variam entre países. Portanto, não temos uma estimativa causal de eficiência.</p>
+</section>
+<section id="ciência-e-infraestrutura-duas-lacunas-diferentes" class="level2">
+<h2 class="anchored" data-anchor-id="ciência-e-infraestrutura-duas-lacunas-diferentes">Ciência e infraestrutura: duas lacunas diferentes</h2>
+<p>A evidência científica continua <strong>inconclusiva</strong> para a hipótese completa. O resultado nas sete conferências é fraco, mas não mede impacto, especialização ou produção por pesquisador. Podemos dizer que não encontramos liderança ampla naquele recorte; não podemos dizer que testamos toda a ciência brasileira em IA.</p>
+<p>Na infraestrutura, a conclusão permanece <strong>mista</strong>. Existe capacidade HPC nominal que coloca o Brasil no meio do painel, mas faltam os elos decisivos: aceleradores adequados, acesso efetivo, custo e uso. É uma diferença importante. Possuir um sistema e conseguir transformá-lo em experimentos, modelos e produtos são etapas distintas do nosso grafo.</p>
+</section>
+<section id="demanda-e-setores-três-hipóteses-que-valem-continuar-testando" class="level2">
+<h2 class="anchored" data-anchor-id="demanda-e-setores-três-hipóteses-que-valem-continuar-testando">Demanda e setores: três hipóteses que valem continuar testando</h2>
+<p>O Brasil tinha cerca de <strong>212,8 milhões de habitantes em 2025</strong>, segundo o Banco Mundial. Escala, por si só, não é vantagem; Índia, China e Indonésia tornam isso bastante evidente. Ela passa a importar quando vem acompanhada de dados próprios, problemas locais, rivalidade e empresas capazes de aprender com o mercado.</p>
+<p>Encontrei três candidatos que ilustram esse mecanismo:</p>
+<ul>
+<li><strong>Finanças.</strong> O Nubank atribui parte da evolução do crédito ao seu modelo proprietário <code>nuFormer</code> e reportou mais de 10 milhões de usuários mensais do Pix com IA em seus <a href="https://international.nubank.com.br/pt-br/companhia/nu-holdings-ltd-divulga-resultados-financeiros-do-quarto-trimestre-e-do-ano-de-2025/">resultados de 2025</a>. O Itaú documenta uma plataforma generativa combinando dados e modelos proprietários, além de ter iniciado seu <a href="https://www.itau.com.br/relacoes-com-investidores/noticias/itau-lanca-agente-de-investimentos-baseado-em-inteligencia-artificial-generativa/">agente de investimentos</a> com 10 mil clientes.</li>
+<li><strong>Jurídico.</strong> O <a href="https://ia.jusbrasil.com.br/">Jus IA</a> combina um produto especializado com o acervo jurídico local e divulga métricas de uso e satisfação. Um <a href="https://arxiv.org/abs/2510.18108">estudo experimental associado ao produto</a> reporta vantagem sobre sistemas generalistas, mas não é uma validação independente.</li>
+<li><strong>Português e especialização de domínio.</strong> A Maritaca desenvolve modelos voltados ao português, e sua relação com o Jusbrasil mostra um caminho concreto de pesquisa e modelo local para uma aplicação vertical.</li>
+</ul>
+<p>Esses casos ajudam? <strong>Sim, como hipóteses.</strong> Eles mostram mecanismos reais: dados transacionais, acervo jurídico, idioma e distribuição local. Mas ainda não temos comparadores internacionais equivalentes, contrafactuais, receitas específicas, custo total, dependência de cloud e modelos externos, exportações ou captura local verificável. Declarações corporativas podem provar que um produto existe; não provam, sozinhas, que ele constitui uma vantagem competitiva do país.</p>
+<p>Por isso, classifico finanças, jurídico e modelos em português como <strong>vantagens candidatas</strong>, e não como vantagens demonstradas.</p>
+</section>
+</section>
+<section id="o-principal-sinal-está-nas-conexões" class="level1">
+<h1>O principal sinal está nas conexões</h1>
+<p>Voltando ao nosso grafo, há um padrão descritivo difícil de ignorar: P&amp;D e HPC aparecem em posições intermediárias, enquanto modelos notáveis, conferências selecionadas e indicadores econômicos ficam bem atrás. Ao mesmo tempo, encontramos empresas locais tentando conectar dados, domínio e distribuição a produtos de IA.</p>
+<p>A hipótese de que o gargalo brasileiro está na <strong>conversão</strong> de insumos em pesquisa, produtos, escala e valor local recebe suporte provisório. Provisório é a palavra importante: as fontes têm universos diferentes e não identificam causalidade. Ainda assim, essa explicação organiza melhor a evidência do que a ideia de que simplesmente não temos recursos ou oportunidades.</p>
+<p>E o que podemos responder à pergunta inicial?</p>
+<blockquote class="blockquote">
+<p>Com a evidência disponível, não demonstramos uma vantagem competitiva ampla do Brasil em IA. Encontramos capacidade intermediária e mecanismos setoriais promissores, especialmente em finanças, jurídico e português, mas ainda não a combinação completa de diferenciação, resultado e captura local necessária para chamá-los de vantagens competitivas nacionais.</p>
+</blockquote>
+<p>É uma conclusão menos empolgante do que começar com uma lista de setores em que “o Brasil é forte”. Na minha opinião, ela também é mais útil. Se a oportunidade está nas conexões, o debate deixa de ser apenas quantos pesquisadores, GPUs ou bilhões temos e passa a incluir quais transições estão falhando — e quais casos conseguem atravessá-las.</p>
+<section id="limitações-e-próximos-testes" class="level2">
+<h2 class="anchored" data-anchor-id="limitações-e-próximos-testes">Limitações e próximos testes</h2>
+<p>Este é um estudo exploratório, não um censo de todo o ecossistema. As conferências representam um recorte; o Epoch possui uma taxonomia própria; o TOP500 mede HPC nominal; e os dados econômicos publicados censuram países fora do top 15. As observações de P&amp;D têm anos diferentes, e os estudos de caso dependem parcialmente de informações das próprias empresas.</p>
+<p>Também deixamos três perguntas abertas, agora de forma explícita:</p>
+<ol type="1">
+<li>A presença científica muda quando medimos impacto, liderança e especializações brasileiras, normalizando por pesquisadores e investimento?</li>
+<li>Quanto da infraestrutura nominal é realmente acessível para IA, e quem consegue utilizá-la?</li>
+<li>Nubank, Itaú, Jusbrasil e Maritaca geram produtividade, exportação e captura local acima de comparadores — ou são bons casos de adoção em um mercado grande?</li>
+</ol>
+<p>Os números, contratos de decisão, checksums, scripts e testes desta análise estão no diretório <a href="https://github.com/abarbosa94/personal_blog/tree/main/experiments/ai-opportunities-in-brazil"><code>experiments/ai-opportunities-in-brazil</code></a>. A coleta foi congelada em 29–30 de julho de 2026; 2026 é apresentado como YTD quando aplicável. Assim conseguimos voltar a essas perguntas sem mover a régua depois de conhecer o resultado.</p>
+
+
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Notas de rodapé</h2>
+
+<ol>
+<li id="fn1"><p>A pesquisa e a implementação deste estudo foram feitas com o auxílio do GPT Sol 5.6. A seleção das fontes, a verificação dos resultados e as conclusões são de responsabilidade do autor.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script>
+(() => {
+  const placeLanguageSwitcher = () => {
+    const switcher = document.querySelector(".language-switcher");
+    const toc = document.querySelector("#quarto-margin-sidebar #TOC");
+    if (!switcher || !toc) return;
+
+    const origin = document.createComment("language-switcher-origin");
+    switcher.parentNode.insertBefore(origin, switcher);
+    const desktop = window.matchMedia("(min-width: 992px)");
+
+    const place = () => {
+      if (desktop.matches) {
+        toc.parentNode.insertBefore(switcher, toc);
+        switcher.classList.add("language-switcher--toc");
+      } else {
+        origin.parentNode.insertBefore(switcher, origin.nextSibling);
+        switcher.classList.remove("language-switcher--toc");
+      }
+    };
+
+    place();
+    desktop.addEventListener("change", place);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", placeLanguageSwitcher);
+  } else {
+    placeLanguageSwitcher();
+  }
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/abarbosa94\.github\.io\/personal_blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
