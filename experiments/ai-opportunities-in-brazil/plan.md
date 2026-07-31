@@ -158,7 +158,7 @@ inconclusivas.
 - [x] Revisar se a conclusão responde à pergunta inicial.
 - [x] Executar a revisão técnica e editorial do post.
 - [x] Publicar um pacote compacto e verificável dos resultados finais.
-- [ ] Incorporar as correções priorizadas pela revisão antes de retirar
+- [x] Incorporar as correções priorizadas pela revisão e retirar
   `draft: true`.
 
 ## Fechamento do plano staged 1–9 — 2026-07-30
@@ -176,8 +176,9 @@ inconclusivas.
 8. [x] Hipótese central classificada como inconclusiva e `H-BASE-001`
    contestada, sem score agregado.
 9. [x] Notebook analiticamente concluído, fontes e limitações revisadas,
-   124 testes aprovados e renderização Quarto validada. O post permanece com
-   `draft: true` até incorporar as correções editoriais priorizadas.
+   124 testes aprovados e renderização Quarto validada. As correções editoriais
+   foram incorporadas e o post foi liberado para publicação em 31 de julho de
+   2026.
 
 Os itens amplos ainda não executados nas fases 2–5 são extensões futuras.
 Resultados inconclusivos representam testes concluídos com evidência

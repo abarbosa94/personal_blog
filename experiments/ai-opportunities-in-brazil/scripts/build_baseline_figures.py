@@ -55,7 +55,7 @@ def conference_figure() -> None:
     )
     ax.text(
         0, 1.005,
-        "Média com peso igual por venue; o Brasil aparece em azul.",
+        "Média com peso igual por conferência; o Brasil aparece em azul.",
         transform=ax.transAxes, color="#4b5563",
     )
     ax.grid(axis="x", color=LIGHT, linewidth=0.8)
