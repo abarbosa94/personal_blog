@@ -1,6 +1,6 @@
 # Checkpoint para retomada
 
-Última atualização: 2026-07-30.
+Última atualização: 2026-07-31.
 
 ## Plano staged 1–9 concluído
 
@@ -18,8 +18,8 @@ O notebook original foi continuado e passou pelo gate de publicação:
 - Responsible AI continua fora da análise inicial;
 - cinco figuras foram inspecionadas, 124 testes passaram e o notebook foi
   renderizado com Quarto 1.9.38;
-- o post permanece com `draft: true` durante a incorporação iterativa da
-  revisão técnica e editorial.
+- o post foi liberado para publicação após a incorporação da revisão técnica e
+  editorial.
 
 Os resultados finais compactos, metadados, proveniência e checksums estão
 versionados em `publication/`. Os artefatos completos continuam localmente em

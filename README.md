@@ -9,7 +9,7 @@ https://abarbosa94.github.io/personal_blog/
 ## Estudo reproduzível sobre IA no Brasil
 
 O post
-[`Vantagens Competitivas do Brasil em IA`](posts/2026-07-27-VantagensCompetitivas-Brasil-IA.ipynb)
+[`O Brasil é bom em IA?`](posts/2026-07-27-VantagensCompetitivas-Brasil-IA.ipynb)
 é acompanhado pelo experimento em
 [`experiments/ai-opportunities-in-brazil`](experiments/ai-opportunities-in-brazil).
 O diretório preserva contratos de decisão, fontes, checkpoints, scripts,

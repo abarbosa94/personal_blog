@@ -1,7 +1,7 @@
 # Pacote público de evidências
 
 Este diretório contém o snapshot compacto que sustenta os números do post
-**Vantagens Competitivas do Brasil em IA**. O fechamento analítico foi
+**O Brasil é bom em IA?**. O fechamento analítico foi
 congelado em 30 de julho de 2026.
 
 ## Escopo
