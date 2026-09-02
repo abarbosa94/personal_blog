@@ -1,5 +1,5 @@
 torch==2.13.0
-transformers==5.5.0
+transformers==5.10.1
 sentencepiece==0.2.0
 sacremoses==0.1.1
 sacrebleu==2.5.1
